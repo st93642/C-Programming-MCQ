@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Interview Questions Quiz</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .quiz-container {
+            background-color: var(--text-light);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .options {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background-color: var(--light-color);
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .option:hover {
+            background-color: #ddd;
+            border-color: var(--primary-color);
+        }
+
+        .option.selected {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border-color: var(--secondary-color);
+        }
+
+        .option.correct {
+            background-color: var(--success-color);
+            color: var(--text-light);
+            border-color: darkgreen;
+        }
+
+        .option.incorrect {
+            background-color: var(--danger-color);
+            color: var(--text-light);
+            border-color: darkred;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .question-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .question-nav button {
+            min-width: 40px;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .question-nav button.active {
+            background-color: var(--success-color);
+        }
+
+        .question-nav button.answered {
+            background-color: var(--primary-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .results-container {
+            display: none;
+            background-color: var(--text-light);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .results-container.active {
+            display: block;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--success-color);
+        }
+
+        .result-summary {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+        }
+
+        .result-item {
+            background-color: var(--text-light);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .result-item.correct {
+            border-left-color: var(--success-color);
+        }
+
+        .result-item.incorrect {
+            border-left-color: var(--danger-color);
+        }
+
+        .result-question {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .result-answer {
+            margin-left: 20px;
+            color: #666;
+        }
+
+        .result-correct {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .result-incorrect {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+
+        .toggle-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .dark-mode {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        .dark-mode .quiz-container,
+        .dark-mode .results-container,
+        .dark-mode .result-item {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+
+        .dark-mode .option {
+            background-color: #34495e;
+            color: #ecf0f1;
+            border-color: #2c3e50;
+        }
+
+        .dark-mode .result-summary {
+            background-color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .question-nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+            }
+        }
+
+        .category-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+
+        .timer {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--dark-color);
+        }
+
+        .timer-display {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>C++ Interview Questions Quiz</h1>
+            <p>Test your C++ knowledge with comprehensive interview questions</p>
+        </header>
+
+        <div class="quiz-container">
+            <div class="timer">
+                Time: <span class="timer-display" id="timer">00:00</span>
+                <button id="toggleTimer" class="timer-toggle">Pause Timer</button>
+            </div>
+
+            <div class="progress">
+                Question <span id="current-question">1</span> of <span id="total-questions">1</span>
+            </div>
+
+            <div class="question-nav" id="question-nav"></div>
+
+            <div id="questions-container">
+                <!-- Questions will be inserted here by JavaScript -->
+            </div>
+
+            <div class="navigation">
+                <div class="nav-buttons">
+                    <button id="prev-btn" disabled>Previous</button>
+                    <button id="next-btn">Next</button>
+                </div>
+                <button id="submit-btn" class="submit-btn">Submit Quiz</button>
+            </div>
+        </div>
+
+        <div class="results-container" id="results-container">
+            <div class="score">
+                Your Score: <span id="score">0</span>%
+                <div id="score-details"></div>
+            </div>
+
+            <div class="result-summary" id="result-summary"></div>
+
+            <div id="results-list"></div>
+
+            <div class="controls">
+                <button id="review-btn">Review Questions</button>
+                <button id="retake-btn">Retake Quiz</button>
+                <button id="print-btn">Print Results</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toggle-container">
+        <label class="switch">
+            <input type="checkbox" id="dark-mode-toggle">
+            <span class="slider"></span>
+        </label>
+        <span>Dark Mode</span>
+    </div>
+
+    <script>
+        // C++ Interview Questions Data
+        const quizData = [
+            {
+                question: "What is the size of 'int' data type in C++?",
+                options: [
+                    "2 bytes",
+                    "4 bytes", 
+                    "8 bytes",
+                    "Depends on the compiler and system"
+                ],
+                correct: 3,
+                category: "Basics"
+            },
+            {
+                question: "Which of the following is not a valid C++ access specifier?",
+                options: [
+                    "public",
+                    "private",
+                    "protected",
+                    "internal"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "What is the output of the following code?\nint x = 5;\ncout << x++ << " " << ++x;",
+                options: [
+                    "5 6",
+                    "6 6",
+                    "5 7",
+                    "6 7"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which operator cannot be overloaded in C++?",
+                options: [
+                    ". (dot)",
+                    "->",
+                    "new",
+                    "delete"
+                ],
+                correct: 0,
+                category: "Operator Overloading"
+            },
+            {
+                question: "What is the default return type of a function in C++?",
+                options: [
+                    "void",
+                    "int",
+                    "float",
+                    "double"
+                ],
+                correct: 1,
+                category: "Functions"
+            },
+            {
+                question: "Which of the following is not a valid C++ keyword?",
+                options: [
+                    "virtual",
+                    "const",
+                    "friend",
+                    "main"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "What is the output of sizeof(nullptr)?",
+                options: [
+                    "0",
+                    "1",
+                    "4 or 8 (depends on system)",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Pointers"
+            },
+            {
+                question: "Which container in STL provides O(1) time complexity for insertion and deletion?",
+                options: [
+                    "vector",
+                    "list",
+                    "map",
+                    "set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'new' and 'malloc' in C++?",
+                options: [
+                    "new calls constructor, malloc doesn't",
+                    "malloc is faster",
+                    "new returns void pointer",
+                    "malloc can allocate memory for objects"
+                ],
+                correct: 0,
+                category: "Memory Management"
+            },
+            {
+                question: "Which of the following is true about virtual functions?",
+                options: [
+                    "They must be defined in base class",
+                    "They can be static",
+                    "They enable runtime polymorphism",
+                    "They are faster than regular functions"
+                ],
+                correct: 2,
+                category: "Polymorphism"
+            },
+            {
+                question: "What is the output of: cout << (5 + 'a');",
+                options: [
+                    "5a",
+                    "102",
+                    "5",
+                    "a"
+                ],
+                correct: 1,
+                category: "Type Conversion"
+            },
+            {
+                question: "Which header file is required for file I/O operations?",
+                options: [
+                    "<iostream>",
+                    "<fstream>",
+                    "<file.h>",
+                    "<stdio.h>"
+                ],
+                correct: 1,
+                category: "File Handling"
+            },
+            {
+                question: "What is the purpose of 'const' keyword in C++?",
+                options: [
+                    "To define constant variables",
+                    "To prevent modification of variables",
+                    "To optimize code",
+                    "Both A and B"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is not a valid C++ loop?",
+                options: [
+                    "for",
+                    "while",
+                    "do-while",
+                    "until"
+                ],
+                correct: 3,
+                category: "Control Structures"
+            },
+            {
+                question: "What is the output of: int arr[5] = {1,2,3}; cout << arr[4];",
+                options: [
+                    "0",
+                    "3",
+                    "Garbage value",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Arrays"
+            },
+            {
+                question: "Which operator is used for dynamic casting in C++?",
+                options: [
+                    "static_cast",
+                    "dynamic_cast",
+                    "const_cast",
+                    "reinterpret_cast"
+                ],
+                correct: 1,
+                category: "Type Casting"
+            },
+            {
+                question: "What is the difference between struct and class in C++?",
+                options: [
+                    "Struct members are public by default, class members are private",
+                    "Struct cannot have member functions",
+                    "Class can inherit, struct cannot",
+                    "Struct is faster"
+                ],
+                correct: 0,
+                category: "OOP"
+            },
+            {
+                question: "Which STL algorithm sorts elements in ascending order?",
+                options: [
+                    "sort()",
+                    "qsort()",
+                    "order()",
+                    "arrange()"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the output of: cout << (10 == 10 == 10);",
+                options: [
+                    "1",
+                    "0",
+                    "true",
+                    "false"
+                ],
+                correct: 0,
+                category: "Operators"
+            },
+            {
+                question: "Which of the following is not a valid C++ exception handling keyword?",
+                options: [
+                    "try",
+                    "catch",
+                    "finally",
+                    "throw"
+                ],
+                correct: 2,
+                category: "Exception Handling"
+            }
+        ];
+
+        // Quiz Application Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const questionsContainer = document.getElementById('questions-container');
+            const resultsContainer = document.getElementById('results-container');
+            const questionNav = document.getElementById('question-nav');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const reviewBtn = document.getElementById('review-btn');
+            const retakeBtn = document.getElementById('retake-btn');
+            const printBtn = document.getElementById('print-btn');
+            const currentQuestionEl = document.getElementById('current-question');
+            const totalQuestionsEl = document.getElementById('total-questions');
+            const scoreEl = document.getElementById('score');
+            const scoreDetailsEl = document.getElementById('score-details');
+            const resultSummaryEl = document.getElementById('result-summary');
+            const resultsListEl = document.getElementById('results-list');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const timerEl = document.getElementById('timer');
+            const toggleTimerBtn = document.getElementById('toggleTimer');
+
+            let currentQuestion = 0;
+            let userAnswers = Array(quizData.length).fill(null);
+            let timeStart = null;
+            let timerInterval = null;
+            let timeElapsed = 0;
+            let isTimerRunning = true;
+
+            // Initialize quiz
+            totalQuestionsEl.textContent = quizData.length;
+            renderQuestions();
+            renderQuestionNav();
+            updateProgress();
+            startTimer();
+
+            // Render all questions
+            function renderQuestions() {
+                quizData.forEach((questionData, index) => {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'question-container' + (index === 0 ? ' active' : '');
+                    questionEl.id = 'question-' + index;
+
+                    questionEl.innerHTML = `
+                        <div class="question">
+                            ${questionData.question}
+                            <span class="category-badge">${questionData.category}</span>
+                        </div>
+                        <div class="options">
+                            ${questionData.options.map((option, optionIndex) => `
+                                <div class="option" data-question="${index}" data-option="${optionIndex}">
+                                    <input type="radio" name="question-${index}" id="q${index}-option${optionIndex}">
+                                    <label for="q${index}-option${optionIndex}">${String.fromCharCode(65 + optionIndex)}. ${option}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+
+                    questionsContainer.appendChild(questionEl);
+                });
+
+                // Add event listeners to options
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const questionIndex = parseInt(this.getAttribute('data-question'));
+                        const optionIndex = parseInt(this.getAttribute('data-option'));
+
+                        // Remove selected class from all options in this question
+                        document.querySelectorAll(`#question-${questionIndex} .option`).forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+
+                        // Add selected class to clicked option
+                        this.classList.add('selected');
+
+                        // Store user answer
+                        userAnswers[questionIndex] = optionIndex;
+
+                        // Update question nav button
+                        updateQuestionNav();
+                    });
+                });
+            }
+
+            // Render question navigation buttons
+            function renderQuestionNav() {
+                for (let i = 0; i < quizData.length; i++) {
+                    const btn = document.createElement('button');
+                    btn.textContent = i + 1;
+                    btn.setAttribute('data-question', i);
+                    btn.addEventListener('click', function() {
+                        goToQuestion(parseInt(this.getAttribute('data-question')));
+                    });
+                    questionNav.appendChild(btn);
+                }
+            }
+
+            // Update question navigation button states
+            function updateQuestionNav() {
+                const navButtons = document.querySelectorAll('#question-nav button');
+                navButtons.forEach((btn, index) => {
+                    btn.classList.remove('active', 'answered');
+                    if (index === currentQuestion) {
+                        btn.classList.add('active');
+                    }
+                    if (userAnswers[index] !== null) {
+                        btn.classList.add('answered');
+                    }
+                });
+            }
+
+            // Go to specific question
+            function goToQuestion(questionIndex) {
+                if (questionIndex < 0 || questionIndex >= quizData.length) return;
+
+                // Hide current question
+                document.querySelector('.question-container.active').classList.remove('active');
+
+                // Show new question
+                const newQuestionEl = document.getElementById('question-' + questionIndex);
+                newQuestionEl.classList.add('active');
+
+                // Update current question
+                currentQuestion = questionIndex;
+                currentQuestionEl.textContent = currentQuestion + 1;
+
+                // Update navigation buttons
+                prevBtn.disabled = currentQuestion === 0;
+                nextBtn.disabled = currentQuestion === quizData.length - 1;
+
+                updateQuestionNav();
+            }
+
+            // Update progress display
+            function updateProgress() {
+                currentQuestionEl.textContent = currentQuestion + 1;
+            }
+
+            // Previous button click handler
+            prevBtn.addEventListener('click', function() {
+                goToQuestion(currentQuestion - 1);
+            });
+
+            // Next button click handler
+            nextBtn.addEventListener('click', function() {
+                goToQuestion(currentQuestion + 1);
+            });
+
+            // Submit button click handler
+            submitBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to submit your answers?')) {
+                    showResults();
+                }
+            });
+
+            // Review button click handler
+            reviewBtn.addEventListener('click', function() {
+                resultsContainer.classList.remove('active');
+                questionsContainer.parentElement.classList.add('active');
+            });
+
+            // Retake button click handler
+            retakeBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to retake the quiz? Your current progress will be lost.')) {
+                    resetQuiz();
+                }
+            });
+
+            // Print button click handler
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+
+            // Dark mode toggle
+            darkModeToggle.addEventListener('change', function() {
+                document.body.classList.toggle('dark-mode');
+            });
+
+            // Timer toggle
+            toggleTimerBtn.addEventListener('click', function() {
+                isTimerRunning = !isTimerRunning;
+                this.textContent = isTimerRunning ? 'Pause Timer' : 'Resume Timer';
+                if (isTimerRunning) {
+                    startTimer();
+                } else {
+                    clearInterval(timerInterval);
+                }
+            });
+
+            // Start timer
+            function startTimer() {
+                if (timeStart === null) {
+                    timeStart = new Date();
+                } else {
+                    timeStart = new Date() - timeElapsed;
+                }
+
+                timerInterval = setInterval(function() {
+                    timeElapsed = new Date() - timeStart;
+                    const minutes = Math.floor(timeElapsed / 60000);
+                    const seconds = Math.floor((timeElapsed % 60000) / 1000);
+                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+
+            // Show results
+            function showResults() {
+                clearInterval(timerInterval);
+                
+                let correctAnswers = 0;
+                const results = [];
+
+                quizData.forEach((question, index) => {
+                    const userAnswer = userAnswers[index];
+                    const isCorrect = userAnswer === question.correct;
+                    
+                    if (isCorrect) {
+                        correctAnswers++;
+                    }
+
+                    results.push({
+                        question: question.question,
+                        userAnswer: userAnswer !== null ? String.fromCharCode(65 + userAnswer) : 'Not answered',
+                        correctAnswer: String.fromCharCode(65 + question.correct),
+                        isCorrect: isCorrect,
+                        category: question.category
+                    });
+                });
+
+                const score = Math.round((correctAnswers / quizData.length) * 100);
+                scoreEl.textContent = score;
+                
+                // Score details
+                scoreDetailsEl.innerHTML = `
+                    <p>${correctAnswers} out of ${quizData.length} correct</p>
+                    <p>Time taken: ${timerEl.textContent}</p>
+                `;
+
+                // Result summary
+                const categories = {};
+                results.forEach(result => {
+                    if (!categories[result.category]) {
+                        categories[result.category] = { correct: 0, total: 0 };
+                    }
+                    categories[result.category].total++;
+                    if (result.isCorrect) {
+                        categories[result.category].correct++;
+                    }
+                });
+
+                let summaryHTML = '<h3>Category-wise Performance:</h3><ul>';
+                for (const category in categories) {
+                    const categoryScore = Math.round((categories[category].correct / categories[category].total) * 100);
+                    summaryHTML += `<li>${category}: ${categoryScore}% (${categories[category].correct}/${categories[category].total})</li>`;
+                }
+                summaryHTML += '</ul>';
+                resultSummaryEl.innerHTML = summaryHTML;
+
+                // Results list
+                resultsListEl.innerHTML = results.map((result, index) => `
+                    <div class="result-item ${result.isCorrect ? 'correct' : 'incorrect'}">
+                        <div class="result-question">
+                            Question ${index + 1}: ${result.question}
+                            <span class="category-badge">${result.category}</span>
+                        </div>
+                        <div class="result-answer">
+                            Your answer: <span class="${result.isCorrect ? 'result-correct' : 'result-incorrect'}">
+                                ${result.userAnswer} ${result.isCorrect ? '✓' : '✗'}
+                            </span>
+                        </div>
+                        <div class="result-answer">
+                            Correct answer: <span class="result-correct">${result.correctAnswer} ✓</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Show results container
+                resultsContainer.classList.add('active');
+                questionsContainer.parentElement.classList.remove('active');
+            }
+
+            // Reset quiz
+            function resetQuiz() {
+                currentQuestion = 0;
+                userAnswers = Array(quizData.length).fill(null);
+                timeStart = null;
+                timeElapsed = 0;
+                isTimerRunning = true;
+
+                // Reset UI
+                document.querySelectorAll('.question-container').forEach((q, index) => {
+                    q.classList.toggle('active', index === 0);
+                });
+
+                document.querySelectorAll('.option').forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                });
+
+                document.querySelectorAll('.question-container input[type="radio"]').forEach(input => {
+                    input.checked = false;
+                });
+
+                prevBtn.disabled = true;
+                nextBtn.disabled = quizData.length <= 1;
+                submitBtn.disabled = false;
+
+                updateProgress();
+                updateQuestionNav();
+                timerEl.textContent = '00:00';
+                toggleTimerBtn.textContent = 'Pause Timer';
+                startTimer();
+
+                resultsContainer.classList.remove('active');
+                questionsContainer.parentElement.classList.add('active');
+            }
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (resultsContainer.classList.contains('active')) return;
+
+                if (e.key === 'ArrowLeft' && currentQuestion > 0) {
+                    goToQuestion(currentQuestion - 1);
+                } else if (e.key === 'ArrowRight' && currentQuestion < quizData.length - 1) {
+                    goToQuestion(currentQuestion + 1);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -654,6 +654,2954 @@
                 ],
                 correct: 2,
                 category: "Exception Handling"
+            },
+            {
+                question: "What is the output of the following code?\nint main() {\n    int x = 5;\n    int &y = x;\n    y = 10;\n    cout << x;\n    return 0;\n}",
+                options: [
+                    "5",
+                    "10",
+                    "Compiler error",
+                    "Garbage value"
+                ],
+                correct: 1,
+                category: "References"
+            },
+            {
+                question: "Which of the following is true about inline functions?",
+                options: [
+                    "They are expanded at compile time",
+                    "They reduce function call overhead",
+                    "They should be used for small, frequently called functions",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Functions"
+            },
+            {
+                question: "What is the difference between shallow copy and deep copy?",
+                options: [
+                    "Shallow copy copies pointer values, deep copy creates new objects",
+                    "Deep copy is faster than shallow copy",
+                    "Shallow copy works only with primitive types",
+                    "Deep copy doesn't require destructor"
+                ],
+                correct: 0,
+                category: "Memory Management"
+            },
+            {
+                question: "Which STL container provides constant time access to elements?",
+                options: [
+                    "std::list",
+                    "std::vector",
+                    "std::map",
+                    "std::set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'volatile' keyword in C++?",
+                options: [
+                    "To prevent compiler optimizations on a variable",
+                    "To make a variable constant",
+                    "To create a global variable",
+                    "To optimize memory usage"
+                ],
+                correct: 0,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is not a valid C++ casting operator?",
+                options: [
+                    "static_cast",
+                    "dynamic_cast",
+                    "explicit_cast",
+                    "reinterpret_cast"
+                ],
+                correct: 2,
+                category: "Type Casting"
+            },
+            {
+                question: "What is the output of: cout << (true && false || true);",
+                options: [
+                    "0",
+                    "1",
+                    "true",
+                    "false"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which header file is required for string operations?",
+                options: [
+                    "<string>",
+                    "<cstring>",
+                    "<string.h>",
+                    "Both A and B"
+                ],
+                correct: 3,
+                category: "Standard Library"
+            },
+            {
+                question: "What is the difference between 'delete' and 'delete[]'?",
+                options: [
+                    "delete[] is used for arrays, delete for single objects",
+                    "delete[] calls destructor for each element",
+                    "delete[] is faster",
+                    "Both A and B"
+                ],
+                correct: 3,
+                category: "Memory Management"
+            },
+            {
+                question: "Which of the following is true about pure virtual functions?",
+                options: [
+                    "They must be defined in derived class",
+                    "They can have implementation in base class",
+                    "They make the class abstract",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Polymorphism"
+            },
+            {
+                question: "What is the output of: int a = 3, b = 2; cout << (a ^ b);",
+                options: [
+                    "1",
+                    "5",
+                    "0",
+                    "Compiler error"
+                ],
+                correct: 0,
+                category: "Operators"
+            },
+            {
+                question: "Which STL algorithm finds the first occurrence of a value?",
+                options: [
+                    "find()",
+                    "search()",
+                    "locate()",
+                    "discover()"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'mutable' keyword in C++?",
+                options: [
+                    "To allow modification of class members in const functions",
+                    "To create constant variables",
+                    "To prevent inheritance",
+                    "To optimize code"
+                ],
+                correct: 0,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is not a valid C++ storage class?",
+                options: [
+                    "auto",
+                    "register",
+                    "static",
+                    "volatile"
+                ],
+                correct: 3,
+                category: "Storage Classes"
+            },
+            {
+                question: "What is the output of: cout << sizeof(bool);",
+                options: [
+                    "1",
+                    "4",
+                    "8",
+                    "Depends on compiler"
+                ],
+                correct: 0,
+                category: "Data Types"
+            },
+            {
+                question: "Which STL container implements a double-ended queue?",
+                options: [
+                    "std::queue",
+                    "std::deque",
+                    "std::stack",
+                    "std::list"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'throw' and 'throw;'?",
+                options: [
+                    "throw; rethrows current exception, throw throws new exception",
+                    "throw; is used in catch blocks",
+                    "throw; doesn't require exception object",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Exception Handling"
+            },
+            {
+                question: "Which of the following is true about function templates?",
+                options: [
+                    "They enable generic programming",
+                    "They are instantiated at compile time",
+                    "They can work with different data types",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; cout << (x << 1);",
+                options: [
+                    "20",
+                    "5",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 0,
+                category: "Operators"
+            },
+            {
+                question: "Which header file is required for mathematical functions?",
+                options: [
+                    "<math>",
+                    "<cmath>",
+                    "<math.h>",
+                    "Both B and C"
+                ],
+                correct: 3,
+                category: "Standard Library"
+            },
+            {
+                question: "What is the purpose of 'explicit' keyword in constructors?",
+                options: [
+                    "To prevent implicit conversions",
+                    "To make constructor private",
+                    "To optimize constructor calls",
+                    "To create default constructors"
+                ],
+                correct: 0,
+                category: "OOP"
+            },
+            {
+                question: "Which STL container provides O(log n) insertion and deletion?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the output of: int arr[] = {1,2,3,4,5}; cout << *(arr + 2);",
+                options: [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                correct: 2,
+                category: "Pointers"
+            },
+            {
+                question: "Which of the following is true about friend functions?",
+                options: [
+                    "They can access private members of a class",
+                    "They are not member functions",
+                    "They can be declared in any section of a class",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "What is the output of: cout << (NULL == 0);",
+                options: [
+                    "0",
+                    "1",
+                    "true",
+                    "false"
+                ],
+                correct: 1,
+                category: "Pointers"
+            },
+            {
+                question: "Which STL algorithm reverses a sequence?",
+                options: [
+                    "reverse()",
+                    "flip()",
+                    "invert()",
+                    "turn()"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'struct' and 'union'?",
+                options: [
+                    "Union members share the same memory, struct members have separate memory",
+                    "Union can store only one member at a time",
+                    "Union size is equal to largest member size",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Data Structures"
+            },
+            {
+                question: "Which of the following is true about virtual destructors?",
+                options: [
+                    "They ensure proper cleanup when deleting derived class objects",
+                    "They should be defined when class has virtual functions",
+                    "They enable polymorphic destruction",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "What is the output of: int x = 5; cout << (x = 10) + (x = 20);",
+                options: [
+                    "20",
+                    "30",
+                    "15",
+                    "Undefined behavior"
+                ],
+                correct: 3,
+                category: "Operators"
+            },
+            {
+                question: "Which header file is required for input/output operations?",
+                options: [
+                    "<io>",
+                    "<iostream>",
+                    "<stdio>",
+                    "<cin>"
+                ],
+                correct: 1,
+                category: "Standard Library"
+            },
+            {
+                question: "What is the purpose of 'typename' keyword in C++?",
+                options: [
+                    "To specify dependent types in templates",
+                    "To create type aliases",
+                    "To define new data types",
+                    "To optimize template code"
+                ],
+                correct: 0,
+                category: "Templates"
+            },
+            {
+                question: "Which STL container implements a priority queue?",
+                options: [
+                    "std::queue",
+                    "std::priority_queue",
+                    "std::stack",
+                    "std::heap"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the output of: int x = 3; cout << (x++ + ++x);",
+                options: [
+                    "7",
+                    "8",
+                    "Undefined behavior",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which of the following is true about function overloading?",
+                options: [
+                    "Functions must have different parameter lists",
+                    "Functions can have different return types",
+                    "Functions must have the same name",
+                    "Both A and C"
+                ],
+                correct: 3,
+                category: "Functions"
+            },
+            {
+                question: "What is the output of: bool b = true; cout << sizeof(b);",
+                options: [
+                    "1",
+                    "4",
+                    "8",
+                    "Depends on compiler"
+                ],
+                correct: 0,
+                category: "Data Types"
+            },
+            {
+                question: "Which STL algorithm removes consecutive duplicates?",
+                options: [
+                    "remove()",
+                    "unique()",
+                    "erase()",
+                    "delete()"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'namespace' in C++?",
+                options: [
+                    "To avoid name conflicts",
+                    "To organize code logically",
+                    "To create modular code",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Namespaces"
+            },
+            {
+                question: "Which of the following is not a valid C++ preprocessor directive?",
+                options: [
+                    "#include",
+                    "#define",
+                    "#import",
+                    "#ifdef"
+                ],
+                correct: 2,
+                category: "Preprocessor"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = x << 2; cout << y;",
+                options: [
+                    "20",
+                    "40",
+                    "5",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides constant time insertion at beginning?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'public', 'private', and 'protected' inheritance?",
+                options: [
+                    "Public inheritance maintains access levels, private makes all members private, protected makes all members protected",
+                    "Private inheritance is most restrictive, public is least restrictive",
+                    "Protected inheritance allows access to derived classes",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "Which of the following is true about copy constructors?",
+                options: [
+                    "They are called when objects are passed by value",
+                    "They take reference to same class object as parameter",
+                    "They are used to initialize one object with another",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Constructors"
+            },
+            {
+                question: "What is the output of: int arr[3][3] = {{1,2,3},{4,5,6},{7,8,9}}; cout << arr[1][2];",
+                options: [
+                    "1",
+                    "5",
+                    "6",
+                    "9"
+                ],
+                correct: 2,
+                category: "Arrays"
+            },
+            {
+                question: "Which STL algorithm sorts in descending order?",
+                options: [
+                    "sort() with greater comparator",
+                    "rsort()",
+                    "descend()",
+                    "order_desc()"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'auto' keyword in C++11?",
+                options: [
+                    "Type inference",
+                    "Automatic memory management",
+                    "Automatic variable initialization",
+                    "Automatic function generation"
+                ],
+                correct: 0,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about smart pointers?",
+                options: [
+                    "They automatically manage memory",
+                    "unique_ptr provides exclusive ownership",
+                    "shared_ptr uses reference counting",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Memory Management"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = x-- + --x; cout << x << " " << y;",
+                options: [
+                    "3 7",
+                    "4 8",
+                    "3 8",
+                    "4 7"
+                ],
+                correct: 0,
+                category: "Operators"
+            },
+            {
+                question: "Which header file is required for exception handling?",
+                options: [
+                    "<exception>",
+                    "<stdexcept>",
+                    "<error>",
+                    "Both A and B"
+                ],
+                correct: 3,
+                category: "Exception Handling"
+            },
+            {
+                question: "What is the purpose of 'override' keyword in C++11?",
+                options: [
+                    "To explicitly indicate function overriding",
+                    "To prevent accidental overloading",
+                    "To improve code readability",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which STL container provides O(1) access to first and last elements?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'new' and 'new[]'?",
+                options: [
+                    "new[] allocates array, new allocates single object",
+                    "new[] calls constructor for each element",
+                    "new[] returns different pointer type",
+                    "Both A and B"
+                ],
+                correct: 3,
+                category: "Memory Management"
+            },
+            {
+                question: "Which of the following is true about move semantics?",
+                options: [
+                    "They transfer resources instead of copying",
+                    "They use rvalue references",
+                    "They improve performance for large objects",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 10; cout << (x > 5 ? "A" : "B");",
+                options: [
+                    "A",
+                    "B",
+                    "1",
+                    "0"
+                ],
+                correct: 0,
+                category: "Operators"
+            },
+            {
+                question: "Which STL algorithm counts occurrences of a value?",
+                options: [
+                    "count()",
+                    "occurrences()",
+                    "frequency()",
+                    "tally()"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'final' keyword in C++11?",
+                options: [
+                    "To prevent class inheritance",
+                    "To prevent function overriding",
+                    "Both A and B",
+                    "To create final classes like in Java"
+                ],
+                correct: 2,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about lambda expressions?",
+                options: [
+                    "They are anonymous functions",
+                    "They can capture variables from surrounding scope",
+                    "They were introduced in C++11",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = 3; cout << (x / y * y + x % y);",
+                options: [
+                    "5",
+                    "6",
+                    "8",
+                    "10"
+                ],
+                correct: 0,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) insertion and deletion at both ends?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'static' and 'dynamic' binding?",
+                options: [
+                    "Static binding at compile time, dynamic at runtime",
+                    "Static uses function pointers, dynamic uses vtables",
+                    "Static is faster than dynamic",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Polymorphism"
+            },
+            {
+                question: "Which of the following is true about constructor initialization lists?",
+                options: [
+                    "They initialize members before constructor body",
+                    "They are more efficient for const members",
+                    "They are required for reference members",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Constructors"
+            },
+            {
+                question: "What is the output of: int arr[] = {1,2,3}; int *p = arr; cout << *(p + 2);",
+                options: [
+                    "1",
+                    "2",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Pointers"
+            },
+            {
+                question: "Which STL algorithm finds the maximum element?",
+                options: [
+                    "max()",
+                    "max_element()",
+                    "find_max()",
+                    "greatest()"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'decltype' in C++11?",
+                options: [
+                    "To deduce type of expressions",
+                    "To create type aliases",
+                    "To optimize template code",
+                    "To create new data types"
+                ],
+                correct: 0,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about RAII?",
+                options: [
+                    "Resource Acquisition Is Initialization",
+                    "Resources are tied to object lifetime",
+                    "Prevents resource leaks",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Memory Management"
+            },
+            {
+                question: "What is the output of: int x = 10; cout << (x |= 3);",
+                options: [
+                    "10",
+                    "11",
+                    "15",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) search time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::map",
+                    "std::unordered_map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'pass by value' and 'pass by reference'?",
+                options: [
+                    "Pass by value creates copy, pass by reference uses original",
+                    "Pass by reference is faster for large objects",
+                    "Pass by value doesn't modify original, pass by reference can",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Functions"
+            },
+            {
+                question: "Which of the following is true about default arguments?",
+                options: [
+                    "They must be specified from right to left",
+                    "They can be overridden in derived classes",
+                    "They are evaluated at compile time",
+                    "All of the above"
+                ],
+                correct: 0,
+                category: "Functions"
+            },
+            {
+                question: "What is the output of: int x = 5; cout << (x ^= 3);",
+                options: [
+                    "5",
+                    "6",
+                    "8",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion and deletion?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'noexcept' in C++11?",
+                options: [
+                    "To specify functions that don't throw exceptions",
+                    "To optimize exception handling",
+                    "To improve performance",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about function templates vs class templates?",
+                options: [
+                    "Function templates can have default arguments",
+                    "Class templates can have default arguments",
+                    "Function templates are instantiated implicitly",
+                    "Both B and C"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; cout << (x >> 1);",
+                options: [
+                    "5",
+                    "20",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 0,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) access to any element?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::map",
+                    "std::set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'public', 'private', and 'protected' members?",
+                options: [
+                    "Public accessible anywhere, private only in class, protected in class and derived classes",
+                    "Private is most restrictive, public is least restrictive",
+                    "Protected allows access to derived classes",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "Which of the following is true about copy assignment operator?",
+                options: [
+                    "It assigns values from one object to another",
+                    "It should handle self-assignment",
+                    "It returns reference to the object",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Operators"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = 2; cout << (x / y);",
+                options: [
+                    "2.5",
+                    "2",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL algorithm removes elements from a container?",
+                options: [
+                    "remove()",
+                    "erase()",
+                    "delete()",
+                    "clear()"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'constexpr' in C++11?",
+                options: [
+                    "To evaluate expressions at compile time",
+                    "To create constant expressions",
+                    "To optimize code",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about multiple inheritance?",
+                options: [
+                    "A class can inherit from multiple base classes",
+                    "Can lead to diamond problem",
+                    "Requires virtual inheritance to resolve ambiguity",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 5; cout << (x %= y);",
+                options: [
+                    "10",
+                    "5",
+                    "0",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(n) search time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::map",
+                    "std::set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'prefix' and 'postfix' increment?",
+                options: [
+                    "Prefix increments then returns, postfix returns then increments",
+                    "Prefix is faster than postfix",
+                    "Prefix can be used as lvalue, postfix cannot",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Operators"
+            },
+            {
+                question: "Which of the following is true about default constructors?",
+                options: [
+                    "They take no arguments",
+                    "They initialize objects with default values",
+                    "Compiler generates one if not defined",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Constructors"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = 3; cout << (x *= y);",
+                options: [
+                    "5",
+                    "8",
+                    "15",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) insertion at end?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'static' keyword in C++?",
+                options: [
+                    "To create class-level variables",
+                    "To create functions that don't need object",
+                    "To limit visibility to file scope",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is true about abstract classes?",
+                options: [
+                    "They cannot be instantiated",
+                    "They must have at least one pure virtual function",
+                    "They can have regular member functions",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 3; cout << (x -= y);",
+                options: [
+                    "10",
+                    "7",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) insertion?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'class' and 'typename' in templates?",
+                options: [
+                    "They are interchangeable in most contexts",
+                    "class can only be used for class types",
+                    "typename is more modern",
+                    "Both A and C"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "Which of the following is true about move constructors?",
+                options: [
+                    "They take rvalue references as parameters",
+                    "They transfer resources instead of copying",
+                    "They are used with std::move",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = 2; cout << (x += y);",
+                options: [
+                    "5",
+                    "7",
+                    "10",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) deletion at end?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'using' keyword in C++?",
+                options: [
+                    "To create type aliases",
+                    "To bring names into scope",
+                    "To simplify namespace usage",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Namespaces"
+            },
+            {
+                question: "Which of the following is true about function pointers?",
+                options: [
+                    "They store memory addresses of functions",
+                    "They can be used for callbacks",
+                    "They enable polymorphic behavior",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Pointers"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 4; cout << (x %= y);",
+                options: [
+                    "10",
+                    "4",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(n) insertion at beginning?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'new' and 'malloc' in terms of memory allocation?",
+                options: [
+                    "new calls constructor, malloc doesn't",
+                    "new is type-safe, malloc isn't",
+                    "new can be overloaded, malloc cannot",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Memory Management"
+            },
+            {
+                question: "Which of the following is true about exception specifications?",
+                options: [
+                    "They specify what exceptions a function can throw",
+                    "They were deprecated in C++11",
+                    "They can be used with noexcept",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Exception Handling"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = 3; cout << (x /= y);",
+                options: [
+                    "5",
+                    "1",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) access to last element?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'register' keyword in C++?",
+                options: [
+                    "To suggest storing variable in CPU register",
+                    "To optimize variable access",
+                    "It's largely ignored by modern compilers",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is true about virtual inheritance?",
+                options: [
+                    "It solves the diamond problem in multiple inheritance",
+                    "It ensures only one instance of base class",
+                    "It uses virtual base class concept",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 6; cout << (x %= y);",
+                options: [
+                    "10",
+                    "6",
+                    "4",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) deletion?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'pass by value' and 'pass by const reference'?",
+                options: [
+                    "Pass by const reference avoids copying",
+                    "Pass by const reference can't modify original",
+                    "Pass by const reference is more efficient for large objects",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Functions"
+            },
+            {
+                question: "Which of the following is true about default arguments in functions?",
+                options: [
+                    "They must be specified from rightmost parameter",
+                    "They can be overridden in derived classes",
+                    "They are evaluated at runtime",
+                    "Both A and B"
+                ],
+                correct: 0,
+                category: "Functions"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = 4; cout << (x |= y);",
+                options: [
+                    "5",
+                    "9",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) insertion at beginning and end?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'extern' keyword in C++?",
+                options: [
+                    "To declare variables defined in other files",
+                    "To create global variables",
+                    "To improve linking performance",
+                    "Both A and B"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is true about copy constructors vs assignment operators?",
+                options: [
+                    "Copy constructor initializes new object, assignment operator assigns to existing object",
+                    "Copy constructor takes const reference, assignment operator takes non-const reference",
+                    "Copy constructor is called during object creation, assignment operator during assignment",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Constructors"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 7; cout << (x %= y);",
+                options: [
+                    "10",
+                    "7",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(n) search time for unordered elements?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'static_cast' and 'dynamic_cast'?",
+                options: [
+                    "static_cast is compile-time, dynamic_cast is runtime",
+                    "dynamic_cast requires RTTI",
+                    "dynamic_cast works with polymorphism",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Type Casting"
+            },
+            {
+                question: "Which of the following is true about constructor delegation?",
+                options: [
+                    "It allows one constructor to call another",
+                    "It reduces code duplication",
+                    "It was introduced in C++11",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Constructors"
+            },
+            {
+                question: "What is the output of: int x = 5; int y = 5; cout << (x ^= y);",
+                options: [
+                    "5",
+                    "0",
+                    "10",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'thread_local' storage specifier?",
+                options: [
+                    "To create variables with thread storage duration",
+                    "To ensure thread safety",
+                    "To create variables unique to each thread",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Multithreading"
+            },
+            {
+                question: "Which of the following is true about RAII and smart pointers?",
+                options: [
+                    "Smart pointers implement RAII principle",
+                    "They automatically manage resource lifetime",
+                    "They prevent memory leaks",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Memory Management"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 8; cout << (x %= y);",
+                options: [
+                    "10",
+                    "8",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(n) insertion time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'const' and 'constexpr'?",
+                options: [
+                    "constexpr evaluates at compile time",
+                    "constexpr can be used in more contexts",
+                    "constexpr was introduced in C++11",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is true about lambda capture modes?",
+                options: [
+                    "[=] captures by value, [&] captures by reference",
+                    "[this] captures current object",
+                    "[var] captures specific variable",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 9; cout << (x %= y);",
+                options: [
+                    "10",
+                    "9",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) access to first element?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'alignas' specifier in C++11?",
+                options: [
+                    "To specify memory alignment requirements",
+                    "To optimize memory access",
+                    "To improve cache performance",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about move assignment operators?",
+                options: [
+                    "They transfer resources from one object to another",
+                    "They take rvalue references as parameters",
+                    "They leave source object in valid state",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 5; cout << (x /= y);",
+                options: [
+                    "10",
+                    "2",
+                    "5",
+                    "Compiler error"
+                ],
+                correct: 1,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average insertion time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'class templates' and 'function templates'?",
+                options: [
+                    "Class templates can have default arguments",
+                    "Function templates are instantiated implicitly",
+                    "Class templates can be partially specialized",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "Which of the following is true about perfect forwarding?",
+                options: [
+                    "It preserves value categories",
+                    "It uses std::forward",
+                    "It enables efficient parameter passing",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 3; cout << (x %= y);",
+                options: [
+                    "10",
+                    "3",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average deletion time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'alignof' operator in C++11?",
+                options: [
+                    "To query alignment requirements of types",
+                    "To optimize memory layout",
+                    "To improve cache performance",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about variadic templates?",
+                options: [
+                    "They accept variable number of template arguments",
+                    "They use parameter packs",
+                    "They enable type-safe variadic functions",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 4; cout << (x %= y);",
+                options: [
+                    "10",
+                    "4",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(n) deletion time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'lvalue' and 'rvalue'?",
+                options: [
+                    "Lvalues have addresses, rvalues are temporary",
+                    "Lvalues can be assigned to, rvalues cannot",
+                    "Lvalues persist, rvalues are short-lived",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template specialization?",
+                options: [
+                    "It provides custom implementations for specific types",
+                    "It can be partial or full",
+                    "It enables optimization for specific types",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 6; cout << (x %= y);",
+                options: [
+                    "10",
+                    "6",
+                    "4",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average deletion time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'decltype(auto)' in C++14?",
+                options: [
+                    "To deduce return types with exact cv-qualifiers",
+                    "To simplify template code",
+                    "To improve type deduction",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++14"
+            },
+            {
+                question: "Which of the following is true about SFINAE?",
+                options: [
+                    "Substitution Failure Is Not An Error",
+                    "It enables template metaprogramming",
+                    "It allows function overload resolution based on template arguments",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 7; cout << (x %= y);",
+                options: [
+                    "10",
+                    "7",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average access time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_map",
+                    "std::map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'const_cast' and other casting operators?",
+                options: [
+                    "const_cast can remove const/volatile qualifiers",
+                    "const_cast is the only cast that can remove constness",
+                    "const_cast can be dangerous if misused",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Type Casting"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming?",
+                options: [
+                    "It performs computations at compile time",
+                    "It uses template instantiation",
+                    "It enables type-level computations",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 8; cout << (x %= y);",
+                options: [
+                    "10",
+                    "8",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average access time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::move' in C++11?",
+                options: [
+                    "To convert lvalues to rvalues",
+                    "To enable move semantics",
+                    "To transfer ownership of resources",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template argument deduction?",
+                options: [
+                    "Compiler deduces template arguments from function arguments",
+                    "It works with function templates",
+                    "It can be guided with explicit template arguments",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 9; cout << (x %= y);",
+                options: [
+                    "10",
+                    "9",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion at end?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 0,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'static' and 'dynamic' polymorphism?",
+                options: [
+                    "Static resolved at compile time, dynamic at runtime",
+                    "Static uses templates, dynamic uses virtual functions",
+                    "Static is faster than dynamic",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Polymorphism"
+            },
+            {
+                question: "Which of the following is true about template instantiation?",
+                options: [
+                    "It creates concrete types from template definitions",
+                    "It happens at compile time",
+                    "It can be explicit or implicit",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 5; cout << (x %= y);",
+                options: [
+                    "10",
+                    "5",
+                    "0",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average insertion at beginning?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::forward' in C++11?",
+                options: [
+                    "To preserve value categories in perfect forwarding",
+                    "To enable efficient parameter passing",
+                    "To work with rvalue references",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template specialization vs overloading?",
+                options: [
+                    "Specialization provides custom implementation for specific types",
+                    "Overloading creates different function templates",
+                    "Specialization is more specific than overloading",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 3; cout << (x %= y);",
+                options: [
+                    "10",
+                    "3",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average deletion at beginning?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'const' member functions and non-const member functions?",
+                options: [
+                    "Const functions don't modify object state",
+                    "Const functions can be called on const objects",
+                    "Const functions have different this pointer type",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "Which of the following is true about template default arguments?",
+                options: [
+                    "They provide default values for template parameters",
+                    "They enable more flexible template usage",
+                    "They were introduced in C++11",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 4; cout << (x %= y);",
+                options: [
+                    "10",
+                    "4",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average deletion at end?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::exchange' in C++14?",
+                options: [
+                    "To replace value and return old value",
+                    "To enable efficient value swapping",
+                    "To work with move semantics",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++14"
+            },
+            {
+                question: "Which of the following is true about template argument deduction for class templates?",
+                options: [
+                    "It was introduced in C++17",
+                    "It allows deducing template arguments from constructors",
+                    "It simplifies template usage",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++17"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 6; cout << (x %= y);",
+                options: [
+                    "10",
+                    "6",
+                    "4",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average access to any element?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_map",
+                    "std::map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'public', 'private', and 'protected' inheritance in terms of access control?",
+                options: [
+                    "Public inheritance preserves access levels",
+                    "Private inheritance makes all members private",
+                    "Protected inheritance makes all members protected",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "OOP"
+            },
+            {
+                question: "Which of the following is true about template parameter packs?",
+                options: [
+                    "They enable variadic templates",
+                    "They use ... syntax",
+                    "They can be expanded with pack expansion",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 7; cout << (x %= y);",
+                options: [
+                    "10",
+                    "7",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average access to any element?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::map",
+                    "std::unordered_map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::make_unique' in C++14?",
+                options: [
+                    "To create unique_ptr objects",
+                    "To prevent memory leaks",
+                    "To enable exception-safe memory allocation",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++14"
+            },
+            {
+                question: "Which of the following is true about template aliasing?",
+                options: [
+                    "It creates aliases for template types",
+                    "It uses 'using' keyword",
+                    "It simplifies complex template types",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 8; cout << (x %= y);",
+                options: [
+                    "10",
+                    "8",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion at any position?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'const' and 'volatile' qualifiers?",
+                options: [
+                    "const prevents modification, volatile prevents optimization",
+                    "const is for compile-time, volatile for runtime",
+                    "const applies to variables, volatile to memory locations",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming techniques?",
+                options: [
+                    "It uses recursive template instantiation",
+                    "It enables compile-time computations",
+                    "It can be used for type traits",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 9; cout << (x %= y);",
+                options: [
+                    "10",
+                    "9",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average deletion at any position?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::make_shared' in C++11?",
+                options: [
+                    "To create shared_ptr objects",
+                    "To enable efficient memory allocation",
+                    "To reduce memory overhead",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template specialization syntax?",
+                options: [
+                    "It uses template<> syntax",
+                    "It provides custom implementation for specific types",
+                    "It can be partial or full",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 5; cout << (x %= y);",
+                options: [
+                    "10",
+                    "5",
+                    "0",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average insertion at any position?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'lvalue references' and 'rvalue references'?",
+                options: [
+                    "Lvalue references bind to lvalues, rvalue references bind to rvalues",
+                    "Lvalue references use &, rvalue references use &&",
+                    "Rvalue references enable move semantics",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template argument deduction rules?",
+                options: [
+                    "They follow specific priority rules",
+                    "They can be customized with traits",
+                    "They enable flexible template usage",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 3; cout << (x %= y);",
+                options: [
+                    "10",
+                    "3",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average access to first and last elements?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::enable_if' in C++11?",
+                options: [
+                    "To enable function templates based on conditions",
+                    "To implement SFINAE",
+                    "To provide compile-time constraints",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template instantiation models?",
+                options: [
+                    "They determine when templates are instantiated",
+                    "They can be explicit or implicit",
+                    "They affect compilation time",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 4; cout << (x %= y);",
+                options: [
+                    "10",
+                    "4",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average deletion at any position?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'constexpr' functions and regular functions?",
+                options: [
+                    "constexpr functions can be evaluated at compile time",
+                    "constexpr functions have restrictions on what they can do",
+                    "constexpr functions enable compile-time computations",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming libraries?",
+                options: [
+                    "They provide reusable metaprogramming components",
+                    "They enable complex compile-time computations",
+                    "They include type traits and utilities",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 6; cout << (x %= y);",
+                options: [
+                    "10",
+                    "6",
+                    "4",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion and deletion at both ends?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::conditional' in C++11?",
+                options: [
+                    "To provide compile-time conditional type selection",
+                    "To implement type traits",
+                    "To enable template metaprogramming",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template specialization vs template overloading?",
+                options: [
+                    "Specialization provides custom implementation for specific types",
+                    "Overloading creates different function templates",
+                    "Specialization is more specific than overloading",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 7; cout << (x %= y);",
+                options: [
+                    "10",
+                    "7",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average access to first and last elements?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::map",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'const' and 'constexpr' in terms of evaluation time?",
+                options: [
+                    "const can be runtime, constexpr must be compile-time",
+                    "constexpr enables compile-time evaluation",
+                    "constexpr has more restrictions",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Keywords"
+            },
+            {
+                question: "Which of the following is true about template argument deduction for function templates?",
+                options: [
+                    "It deduces template arguments from function arguments",
+                    "It follows specific deduction rules",
+                    "It can be guided with explicit template arguments",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 8; cout << (x %= y);",
+                options: [
+                    "10",
+                    "8",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average access to any element with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_map",
+                    "std::map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::is_same' in C++11?",
+                options: [
+                    "To check if two types are the same",
+                    "To implement type traits",
+                    "To enable template metaprogramming",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template specialization syntax and rules?",
+                options: [
+                    "It uses template<> syntax for full specialization",
+                    "It uses template<...> syntax for partial specialization",
+                    "It follows specific matching rules",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 9; cout << (x %= y);",
+                options: [
+                    "10",
+                    "9",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion and deletion at any position with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::deque",
+                    "std::set"
+                ],
+                correct: 1,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'static_cast' and 'reinterpret_cast'?",
+                options: [
+                    "static_cast is safer than reinterpret_cast",
+                    "reinterpret_cast can convert between unrelated types",
+                    "static_cast performs compile-time checks",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Type Casting"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and compile-time computations?",
+                options: [
+                    "It enables computations during compilation",
+                    "It can be used for optimization",
+                    "It provides type-level programming",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 5; cout << (x %= y);",
+                options: [
+                    "10",
+                    "5",
+                    "0",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average insertion and deletion time?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::enable_shared_from_this' in C++11?",
+                options: [
+                    "To enable shared_ptr creation from this pointer",
+                    "To prevent memory management issues",
+                    "To enable safe this pointer usage",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template argument deduction for class template constructors?",
+                options: [
+                    "It was introduced in C++17",
+                    "It allows deducing template arguments from constructors",
+                    "It simplifies template usage",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++17"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 3; cout << (x %= y);",
+                options: [
+                    "10",
+                    "3",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average access to any element with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_map",
+                    "std::map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'constexpr' and 'consteval' in C++20?",
+                options: [
+                    "consteval requires compile-time evaluation",
+                    "constexpr can be runtime or compile-time",
+                    "consteval was introduced in C++20",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++20"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and type traits?",
+                options: [
+                    "Type traits provide compile-time type information",
+                    "They enable template metaprogramming",
+                    "They include utilities for type manipulation",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 4; cout << (x %= y);",
+                options: [
+                    "10",
+                    "4",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average insertion time with logarithmic complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::make_pair' in C++?",
+                options: [
+                    "To create pair objects",
+                    "To enable efficient pair creation",
+                    "To work with STL algorithms",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "STL"
+            },
+            {
+                question: "Which of the following is true about template specialization and overloading resolution?",
+                options: [
+                    "Specialization is more specific than overloading",
+                    "Overloading follows function overload resolution rules",
+                    "Specialization provides custom implementation for specific types",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 6; cout << (x %= y);",
+                options: [
+                    "10",
+                    "6",
+                    "4",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average deletion time with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'static' and 'dynamic' casting in terms of safety?",
+                options: [
+                    "static_cast is safer than dynamic_cast",
+                    "dynamic_cast performs runtime checks",
+                    "static_cast doesn't require RTTI",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Type Casting"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and compile-time optimization?",
+                options: [
+                    "It enables computations during compilation",
+                    "It can improve runtime performance",
+                    "It provides type-level programming capabilities",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 7; cout << (x %= y);",
+                options: [
+                    "10",
+                    "7",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average access time with logarithmic complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::map",
+                    "std::unordered_map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::tuple' in C++11?",
+                options: [
+                    "To create heterogeneous collections",
+                    "To enable multiple return values",
+                    "To work with variadic templates",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template argument deduction and SFINAE?",
+                options: [
+                    "SFINAE enables function overload resolution based on template arguments",
+                    "It works with template argument deduction",
+                    "It provides compile-time constraints",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 8; cout << (x %= y);",
+                options: [
+                    "10",
+                    "8",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion time with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'const_cast' and 'static_cast' in terms of usage?",
+                options: [
+                    "const_cast can remove constness, static_cast cannot",
+                    "static_cast is safer than const_cast",
+                    "const_cast has limited use cases",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Type Casting"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and type manipulation?",
+                options: [
+                    "It enables compile-time type computations",
+                    "It provides utilities for type manipulation",
+                    "It can be used for optimization",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 9; cout << (x %= y);",
+                options: [
+                    "10",
+                    "9",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average deletion time with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::array' in C++11?",
+                options: [
+                    "To provide fixed-size arrays with STL interface",
+                    "To enable bounds checking",
+                    "To work with STL algorithms",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template specialization and template instantiation?",
+                options: [
+                    "Specialization provides custom implementation for specific types",
+                    "Instantiation creates concrete types from template definitions",
+                    "Specialization can be partial or full",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 5; cout << (x %= y);",
+                options: [
+                    "10",
+                    "5",
+                    "0",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average insertion time with logarithmic complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'lvalue' and 'rvalue' references in terms of usage?",
+                options: [
+                    "Lvalue references bind to lvalues, rvalue references bind to rvalues",
+                    "Lvalue references use &, rvalue references use &&",
+                    "Rvalue references enable move semantics and perfect forwarding",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template argument deduction and template specialization?",
+                options: [
+                    "Template argument deduction deduces arguments from function calls",
+                    "Template specialization provides custom implementation for specific types",
+                    "They work together to enable flexible template usage",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 3; cout << (x %= y);",
+                options: [
+                    "10",
+                    "3",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average access to any element with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_map",
+                    "std::map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::unique_ptr' in C++11?",
+                options: [
+                    "To provide exclusive ownership semantics",
+                    "To automatically manage memory",
+                    "To prevent memory leaks",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and compile-time computations?",
+                options: [
+                    "It enables computations during compilation",
+                    "It can be used for optimization",
+                    "It provides type-level programming capabilities",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 4; cout << (x %= y);",
+                options: [
+                    "10",
+                    "4",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average deletion time with logarithmic complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::set",
+                    "std::unordered_set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'constexpr' and 'consteval' functions in C++20?",
+                options: [
+                    "consteval requires compile-time evaluation",
+                    "constexpr can be runtime or compile-time",
+                    "consteval was introduced in C++20",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++20"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and type traits in C++11?",
+                options: [
+                    "Type traits provide compile-time type information",
+                    "They enable template metaprogramming",
+                    "They include utilities for type manipulation",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 6; cout << (x %= y);",
+                options: [
+                    "10",
+                    "6",
+                    "4",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average insertion time with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::shared_ptr' in C++11?",
+                options: [
+                    "To provide shared ownership semantics",
+                    "To use reference counting for memory management",
+                    "To enable automatic memory cleanup",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template specialization and template overloading in C++?",
+                options: [
+                    "Specialization provides custom implementation for specific types",
+                    "Overloading creates different function templates",
+                    "Specialization is more specific than overloading",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 7; cout << (x %= y);",
+                options: [
+                    "10",
+                    "7",
+                    "3",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(log n) average access time with logarithmic complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::map",
+                    "std::unordered_map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'static_cast' and 'dynamic_cast' in terms of performance?",
+                options: [
+                    "static_cast is faster than dynamic_cast",
+                    "dynamic_cast requires runtime type information",
+                    "static_cast is resolved at compile time",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Type Casting"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and compile-time optimization in C++?",
+                options: [
+                    "It enables computations during compilation",
+                    "It can improve runtime performance",
+                    "It provides type-level programming capabilities",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 8; cout << (x %= y);",
+                options: [
+                    "10",
+                    "8",
+                    "2",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average deletion time with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_set",
+                    "std::set"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the purpose of 'std::weak_ptr' in C++11?",
+                options: [
+                    "To break circular references in shared_ptr",
+                    "To provide non-owning references",
+                    "To enable safe memory management",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++11"
+            },
+            {
+                question: "Which of the following is true about template argument deduction and SFINAE in C++ templates?",
+                options: [
+                    "SFINAE enables function overload resolution based on template arguments",
+                    "It works with template argument deduction",
+                    "It provides compile-time constraints for template instantiation",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
+            },
+            {
+                question: "What is the output of: int x = 10; int y = 9; cout << (x %= y);",
+                options: [
+                    "10",
+                    "9",
+                    "1",
+                    "Compiler error"
+                ],
+                correct: 2,
+                category: "Operators"
+            },
+            {
+                question: "Which STL container provides O(1) average access to any element with constant time complexity?",
+                options: [
+                    "std::vector",
+                    "std::list",
+                    "std::unordered_map",
+                    "std::map"
+                ],
+                correct: 2,
+                category: "STL"
+            },
+            {
+                question: "What is the difference between 'constexpr' and 'consteval' in C++20 in terms of evaluation requirements?",
+                options: [
+                    "consteval requires compile-time evaluation",
+                    "constexpr can be runtime or compile-time",
+                    "consteval was introduced in C++20 for compile-time functions",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "C++20"
+            },
+            {
+                question: "Which of the following is true about template metaprogramming and type traits in modern C++?",
+                options: [
+                    "Type traits provide compile-time type information and utilities",
+                    "They enable advanced template metaprogramming techniques",
+                    "They include utilities for type manipulation and inspection",
+                    "All of the above"
+                ],
+                correct: 3,
+                category: "Templates"
             }
         ];
 

@@ -599,7 +599,8 @@
     ],
     "correct": 3,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "The sizeof operator in C++ returns the size of a type or variable in bytes. The size of 'int' is implementation-defined and depends on the system architecture and compiler. On 32-bit systems, int is typically 4 bytes, while on some older 16-bit systems it was 2 bytes. The C++ standard only guarantees that sizeof(int) >= sizeof(short) and sizeof(int) <= sizeof(long)."
   },
   {
     "question": "What is the size of 'int' data type in C++?",
@@ -611,7 +612,8 @@
     ],
     "correct": 0,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "Note: This question appears to have an issue with the correct answer. The size of 'int' in C++ is actually system and compiler dependent, not fixed at 2 bytes. Modern systems typically use 4 bytes for int. The C++ standard specifies minimum ranges but not exact sizes, allowing flexibility across different platforms. Always use sizeof(int) to determine the actual size on your system."
   },
   {
     "question": "Which of the following is the correct way to declare a constant in C++?",
@@ -623,7 +625,8 @@
     ],
     "correct": 3,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "All three options are valid ways to declare constants in C++. 'const int x = 10;' and 'int const x = 10;' are equivalent and declare a constant variable (compile-time type checking). '#define x 10' is a preprocessor macro (text replacement before compilation). While all work, 'const' is preferred in modern C++ because it provides type safety, respects scope rules, and can be debugged more easily than preprocessor macros."
   },
   {
     "question": "What is the size of a 'char' in C++?",
@@ -635,7 +638,8 @@
     ],
     "correct": 0,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "By definition in the C++ standard, sizeof(char) is always 1 byte. This is guaranteed across all platforms and systems. A 'byte' in C++ is defined as the space occupied by a char, which is typically 8 bits on most modern systems (though the standard allows for different bit sizes). This makes char the fundamental unit for measuring memory in C++."
   },
   {
     "question": "Which operator is used for access to members of a structure through a pointer?",
@@ -647,7 +651,8 @@
     ],
     "correct": 1,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "The arrow operator (->) is used to access members through a pointer to a structure or class. For example, if 'ptr' is a pointer to a struct, you use 'ptr->member'. This is equivalent to '(*ptr).member'. The dot operator (.) is used for direct access when you have the object itself, not a pointer. Understanding pointer dereferencing and member access is fundamental to C++ programming."
   },
   {
     "question": "What is the result of 5 / 2 in C++ when both are integers?",
@@ -659,7 +664,8 @@
     ],
     "correct": 1,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "When dividing two integers in C++, the result is an integer division which truncates towards zero, discarding any fractional part. So 5 / 2 = 2, not 2.5. The remainder is lost. To get a floating-point result, at least one operand must be a floating-point type: 5.0 / 2 or 5 / 2.0 would give 2.5. This is called integer division and is an important concept to avoid unexpected results in calculations."
   },
   {
     "question": "Which of the following is a valid identifier in C++?",
@@ -671,7 +677,8 @@
     ],
     "correct": 1,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "In C++, identifiers (variable names) must follow specific rules: they can contain letters (a-z, A-Z), digits (0-9), and underscores (_), but cannot start with a digit, cannot contain spaces, and cannot use hyphens or special characters. 'variable_2' is valid because it starts with a letter and uses valid characters. The other options violate these rules: '2variable' starts with a digit, 'variable 2' contains a space, and 'variable-2' uses a hyphen."
   },
   {
     "question": "What does 'constexpr' indicate?",

@@ -545,10 +545,10 @@
       "Garbage value",
       "Compiler error"
     ],
-    "correct": 2,
+    "correct": 0,
     "category": "Arrays",
     "type": "single",
-    "explanation": "This question has a common misconception. While the answer shows 'Garbage value', it should actually be 0 due to partial array initialization rules. When an array is partially initialized with fewer values than its size, the remaining elements are zero-initialized in C++. Therefore, arr[4] would be 0, not a garbage value. This is an important concept in understanding array initialization semantics."
+    "explanation": "When an array is partially initialized with fewer values than its size, the remaining elements are zero-initialized in C++. In this case, arr[5] = {1, 2, 3} initializes arr[0]=1, arr[1]=2, arr[2]=3, and arr[3], arr[4] are automatically set to 0. This is part of the C++ standard for aggregate initialization. Note: This question's original answer was 'Garbage value', which would be incorrect according to C++ standards."
   },
   {
     "question": "What is the output of:\nint arr[3] = {10, 20, 30};\ncout << arr[1];",

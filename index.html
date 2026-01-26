@@ -41,14 +41,43 @@
             line-height: 1.6;
             color: var(--text-color);
             background-color: #f5f5f5;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
             transition: background-color 0.3s, color 0.3s;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Fixed sidebar on the left */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: var(--dark-color);
+            overflow-y: auto;
+            padding: 20px 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .sidebar h3 {
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        /* Main content area with margin for sidebar */
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
             padding: 20px;
+            max-width: 1200px;
         }
 
         header {
@@ -56,7 +85,7 @@
             margin-bottom: 30px;
             background-color: var(--primary-color);
             color: var(--text-light);
-            padding: 20px;
+            padding: 30px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -175,29 +204,34 @@
         }
 
         .question-nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin: 20px 0;
-            max-height: 200px;
-            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
             padding: 10px;
-            background: #eee;
-            border-radius: 5px;
         }
 
         .question-nav button {
-            min-width: 40px;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            background-color: #ddd;
-            color: #333;
+            width: 100%;
+            min-width: 45px;
+            padding: 10px 5px;
+            font-size: 0.85rem;
+            background-color: #34495e;
+            color: var(--text-light);
+            border: 1px solid #2c3e50;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .question-nav button:hover {
+            background-color: #4a5f7f;
+            transform: scale(1.05);
         }
 
         .question-nav button.active {
             background-color: var(--success-color);
             color: white;
+            font-weight: bold;
         }
 
         .question-nav button.answered {
@@ -276,12 +310,30 @@
             color: #f0f0f0;
         }
 
+        .dark-mode .sidebar {
+            background-color: #1a1a1a;
+            border-right: 1px solid #333;
+        }
+        
+        .dark-mode .sidebar h3 {
+            color: #f0f0f0;
+        }
+
         .dark-mode .quiz-container,
         .dark-mode .results-container,
-        .dark-mode .result-item,
-        .dark-mode .question-nav {
+        .dark-mode .result-item {
             background-color: #2d2d2d;
             color: #f0f0f0;
+        }
+        
+        .dark-mode .question-nav button {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            border-color: #444;
+        }
+        
+        .dark-mode .question-nav button:hover {
+            background-color: #3d3d3d;
         }
         
         .dark-mode .question {
@@ -375,6 +427,7 @@
             border-radius: 5px;
             display: none;
             animation: fadeIn 0.3s;
+            line-height: 1.8;
         }
         .answer-feedback.show {
             display: block;
@@ -394,6 +447,25 @@
             margin-bottom: 5px;
             font-size: 1.1em;
         }
+        .answer-feedback .explanation {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #555;
+            font-size: 0.95em;
+        }
+        .dark-mode .answer-feedback.correct {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #a8e6cf;
+        }
+        .dark-mode .answer-feedback.incorrect {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #ffccbc;
+        }
+        .dark-mode .answer-feedback .explanation {
+            color: #bbb;
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -403,42 +475,49 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>C++ Interview Questions Quiz</h1>
-            <p>Master C++ with 1000+ Interview Questions</p>
-        </header>
-
-        <div class="quiz-container">
-            <div class="timer">
-                Time: <span class="timer-display" id="timer">00:00</span>
-                <button id="toggleTimer" style="padding: 5px 10px; margin-left: 10px;">Pause</button>
-                <button id="darkModeToggle" style="padding: 5px 10px; margin-left: 10px;">Dark Mode</button>
-            </div>
-
-            <div class="progress">
-                Question <span id="current-question-idx">1</span> of <span id="total-questions-count">0</span>
-            </div>
-
+        <!-- Fixed Sidebar Navigation -->
+        <div class="sidebar">
+            <h3>Question Navigation</h3>
             <div class="question-nav" id="question-nav"></div>
-
-            <div id="questions-container"></div>
-
-            <div class="navigation">
-                <div class="nav-buttons">
-                    <button id="prev-btn" disabled>Previous</button>
-                    <button id="next-btn">Next</button>
-                </div>
-                <button id="submit-btn">Submit Quiz</button>
-            </div>
         </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header>
+                <h1>C++ Interview Questions Quiz</h1>
+                <p>Master C++ with 1000+ Interview Questions</p>
+            </header>
 
-        <div id="results-container" class="results-container">
-            <div class="score" id="score"></div>
-            <div id="score-details" style="text-align: center; margin-bottom: 20px;"></div>
-            <div class="result-summary" id="result-summary"></div>
-            <div id="results-list"></div>
-            <div style="text-align: center; margin-top: 30px;">
-                <button id="retake-btn">Retake Quiz</button>
+            <div class="quiz-container">
+                <div class="timer">
+                    Time: <span class="timer-display" id="timer">00:00</span>
+                    <button id="toggleTimer" style="padding: 5px 10px; margin-left: 10px;">Pause</button>
+                    <button id="darkModeToggle" style="padding: 5px 10px; margin-left: 10px;">Dark Mode</button>
+                </div>
+
+                <div class="progress">
+                    Question <span id="current-question-idx">1</span> of <span id="total-questions-count">0</span>
+                </div>
+
+                <div id="questions-container"></div>
+
+                <div class="navigation">
+                    <div class="nav-buttons">
+                        <button id="prev-btn" disabled>Previous</button>
+                        <button id="next-btn">Next</button>
+                    </div>
+                    <button id="submit-btn">Submit Quiz</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container">
+                <div class="score" id="score"></div>
+                <div id="score-details" style="text-align: center; margin-bottom: 20px;"></div>
+                <div class="result-summary" id="result-summary"></div>
+                <div id="results-list"></div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button id="retake-btn">Retake Quiz</button>
+                </div>
             </div>
         </div>
     </div>
@@ -455,7 +534,8 @@
     ],
     "correct": 0,
     "category": "Arrays",
-    "type": "single"
+    "type": "single",
+    "explanation": "When an array is partially initialized, remaining elements are automatically initialized to zero. In this case, arr[5] = {1, 2} initializes arr[0]=1, arr[1]=2, and arr[2], arr[3], arr[4] are all set to 0. This is part of the C++ standard for aggregate initialization."
   },
   {
     "question": "What is the output of: int arr[5] = {1,2,3}; cout << arr[4];",
@@ -465,9 +545,10 @@
       "Garbage value",
       "Compiler error"
     ],
-    "correct": 2,
+    "correct": 0,
     "category": "Arrays",
-    "type": "single"
+    "type": "single",
+    "explanation": "When an array is partially initialized with fewer values than its size, the remaining elements are zero-initialized in C++. In this case, arr[5] = {1, 2, 3} initializes arr[0]=1, arr[1]=2, arr[2]=3, and arr[3], arr[4] are automatically set to 0. This is part of the C++ standard for aggregate initialization. Note: This question's original answer was 'Garbage value', which would be incorrect according to C++ standards."
   },
   {
     "question": "What is the output of:\nint arr[3] = {10, 20, 30};\ncout << arr[1];",
@@ -479,7 +560,8 @@
     ],
     "correct": 1,
     "category": "Arrays",
-    "type": "single"
+    "type": "single",
+    "explanation": "Array indexing in C++ starts at 0. Therefore, arr[0] = 10, arr[1] = 20, and arr[2] = 30. When accessing arr[1], we get the second element which is 20. This zero-based indexing is fundamental to C++ and many other programming languages, inherited from C."
   },
   {
     "question": "What is the output of:\nint arr[] = {10,20,30,40};\ncout << sizeof(arr)/sizeof(arr[0]);",
@@ -491,7 +573,8 @@
     ],
     "correct": 1,
     "category": "Arrays",
-    "type": "single"
+    "type": "single",
+    "explanation": "This demonstrates array size calculation. sizeof(arr) gives the total bytes occupied by the array (4 integers * size of int), while sizeof(arr[0]) gives the size of one element. Dividing these gives the number of elements in the array. In this case: 4 elements. This is a common idiom for determining array length, though it only works for arrays, not pointers."
   },
   {
     "question": "What is the output of: int arr[3][3] = {{1,2,3},{4,5,6},{7,8,9}}; cout << arr[1][2];",
@@ -503,7 +586,8 @@
     ],
     "correct": 2,
     "category": "Arrays",
-    "type": "single"
+    "type": "single",
+    "explanation": "This demonstrates 2D array access. arr[1][2] accesses row 1 (second row: {4,5,6}) and column 2 (third element: 6). The indexing is zero-based for both dimensions. Understanding multi-dimensional array layout in memory is important: they are stored in row-major order in C++, meaning all elements of row 0 come first, then row 1, etc."
   },
   {
     "question": "What is the output of:\nint x = 10;\ncout << sizeof(x);",
@@ -515,19 +599,21 @@
     ],
     "correct": 3,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "The sizeof operator in C++ returns the size of a type or variable in bytes. The size of 'int' is implementation-defined and depends on the system architecture and compiler. On 32-bit systems, int is typically 4 bytes, while on some older 16-bit systems it was 2 bytes. The C++ standard only guarantees that sizeof(int) >= sizeof(short) and sizeof(int) <= sizeof(long)."
   },
   {
     "question": "What is the size of 'int' data type in C++?",
     "options": [
       "2 bytes",
-      "4 bytes\", \n                    \"8 bytes",
-      "Depends on the compiler and system",
-      "Invalid option"
+      "4 bytes",
+      "8 bytes",
+      "Depends on the compiler and system"
     ],
-    "correct": 0,
+    "correct": 3,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "The size of 'int' in C++ is system and compiler dependent, not fixed. Modern 32-bit systems typically use 4 bytes for int, while some 64-bit systems may use 8 bytes, and older 16-bit systems used 2 bytes. The C++ standard only specifies minimum ranges (at least 16 bits) but not exact sizes, allowing flexibility across different platforms. Always use sizeof(int) to determine the actual size on your system."
   },
   {
     "question": "Which of the following is the correct way to declare a constant in C++?",
@@ -539,7 +625,8 @@
     ],
     "correct": 3,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "All three options are valid ways to declare constants in C++. 'const int x = 10;' and 'int const x = 10;' are equivalent and declare a constant variable (compile-time type checking). '#define x 10' is a preprocessor macro (text replacement before compilation). While all work, 'const' is preferred in modern C++ because it provides type safety, respects scope rules, and can be debugged more easily than preprocessor macros."
   },
   {
     "question": "What is the size of a 'char' in C++?",
@@ -551,7 +638,8 @@
     ],
     "correct": 0,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "By definition in the C++ standard, sizeof(char) is always 1 byte. This is guaranteed across all platforms and systems. A 'byte' in C++ is defined as the space occupied by a char, which is typically 8 bits on most modern systems (though the standard allows for different bit sizes). This makes char the fundamental unit for measuring memory in C++."
   },
   {
     "question": "Which operator is used for access to members of a structure through a pointer?",
@@ -563,7 +651,8 @@
     ],
     "correct": 1,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "The arrow operator (->) is used to access members through a pointer to a structure or class. For example, if 'ptr' is a pointer to a struct, you use 'ptr->member'. This is equivalent to '(*ptr).member'. The dot operator (.) is used for direct access when you have the object itself, not a pointer. Understanding pointer dereferencing and member access is fundamental to C++ programming."
   },
   {
     "question": "What is the result of 5 / 2 in C++ when both are integers?",
@@ -575,7 +664,8 @@
     ],
     "correct": 1,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "When dividing two integers in C++, the result is an integer division which truncates towards zero, discarding any fractional part. So 5 / 2 = 2, not 2.5. The remainder is lost. To get a floating-point result, at least one operand must be a floating-point type: 5.0 / 2 or 5 / 2.0 would give 2.5. This is called integer division and is an important concept to avoid unexpected results in calculations."
   },
   {
     "question": "Which of the following is a valid identifier in C++?",
@@ -587,7 +677,8 @@
     ],
     "correct": 1,
     "category": "Basics",
-    "type": "single"
+    "type": "single",
+    "explanation": "In C++, identifiers (variable names) must follow specific rules: they can contain letters (a-z, A-Z), digits (0-9), and underscores (_), but cannot start with a digit, cannot contain spaces, and cannot use hyphens or special characters. 'variable_2' is valid because it starts with a letter and uses valid characters. The other options violate these rules: '2variable' starts with a digit, 'variable 2' contains a space, and 'variable-2' uses a hyphen."
   },
   {
     "question": "What does 'constexpr' indicate?",
@@ -12649,6 +12740,11 @@
                     feedbackHTML = '<strong>✗ Incorrect</strong>';
                     feedbackHTML += '<div style="margin-top: 8px;">Correct answer: <strong>' + correctOpt + '</strong></div>';
                     feedbackDiv.className = 'answer-feedback show incorrect';
+                }
+                
+                // Add explanation if available
+                if (q.explanation) {
+                    feedbackHTML += '<div class="explanation"><strong>Explanation:</strong><br>' + q.explanation + '</div>';
                 }
                 
                 feedbackDiv.innerHTML = feedbackHTML;

@@ -5,7 +5,7 @@
 <!--  By: st93642@students.tsi.lv                          TT    SSSSSSS II -->
 <!--                                                       TT         SS II -->
 <!--  Created: Jan 26 2026 21:06 st93642                   TT    SSSSSSS II -->
-<!--  Updated: Jan 26 2026 21:06 st93642                                    -->
+<!--  Updated: Jan 27 2026 21:06 st93642                                    -->
 <!--                                                                        -->
 <!--   Transport and Telecommunication Institute - Riga, Latvia             -->
 <!--                       https://tsi.lv                                   -->
@@ -567,7 +567,7 @@
     "bool": {
       "should": [
         { "regexp": { "url.full": ".*union.*select.*" }},
-        { "regexp": { "url.full": ".*<script>.*" }},
+        { "regexp": { "url.full": ".*&lt;script&gt;.*" }},
         { "regexp": { "url.full": ".*exec.*" }}
       ],
       "minimum_should_match": 1
@@ -1077,7 +1077,7 @@ journalctl -p warning..err</code>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>MITRE ATT&CK Framework</td>
+                                <td>MITRE ATT&amp;CK Framework</td>
                                 <td>Threat intelligence and attack patterns</td>
                             </tr>
                             <tr>

@@ -1,0 +1,1133 @@
+<!-- ********************************************************************** -->
+<!--                                                                        -->
+<!--  soc_analyst_guide.html                            TTTTTTTT SSSSSSS II -->
+<!--                                                       TT    SS      II -->
+<!--  By: st93642@students.tsi.lv                          TT    SSSSSSS II -->
+<!--                                                       TT         SS II -->
+<!--  Created: Jan 26 2026 21:06 st93642                   TT    SSSSSSS II -->
+<!--  Updated: Jan 26 2026 21:06 st93642                                    -->
+<!--                                                                        -->
+<!--   Transport and Telecommunication Institute - Riga, Latvia             -->
+<!--                       https://tsi.lv                                   -->
+<!-- ********************************************************************** -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Analyst Guide - SIEM and Log Analysis Cheatsheet</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #fff;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--dark-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-light);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .navigation {
+            background-color: var(--light-color);
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .section h2 {
+            color: var(--dark-color);
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .section h4 {
+            color: var(--text-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .query-box {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .query-box code {
+            color: var(--code-text);
+            display: block;
+            white-space: pre-wrap;
+        }
+
+        .description {
+            background-color: #e8f4f8;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .tip {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .tip strong {
+            color: var(--warning-color);
+        }
+
+        .important {
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .important strong {
+            color: var(--danger-color);
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .footer {
+            background-color: var(--dark-color);
+            color: var(--text-light);
+            padding: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ SOC Analyst Guide</h1>
+            <p>SIEM Query Cheatsheets & Log Analysis Guide</p>
+        </div>
+
+        <div class="navigation">
+            <a href="#intro" class="nav-btn">Introduction</a>
+            <a href="#splunk" class="nav-btn">Splunk Queries</a>
+            <a href="#elastic" class="nav-btn">Elastic Queries</a>
+            <a href="#linux" class="nav-btn">Linux Log Analysis</a>
+            <a href="#best-practices" class="nav-btn">Best Practices</a>
+        </div>
+
+        <div class="content">
+            <!-- Introduction Section -->
+            <div id="intro" class="section">
+                <h2>📖 Introduction</h2>
+                <p>
+                    This guide provides comprehensive cheatsheets and commands for Security Operations Center (SOC) analysts 
+                    to perform effective log analysis and security investigations using Splunk, Elastic Stack, and Linux 
+                    command-line tools.
+                </p>
+                <div class="tip">
+                    <strong>💡 Tip:</strong> Bookmark this page for quick reference during incident response and threat hunting activities.
+                </div>
+            </div>
+
+            <!-- Splunk Section -->
+            <div id="splunk" class="section">
+                <h2>🔍 Splunk Query Cheatsheet</h2>
+                
+                <h3>Basic Search Syntax</h3>
+                <div class="description">
+                    Search for events containing specific keywords:
+                </div>
+                <div class="query-box">
+                    <code>index=main sourcetype=access_combined error</code>
+                </div>
+
+                <h3>Common Investigation Queries</h3>
+
+                <h4>1. Failed Login Attempts</h4>
+                <div class="description">
+                    Detect potential brute force attacks by identifying failed authentication attempts:
+                </div>
+                <div class="query-box">
+                    <code>index=security sourcetype=WinEventLog:Security EventCode=4625
+| stats count by src_ip, user
+| where count > 5
+| sort -count</code>
+                </div>
+
+                <h4>2. Successful Logins After Failed Attempts</h4>
+                <div class="description">
+                    Identify compromised accounts by correlating failed and successful logins:
+                </div>
+                <div class="query-box">
+                    <code>index=security (EventCode=4625 OR EventCode=4624)
+| transaction user maxspan=30m
+| search EventCode=4625 EventCode=4624
+| stats count by user, src_ip</code>
+                </div>
+
+                <h4>3. Privilege Escalation Detection</h4>
+                <div class="description">
+                    Monitor for privilege escalation activities:
+                </div>
+                <div class="query-box">
+                    <code>index=security EventCode=4672
+| stats count by user, Logon_Type
+| where count > 10</code>
+                </div>
+
+                <h4>4. Data Exfiltration Detection</h4>
+                <div class="description">
+                    Identify large data transfers to external IPs:
+                </div>
+                <div class="query-box">
+                    <code>index=network sourcetype=firewall action=allowed
+| eval bytes_mb=bytes/1024/1024
+| where bytes_mb > 100 AND NOT (dest_ip="10.*" OR dest_ip="192.168.*")
+| stats sum(bytes_mb) as total_mb by src_ip, dest_ip, user
+| sort -total_mb</code>
+                </div>
+
+                <h4>5. Malware Detection via Process Creation</h4>
+                <div class="description">
+                    Detect suspicious process executions:
+                </div>
+                <div class="query-box">
+                    <code>index=windows EventCode=4688
+| search (process_name="*powershell.exe*" OR process_name="*cmd.exe*")
+| search command_line="*-enc*" OR command_line="*downloadstring*" OR command_line="*invoke-expression*"
+| stats count by host, user, process_name, command_line</code>
+                </div>
+
+                <h4>6. Network Anomaly Detection</h4>
+                <div class="description">
+                    Find unusual network connections:
+                </div>
+                <div class="query-box">
+                    <code>index=network
+| stats dc(dest_port) as unique_ports, values(dest_port) as ports by src_ip
+| where unique_ports > 100
+| sort -unique_ports</code>
+                </div>
+
+                <h4>7. Web Application Attacks</h4>
+                <div class="description">
+                    Detect SQL injection and XSS attempts:
+                </div>
+                <div class="query-box">
+                    <code>index=web sourcetype=access_combined
+| search (uri="*union*select*" OR uri="*script*" OR uri="*exec*" OR uri="*drop*table*")
+| stats count by src_ip, uri, status
+| sort -count</code>
+                </div>
+
+                <h4>8. Time-Based Analysis</h4>
+                <div class="description">
+                    Create timechart for pattern analysis:
+                </div>
+                <div class="query-box">
+                    <code>index=security EventCode=4625
+| timechart span=1h count by user</code>
+                </div>
+
+                <h4>9. User Behavior Analytics</h4>
+                <div class="description">
+                    Identify unusual user activity patterns:
+                </div>
+                <div class="query-box">
+                    <code>index=security EventCode=4624
+| stats count, dc(src_ip) as unique_ips, values(src_ip) as ips by user
+| where unique_ips > 5
+| sort -unique_ips</code>
+                </div>
+
+                <h4>10. Threat Intelligence Integration</h4>
+                <div class="description">
+                    Check IPs against threat intel feeds:
+                </div>
+                <div class="query-box">
+                    <code>index=network
+| lookup threat_intel_ips ip as dest_ip OUTPUT threat_level, category
+| where isnotnull(threat_level)
+| stats count by src_ip, dest_ip, threat_level, category</code>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Splunk Tips:</strong>
+                    <ul>
+                        <li>Use <code>| head 100</code> to limit results for faster testing</li>
+                        <li>Save frequently used searches as reports or alerts</li>
+                        <li>Use <code>| fields</code> to select only necessary fields for better performance</li>
+                        <li>Leverage subsearches for complex correlations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Elastic Section -->
+            <div id="elastic" class="section">
+                <h2>🔎 Elastic (ELK Stack) Query Cheatsheet</h2>
+
+                <h3>Kibana Query Language (KQL) Basics</h3>
+                <div class="description">
+                    Simple field search in Kibana:
+                </div>
+                <div class="query-box">
+                    <code>event.action: "login" AND user.name: "admin"</code>
+                </div>
+
+                <h3>Elasticsearch DSL Queries</h3>
+
+                <h4>1. Failed Authentication Detection</h4>
+                <div class="description">
+                    Query for failed login attempts:
+                </div>
+                <div class="query-box">
+                    <code>GET /logs-*/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "event.action": "authentication_failure" }}
+      ],
+      "filter": [
+        { "range": { "@timestamp": { "gte": "now-1h" }}}
+      ]
+    }
+  },
+  "aggs": {
+    "by_user": {
+      "terms": { "field": "user.name.keyword", "size": 10 }
+    }
+  }
+}</code>
+                </div>
+
+                <h4>2. Brute Force Attack Detection</h4>
+                <div class="description">
+                    Aggregate failed logins by source IP:
+                </div>
+                <div class="query-box">
+                    <code>GET /logs-*/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "event.outcome": "failure" }},
+        { "match": { "event.category": "authentication" }}
+      ]
+    }
+  },
+  "aggs": {
+    "by_source_ip": {
+      "terms": { "field": "source.ip", "size": 20 },
+      "aggs": {
+        "failed_count": { "value_count": { "field": "event.outcome" }}
+      }
+    }
+  },
+  "size": 0
+}</code>
+                </div>
+
+                <h4>3. Network Connection Monitoring</h4>
+                <div class="description">
+                    Monitor outbound connections to external IPs:
+                </div>
+                <div class="query-box">
+                    <code>GET /network-*/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "event.action": "network_flow" }}
+      ],
+      "must_not": [
+        { "prefix": { "destination.ip": "10." }},
+        { "prefix": { "destination.ip": "192.168." }},
+        { "prefix": { "destination.ip": "172." }}
+      ]
+    }
+  },
+  "aggs": {
+    "top_destinations": {
+      "terms": { "field": "destination.ip", "size": 50 }
+    }
+  }
+}</code>
+                </div>
+
+                <h4>4. Process Execution Monitoring</h4>
+                <div class="description">
+                    Track suspicious process executions:
+                </div>
+                <div class="query-box">
+                    <code>GET /endpoint-*/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "event.category": "process" }}
+      ],
+      "should": [
+        { "wildcard": { "process.command_line": "*powershell*-enc*" }},
+        { "wildcard": { "process.command_line": "*invoke-expression*" }},
+        { "wildcard": { "process.command_line": "*downloadstring*" }}
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}</code>
+                </div>
+
+                <h4>5. File Modification Detection</h4>
+                <div class="description">
+                    Monitor critical file changes:
+                </div>
+                <div class="query-box">
+                    <code>GET /endpoint-*/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "event.category": "file" }},
+        { "match": { "event.action": "modification" }}
+      ],
+      "should": [
+        { "wildcard": { "file.path": "*/etc/passwd" }},
+        { "wildcard": { "file.path": "*/etc/shadow" }},
+        { "wildcard": { "file.path": "*\\Windows\\System32\\*" }}
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}</code>
+                </div>
+
+                <h4>6. Web Application Attack Detection</h4>
+                <div class="description">
+                    Detect SQL injection and XSS attempts:
+                </div>
+                <div class="query-box">
+                    <code>GET /web-*/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        { "regexp": { "url.full": ".*union.*select.*" }},
+        { "regexp": { "url.full": ".*<script>.*" }},
+        { "regexp": { "url.full": ".*exec.*" }}
+      ],
+      "minimum_should_match": 1
+    }
+  },
+  "aggs": {
+    "by_source_ip": {
+      "terms": { "field": "source.ip", "size": 20 }
+    }
+  }
+}</code>
+                </div>
+
+                <h4>7. DNS Tunneling Detection</h4>
+                <div class="description">
+                    Identify potential DNS tunneling activities:
+                </div>
+                <div class="query-box">
+                    <code>GET /dns-*/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "dns.type": "query" }}
+      ]
+    }
+  },
+  "aggs": {
+    "by_domain": {
+      "terms": { 
+        "field": "dns.question.name.keyword", 
+        "size": 100,
+        "order": { "query_count": "desc" }
+      },
+      "aggs": {
+        "query_count": { "value_count": { "field": "dns.question.name.keyword" }},
+        "unique_subdomains": { "cardinality": { "field": "dns.question.name.keyword" }}
+      }
+    }
+  }
+}</code>
+                </div>
+
+                <h4>8. Time-Series Anomaly Detection</h4>
+                <div class="description">
+                    Use date histogram for pattern analysis:
+                </div>
+                <div class="query-box">
+                    <code>GET /logs-*/_search
+{
+  "query": {
+    "match": { "event.category": "authentication" }
+  },
+  "aggs": {
+    "events_over_time": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "fixed_interval": "1h"
+      },
+      "aggs": {
+        "by_outcome": {
+          "terms": { "field": "event.outcome" }
+        }
+      }
+    }
+  },
+  "size": 0
+}</code>
+                </div>
+
+                <h3>KQL Examples for Kibana Discover</h3>
+
+                <h4>Basic KQL Queries</h4>
+                <div class="query-box">
+                    <code>// Failed SSH logins
+event.action: "ssh_login" AND event.outcome: "failure"
+
+// Successful privileged operations
+event.action: "sudo" AND event.outcome: "success"
+
+// Large file uploads
+http.request.method: "POST" AND http.request.bytes > 10000000
+
+// Suspicious PowerShell execution
+process.name: "powershell.exe" AND process.command_line: *encoded*
+
+// Multiple failed logins from same IP
+source.ip: * AND event.outcome: "failure" AND event.category: "authentication"</code>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Elastic Tips:</strong>
+                    <ul>
+                        <li>Use field aggregations for statistical analysis</li>
+                        <li>Leverage Elastic Machine Learning for anomaly detection</li>
+                        <li>Create index patterns for efficient data organization</li>
+                        <li>Use visualization dashboards for real-time monitoring</li>
+                        <li>Save frequently used queries as saved searches</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Linux Log Analysis Section -->
+            <div id="linux" class="section">
+                <h2>🐧 Linux Log Analysis from Terminal</h2>
+
+                <h3>Common Log File Locations</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Log File</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/var/log/auth.log</code></td>
+                                <td>Authentication logs (Debian/Ubuntu)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/secure</code></td>
+                                <td>Authentication logs (RHEL/CentOS)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/syslog</code></td>
+                                <td>System logs</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/messages</code></td>
+                                <td>General system messages</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/kern.log</code></td>
+                                <td>Kernel logs</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/apache2/</code></td>
+                                <td>Apache web server logs</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/nginx/</code></td>
+                                <td>Nginx web server logs</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/mysql/</code></td>
+                                <td>MySQL database logs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Essential Commands for Log Analysis</h3>
+
+                <h4>1. View Log Files</h4>
+                <div class="description">
+                    Basic commands to view logs:
+                </div>
+                <div class="query-box">
+                    <code># View last 100 lines of auth.log
+tail -n 100 /var/log/auth.log
+
+# Follow log in real-time
+tail -f /var/log/syslog
+
+# View first 50 lines
+head -n 50 /var/log/messages
+
+# View entire log with pagination
+less /var/log/syslog
+
+# View compressed logs
+zcat /var/log/syslog.1.gz | less</code>
+                </div>
+
+                <h4>2. Search and Filter Logs</h4>
+                <div class="description">
+                    Using grep to search logs:
+                </div>
+                <div class="query-box">
+                    <code># Search for failed SSH logins
+grep "Failed password" /var/log/auth.log
+
+# Case-insensitive search
+grep -i "error" /var/log/syslog
+
+# Show line numbers
+grep -n "authentication failure" /var/log/secure
+
+# Show context (5 lines before and after)
+grep -C 5 "kernel panic" /var/log/kern.log
+
+# Search multiple files
+grep "error" /var/log/*.log
+
+# Recursive search in directory
+grep -r "connection refused" /var/log/
+
+# Invert match (exclude lines)
+grep -v "DEBUG" /var/log/application.log
+
+# Count occurrences
+grep -c "Failed password" /var/log/auth.log</code>
+                </div>
+
+                <h4>3. Failed Login Attempts Analysis</h4>
+                <div class="description">
+                    Detect brute force attacks:
+                </div>
+                <div class="query-box">
+                    <code># Count failed SSH login attempts by IP
+grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -rn
+
+# Show all failed login attempts with timestamps
+grep "Failed password" /var/log/auth.log | awk '{print $1, $2, $3, $(NF-5), $(NF-3)}'
+
+# Failed logins for specific user
+grep "Failed password for invalid user" /var/log/auth.log | grep "username"
+
+# Successful logins after failures
+grep -E "(Failed password|Accepted password)" /var/log/auth.log | grep "192.168.1.100"</code>
+                </div>
+
+                <h4>4. User Activity Monitoring</h4>
+                <div class="description">
+                    Track user sessions and commands:
+                </div>
+                <div class="query-box">
+                    <code># Show current logged-in users
+who
+
+# Show last logged-in users
+last -n 20
+
+# Show failed login attempts
+lastb -n 20
+
+# Show user login history
+last username
+
+# Show all sudo commands
+grep "sudo" /var/log/auth.log | grep "COMMAND"
+
+# Show user command history
+cat /home/username/.bash_history</code>
+                </div>
+
+                <h4>5. Network Connection Analysis</h4>
+                <div class="description">
+                    Monitor network activities:
+                </div>
+                <div class="query-box">
+                    <code># Show established connections
+netstat -tupn | grep ESTABLISHED
+
+# Show listening ports
+ss -tlnp
+
+# Show connections by IP
+netstat -an | grep "192.168.1.100"
+
+# Monitor connections in real-time
+watch -n 1 'netstat -tupn | grep ESTABLISHED'
+
+# Show firewall logs (iptables)
+grep "DPT=" /var/log/syslog | tail -50</code>
+                </div>
+
+                <h4>6. Process Monitoring</h4>
+                <div class="description">
+                    Track running processes:
+                </div>
+                <div class="query-box">
+                    <code># Show all processes
+ps aux
+
+# Search for specific process
+ps aux | grep nginx
+
+# Show process tree
+pstree -p
+
+# Monitor processes in real-time
+top -c
+
+# Better process monitor
+htop
+
+# Show processes by user
+ps -u username</code>
+                </div>
+
+                <h4>7. Analyze Web Server Logs</h4>
+                <div class="description">
+                    Apache/Nginx log analysis:
+                </div>
+                <div class="query-box">
+                    <code># Top 10 IP addresses accessing site
+awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head -10
+
+# Show 404 errors
+grep "404" /var/log/apache2/access.log
+
+# Show POST requests
+grep "POST" /var/log/apache2/access.log
+
+# Analyze user agents
+awk -F'"' '{print $6}' /var/log/apache2/access.log | sort | uniq -c | sort -rn
+
+# Find SQL injection attempts
+grep -E "(union.*select|drop.*table|exec.*\()" /var/log/apache2/access.log
+
+# Show requests to specific URL
+grep "/admin" /var/log/nginx/access.log
+
+# Count requests by hour
+awk '{print $4}' /var/log/apache2/access.log | cut -c 14-15 | sort | uniq -c</code>
+                </div>
+
+                <h4>8. System Resource Analysis</h4>
+                <div class="description">
+                    Monitor system performance:
+                </div>
+                <div class="query-box">
+                    <code># Check disk space
+df -h
+
+# Show disk usage by directory
+du -sh /var/* | sort -rh | head -10
+
+# Monitor memory usage
+free -h
+
+# Show largest log files
+find /var/log -type f -exec ls -lh {} \; | sort -k5 -rh | head -10
+
+# Monitor I/O statistics
+iostat -x 5</code>
+                </div>
+
+                <h4>9. Time-Based Log Analysis</h4>
+                <div class="description">
+                    Filter logs by date and time:
+                </div>
+                <div class="query-box">
+                    <code># Show logs from specific date
+grep "Jan 26" /var/log/syslog
+
+# Show logs between time range
+sed -n '/09:00:00/,/17:00:00/p' /var/log/syslog
+
+# Show logs from last hour using awk
+awk -v date="$(date --date='1 hour ago' '+%b %_d %H')" '$0 ~ date' /var/log/syslog
+
+# Show today's auth logs
+grep "$(date '+%b %e')" /var/log/auth.log</code>
+                </div>
+
+                <h4>10. Advanced Log Analysis with awk</h4>
+                <div class="description">
+                    Complex pattern extraction:
+                </div>
+                <div class="query-box">
+                    <code># Extract specific fields from logs
+awk '/Failed password/ {print $1, $2, $3, $11}' /var/log/auth.log
+
+# Calculate statistics
+awk '/error/ {count++} END {print "Total errors:", count}' /var/log/syslog
+
+# Filter by multiple conditions
+awk '$9 == 404 && $7 ~ /admin/ {print $1, $7}' /var/log/apache2/access.log
+
+# Sum bandwidth usage
+awk '{sum+=$10} END {print "Total bytes:", sum}' /var/log/nginx/access.log</code>
+                </div>
+
+                <h4>11. Log Rotation and Management</h4>
+                <div class="description">
+                    Manage log files:
+                </div>
+                <div class="query-box">
+                    <code># View logrotate configuration
+cat /etc/logrotate.conf
+
+# Manually rotate logs
+logrotate -f /etc/logrotate.conf
+
+# Check log sizes
+ls -lh /var/log/
+
+# Archive old logs
+tar -czf logs_backup_$(date +%Y%m%d).tar.gz /var/log/*.log
+
+# Clear log file (keep file)
+truncate -s 0 /var/log/application.log</code>
+                </div>
+
+                <h4>12. Journalctl (systemd logs)</h4>
+                <div class="description">
+                    Modern systemd log analysis:
+                </div>
+                <div class="query-box">
+                    <code># View all system logs
+journalctl
+
+# Follow logs in real-time
+journalctl -f
+
+# Show logs for specific service
+journalctl -u ssh.service
+
+# Show logs since boot
+journalctl -b
+
+# Show logs for time range
+journalctl --since "2026-01-26 09:00:00" --until "2026-01-26 17:00:00"
+
+# Show only errors
+journalctl -p err
+
+# Show kernel messages
+journalctl -k
+
+# Show logs with priority levels
+journalctl -p warning..err</code>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Linux Log Analysis Tips:</strong>
+                    <ul>
+                        <li>Always use sudo/root for accessing system logs</li>
+                        <li>Combine commands with pipes for powerful analysis</li>
+                        <li>Use <code>watch</code> command for real-time monitoring</li>
+                        <li>Regular log rotation prevents disk space issues</li>
+                        <li>Create aliases for frequently used log analysis commands</li>
+                        <li>Use <code>rsyslog</code> or <code>syslog-ng</code> for centralized logging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Best Practices Section -->
+            <div id="best-practices" class="section">
+                <h2>✅ Best Practices for SOC Analysts</h2>
+
+                <h3>Investigation Methodology</h3>
+                <ol>
+                    <li><strong>Initial Triage:</strong> Quickly assess the severity and scope of the incident</li>
+                    <li><strong>Data Collection:</strong> Gather relevant logs from all affected systems</li>
+                    <li><strong>Timeline Creation:</strong> Build a chronological timeline of events</li>
+                    <li><strong>Correlation:</strong> Correlate events across multiple data sources</li>
+                    <li><strong>Root Cause Analysis:</strong> Identify the initial attack vector</li>
+                    <li><strong>Containment:</strong> Take action to prevent further damage</li>
+                    <li><strong>Documentation:</strong> Document all findings and actions taken</li>
+                    <li><strong>Post-Incident Review:</strong> Review and improve detection capabilities</li>
+                </ol>
+
+                <h3>Query Optimization Tips</h3>
+                <ul>
+                    <li>Start with specific time ranges to reduce search scope</li>
+                    <li>Use indexed fields for faster searches</li>
+                    <li>Limit results with head/limit commands during testing</li>
+                    <li>Use subsearches only when necessary</li>
+                    <li>Leverage statistical commands (stats, chart, timechart)</li>
+                    <li>Create lookup tables for threat intelligence</li>
+                </ul>
+
+                <h3>Alert Creation Guidelines</h3>
+                <div class="important">
+                    <strong>⚠️ Important:</strong> Poorly configured alerts lead to alert fatigue. Focus on high-fidelity detections.
+                </div>
+                <ul>
+                    <li>Define clear alert criteria based on known attack patterns</li>
+                    <li>Set appropriate thresholds to minimize false positives</li>
+                    <li>Include relevant context in alert notifications</li>
+                    <li>Regularly review and tune alert rules</li>
+                    <li>Use alert suppression for known maintenance windows</li>
+                    <li>Implement alert escalation procedures</li>
+                </ul>
+
+                <h3>Log Retention and Management</h3>
+                <ul>
+                    <li>Follow organizational and regulatory retention requirements</li>
+                    <li>Implement hot/warm/cold data tiering strategies</li>
+                    <li>Use compression for archived logs</li>
+                    <li>Regularly test log restoration procedures</li>
+                    <li>Monitor log collection pipeline health</li>
+                </ul>
+
+                <h3>Continuous Improvement</h3>
+                <ul>
+                    <li>Stay updated with latest threat intelligence</li>
+                    <li>Regularly review and update detection rules</li>
+                    <li>Participate in threat hunting exercises</li>
+                    <li>Share knowledge with team members</li>
+                    <li>Learn from past incidents to improve detection</li>
+                    <li>Practice query writing and log analysis skills</li>
+                </ul>
+
+                <h3>Essential Tools and Resources</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tool/Resource</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>MITRE ATT&CK Framework</td>
+                                <td>Threat intelligence and attack patterns</td>
+                            </tr>
+                            <tr>
+                                <td>Sigma Rules</td>
+                                <td>Generic signature format for SIEM systems</td>
+                            </tr>
+                            <tr>
+                                <td>CyberChef</td>
+                                <td>Data decoding and analysis</td>
+                            </tr>
+                            <tr>
+                                <td>VirusTotal</td>
+                                <td>File and URL reputation checking</td>
+                            </tr>
+                            <tr>
+                                <td>AbuseIPDB</td>
+                                <td>IP reputation database</td>
+                            </tr>
+                            <tr>
+                                <td>AlienVault OTX</td>
+                                <td>Open threat intelligence platform</td>
+                            </tr>
+                            <tr>
+                                <td>Regex101</td>
+                                <td>Regular expression testing and debugging</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Common Indicators of Compromise (IOCs)</h3>
+                <ul>
+                    <li><strong>Authentication:</strong> Multiple failed logins, logins from unusual locations, logins outside business hours</li>
+                    <li><strong>Network:</strong> Unusual outbound traffic, connections to known malicious IPs, DNS tunneling</li>
+                    <li><strong>Process:</strong> Suspicious process names, encoded PowerShell commands, privilege escalation</li>
+                    <li><strong>File System:</strong> Unauthorized file modifications, creation of suspicious files, changes to system files</li>
+                    <li><strong>Web:</strong> SQL injection attempts, directory traversal, unusual user agents, brute force attacks</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Create a personal cheatsheet with queries specific to your environment and 
+                    regularly used commands. This will significantly speed up your investigation process.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 SOC Analyst Guide | Transport and Telecommunication Institute - Riga, Latvia</p>
+            <p>Created by: st93642@students.tsi.lv | <a href="https://tsi.lv" style="color: #3498db;">https://tsi.lv</a></p>
+        </div>
+    </div>
+</body>
+</html>

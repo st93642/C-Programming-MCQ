@@ -265,6 +265,7 @@
             <a href="#intro" class="nav-btn">Introduction</a>
             <a href="#splunk" class="nav-btn">Splunk Queries</a>
             <a href="#elastic" class="nav-btn">Elastic Queries</a>
+            <a href="#sentinel" class="nav-btn">Microsoft Sentinel</a>
             <a href="#linux" class="nav-btn">Linux Log Analysis</a>
             <a href="#best-practices" class="nav-btn">Best Practices</a>
         </div>
@@ -668,6 +669,106 @@ source.ip: * AND event.outcome: "failure" AND event.category: "authentication"</
                         <li>Save frequently used queries as saved searches</li>
                     </ul>
                 </div>
+            </div>
+
+            <!-- Microsoft Sentinel Section -->
+            <div id="sentinel" class="section">
+                <h2>🛰️ Microsoft Sentinel Runbook</h2>
+                <p>Step-by-step guide for investigating alerts and hunting threats in Microsoft Sentinel using KQL, workbooks, and incident tools.</p>
+
+                <h3>Core Log Tables</h3>
+                <ul>
+                    <li><strong>SecurityEvent</strong> (Windows), <strong>DeviceEvents</strong> / <strong>DeviceProcessEvents</strong> (Defender for Endpoint)</li>
+                    <li><strong>SigninLogs</strong> &amp; <strong>AuditLogs</strong> (Entra ID), <strong>OfficeActivity</strong> (M365), <strong>CommonSecurityLog</strong> (firewalls/proxies)</li>
+                    <li><strong>Syslog</strong> (Linux), <strong>AzureDiagnostics</strong> (platform), <strong>Heartbeat</strong> (agent health)</li>
+                </ul>
+
+                <h3>Investigation Flow (Portal)</h3>
+                <ol>
+                    <li>Open <em>Incidents</em> → pick incident → review <em>Entities</em> (accounts, hosts, IPs) and alert details.</li>
+                    <li>Use <em>Evidence &amp; Response</em> to see correlated alerts and timeline; assign owner and severity.</li>
+                    <li>Open <em>Investigation graph</em> → expand entities to see related alerts, IPs, processes.</li>
+                    <li>Click <em>View in Logs</em> to pivot into KQL with entity context; run targeted queries (below).</li>
+                    <li>Open <em>Workbooks</em> (Identity/Endpoint/Email) for curated pivots; add filters for the incident entities.</li>
+                    <li>Remediate: trigger playbooks (Logic Apps) or live response (Defender) if integrated; document in comments.</li>
+                </ol>
+
+                <h3>Quick KQL Playbook</h3>
+
+                <h4>1) Coverage / Agent Health</h4>
+                <div class="query-box">
+<code>Heartbeat
+| summarize last_beat=max(TimeGenerated) by Computer, OSType
+| where last_beat < ago(1h)</code>
+                </div>
+
+                <h4>2) Failed → Successful Sign-ins (Entra ID)</h4>
+                <div class="query-box">
+<code>let window = 15m;
+SigninLogs
+| where TimeGenerated > ago(24h)
+| project TimeGenerated, UserPrincipalName, IPAddress, ResultType
+| summarize fails = countif(ResultType != 0), success = countif(ResultType == 0)
+    by bin(TimeGenerated, window), UserPrincipalName, IPAddress
+| where fails > 5 and success > 0</code>
+                </div>
+
+                <h4>3) Suspicious PowerShell (Defender)</h4>
+                <div class="query-box">
+<code>DeviceProcessEvents
+| where TimeGenerated > ago(1d)
+| where ProcessCommandLine has_any ("-enc", "DownloadString", "Invoke-Expression")
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine</code>
+                </div>
+
+                <h4>4) Large Outbound Transfers (Firewall/Proxy)</h4>
+                <div class="query-box">
+<code>CommonSecurityLog
+| where TimeGenerated > ago(24h) and DeviceAction == "ALLOW"
+| extend BytesMB = toreal(SentBytes + ReceivedBytes) / 1024 / 1024
+| where BytesMB > 500 and not(startswith(DestinationIP, "10.") or startswith(DestinationIP, "192.168."))
+| summarize TotalMB = sum(BytesMB) by SourceIP, DestinationIP, DestinationPort
+| order by TotalMB desc</code>
+                </div>
+
+                <h4>5) Rare Logon Locations (Entra ID)</h4>
+                <div class="query-box">
+<code>SigninLogs
+| where TimeGenerated > ago(7d)
+| summarize CountByLocation = count() by UserPrincipalName, Location = tostring(LocationDetails.country)
+| join kind=inner (
+    SigninLogs
+    | where TimeGenerated > ago(1d)
+    | summarize RecentCount = count() by UserPrincipalName, Location = tostring(LocationDetails.country)
+) on UserPrincipalName, Location
+| where RecentCount > 0 and CountByLocation < 3</code>
+                </div>
+
+                <div class="tip">
+                    <strong>Playbook trigger:</strong> Use automation rules to run playbooks for High incidents or VIP entities.
+                </div>
+
+                <h3>Hunting &amp; Detections</h3>
+                <ol>
+                    <li>Go to <em>Hunting</em> → run relevant queries (last 24h); add missing entity mappings.</li>
+                    <li>Review results → create incident for positives or link to existing incidents.</li>
+                    <li>Save as scheduled analytics rule with suppression to prevent noise.</li>
+                </ol>
+
+                <h3>Log Onboarding Checklist</h3>
+                <ul>
+                    <li>Data connectors show <strong>Connected</strong> for M365, Defender, Entra ID, firewalls/proxies.</li>
+                    <li>Enable analytics rules for new sources; map entities; tune thresholds.</li>
+                    <li>Set retention/archive for critical tables; watch cost and ingestion caps.</li>
+                    <li>Test with sample events (failed logins, EICAR, firewall allow) and confirm in <code>Logs</code>.</li>
+                </ul>
+
+                <h3>Incident Closure</h3>
+                <ol>
+                    <li>Summarize what happened, impact, root cause, and actions.</li>
+                    <li>Tag MITRE tactics and add evidence links/screenshots.</li>
+                    <li>Create follow-ups: rule/playbook/workbook updates to prevent recurrence.</li>
+                </ol>
             </div>
 
             <!-- Linux Log Analysis Section -->

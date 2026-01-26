@@ -606,14 +606,14 @@
     "question": "What is the size of 'int' data type in C++?",
     "options": [
       "2 bytes",
-      "4 bytes\", \n                    \"8 bytes",
-      "Depends on the compiler and system",
-      "Invalid option"
+      "4 bytes",
+      "8 bytes",
+      "Depends on the compiler and system"
     ],
-    "correct": 0,
+    "correct": 3,
     "category": "Basics",
     "type": "single",
-    "explanation": "Note: This question appears to have an issue with the correct answer. The size of 'int' in C++ is actually system and compiler dependent, not fixed at 2 bytes. Modern systems typically use 4 bytes for int. The C++ standard specifies minimum ranges but not exact sizes, allowing flexibility across different platforms. Always use sizeof(int) to determine the actual size on your system."
+    "explanation": "The size of 'int' in C++ is system and compiler dependent, not fixed. Modern 32-bit systems typically use 4 bytes for int, while some 64-bit systems may use 8 bytes, and older 16-bit systems used 2 bytes. The C++ standard only specifies minimum ranges (at least 16 bits) but not exact sizes, allowing flexibility across different platforms. Always use sizeof(int) to determine the actual size on your system."
   },
   {
     "question": "Which of the following is the correct way to declare a constant in C++?",

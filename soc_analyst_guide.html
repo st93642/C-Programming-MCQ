@@ -75,27 +75,48 @@
             opacity: 0.9;
         }
 
-        .navigation {
+        .layout {
+            display: flex;
+            min-height: 100%;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            background: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            padding: 12px 16px;
+            margin: 0;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .sidebar {
+            width: 240px;
             background-color: var(--light-color);
             padding: 20px;
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .navigation {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 10px;
-            justify-content: center;
-            border-bottom: 3px solid var(--primary-color);
         }
 
         .nav-btn {
-            padding: 10px 20px;
+            padding: 10px 16px;
             background-color: var(--primary-color);
             color: var(--text-light);
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s;
             text-decoration: none;
-            display: inline-block;
+            display: block;
+            text-align: left;
         }
 
         .nav-btn:hover {
@@ -106,6 +127,7 @@
 
         .content {
             padding: 40px;
+            flex: 1;
         }
 
         .section {
@@ -251,6 +273,25 @@
             .section {
                 padding: 20px;
             }
+
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                display: none;
+                border-right: none;
+                border-bottom: 3px solid var(--primary-color);
+            }
+
+            .sidebar.open {
+                display: block;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -261,24 +302,30 @@
             <p>SIEM Query Cheatsheets & Log Analysis Guide</p>
         </div>
 
-        <div class="navigation">
-            <a href="#intro" class="nav-btn">Introduction</a>
-            <a href="#splunk" class="nav-btn">Splunk Queries</a>
-            <a href="#elastic" class="nav-btn">Elastic Queries</a>
-            <a href="#sentinel" class="nav-btn">Microsoft Sentinel</a>
-            <a href="#linux" class="nav-btn">Linux Log Analysis</a>
-            <a href="#best-practices" class="nav-btn">Best Practices</a>
-        </div>
+        <div class="layout">
+            <button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Menu</button>
+            <div class="sidebar">
+                <div class="navigation">
+                    <a href="#intro" class="nav-btn">Introduction</a>
+                    <a href="#splunk" class="nav-btn">Splunk Queries</a>
+                    <a href="#elastic" class="nav-btn">Elastic Queries</a>
+                    <a href="#sentinel" class="nav-btn">Microsoft Sentinel</a>
+                    <a href="#linux" class="nav-btn">Linux Log Analysis</a>
+                    <a href="#best-practices" class="nav-btn">Best Practices</a>
+                </div>
+            </div>
 
-        <div class="content">
+            <div class="content">
             <!-- Introduction Section -->
             <div id="intro" class="section">
                 <h2>📖 Introduction</h2>
-                <p>
-                    This guide provides comprehensive cheatsheets and commands for Security Operations Center (SOC) analysts 
-                    to perform effective log analysis and security investigations using Splunk, Elastic Stack, and Linux 
-                    command-line tools.
-                </p>
+                <h3>How to use this guide</h3>
+                <ol>
+                    <li>Start with the <strong>Incident flow</strong> in your SIEM (Splunk/Elastic/Sentinel) to triage alerts.</li>
+                    <li>Pivot using the <strong>cheatsheets</strong> for each platform to validate and enrich findings.</li>
+                    <li>Correlate with <strong>Linux terminal</strong> checks on hosts when deeper visibility is needed.</li>
+                    <li>Apply the <strong>Best practices</strong> section for documentation, tuning, and follow-up actions.</li>
+                </ol>
                 <div class="tip">
                     <strong>💡 Tip:</strong> Bookmark this page for quick reference during incident response and threat hunting activities.
                 </div>
@@ -297,6 +344,17 @@
                 </div>
 
                 <h3>Common Investigation Queries</h3>
+
+                <div class="important">
+                    <strong>Splunk incident playbook:</strong>
+                    <ol>
+                        <li>Open alert → review notable fields (src/dest, user, signature, severity).</li>
+                        <li>Pivot with <code>| tstats</code> to scope by time, index, sourcetype.</li>
+                        <li>Validate by replaying key queries below; export to timeline.</li>
+                        <li>Enrich IPs/domains with threat intel (<code>| lookup</code>).</li>
+                        <li>Document actions and create adaptive response (block/quarantine) if required.</li>
+                    </ol>
+                </div>
 
                 <h4>1. Failed Login Attempts</h4>
                 <div class="description">
@@ -430,6 +488,17 @@
                 </div>
 
                 <h3>Elasticsearch DSL Queries</h3>
+
+                <div class="important">
+                    <strong>Elastic incident playbook:</strong>
+                    <ol>
+                        <li>Open alert in <em>Security</em> → inspect rule and mapped fields.</li>
+                        <li>Use <em>View in Discover</em> to pivot on the event with filters for src/dest, user, host.</li>
+                        <li>Replay with <em>Inspect</em> → <em>Request</em> or copy DSL, then refine using queries below.</li>
+                        <li>Use <em>Timeline</em> to build an investigation story; add evidence panels.</li>
+                        <li>Contain via cases/actions (isolate host, disable user) and record notes.</li>
+                    </ol>
+                </div>
 
                 <h4>1. Failed Authentication Detection</h4>
                 <div class="description">
@@ -683,6 +752,18 @@ source.ip: * AND event.outcome: "failure" AND event.category: "authentication"</
                     <li><strong>Syslog</strong> (Linux), <strong>AzureDiagnostics</strong> (platform), <strong>Heartbeat</strong> (agent health)</li>
                 </ul>
 
+                <div class="important">
+                    <strong>Sentinel incident playbook:</strong>
+                    <ol>
+                        <li>Incident → review entities, evidence, severity, owner.</li>
+                        <li>Investigation graph → expand entities, note related alerts/IPs/processes.</li>
+                        <li>View in Logs → run KQL from templates below; adjust time/filters.</li>
+                        <li>Workbooks → open Identity/Endpoint/Email workbook scoped to entities.</li>
+                        <li>Response → trigger playbooks (Logic Apps), isolate host (Defender), reset creds.</li>
+                        <li>Close → document timeline, root cause, actions, and lessons learned.</li>
+                    </ol>
+                </div>
+
                 <h3>Investigation Flow (Portal)</h3>
                 <ol>
                     <li>Open <em>Incidents</em> → pick incident → review <em>Entities</em> (accounts, hosts, IPs) and alert details.</li>
@@ -819,6 +900,17 @@ SigninLogs
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="important">
+                    <strong>Linux triage checklist:</strong>
+                    <ol>
+                        <li>Confirm time sync (<code>timedatectl</code>) and review recent auth failures.</li>
+                        <li>Check persistence (crontab, systemd services, rc.local) and new users/groups.</li>
+                        <li>Inspect running processes and network listeners; capture suspicious binaries (hash/upload to VT).</li>
+                        <li>Review web/app logs around alert time; look for exploitation patterns.</li>
+                        <li>Collect artifacts (logs, bash history, configs) before remediation.</li>
+                    </ol>
                 </div>
 
                 <h3>Essential Commands for Log Analysis</h3>

@@ -54,7 +54,7 @@
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            overflow: visible;
         }
 
         .header {
@@ -98,10 +98,11 @@
             padding: 20px;
             border-right: 3px solid var(--primary-color);
             position: sticky;
-            top: 0;
+            top: 20px;
             align-self: flex-start;
-            max-height: 100vh;
+            max-height: calc(100vh - 40px);
             overflow-y: auto;
+            z-index: 100;
         }
 
         .navigation {
@@ -288,6 +289,8 @@
                 display: none;
                 border-right: none;
                 border-bottom: 3px solid var(--primary-color);
+                position: static;
+                max-height: none;
             }
 
             .sidebar.open {
@@ -316,6 +319,7 @@
                     <a href="#elastic" class="nav-btn">Elastic Queries</a>
                     <a href="#sentinel" class="nav-btn">Microsoft Sentinel</a>
                     <a href="#linux" class="nav-btn">Linux Log Analysis</a>
+                    <a href="#intrusion-detection" class="nav-btn">Intrusion Detection</a>
                     <a href="#best-practices" class="nav-btn">Best Practices</a>
                 </div>
             </div>
@@ -2315,6 +2319,350 @@ journalctl | grep "Failed password"</code>
                         <li><strong>Unset history:</strong> Check if HISTFILE variable is unset or HISTSIZE=0</li>
                         <li><strong>Audit rules:</strong> Verify auditd is running and rules haven't been disabled</li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- Intrusion Detection Section -->
+            <div id="intrusion-detection" class="section">
+                <h2>🔍 Intrusion Detection - Playbook & Theory</h2>
+                
+                <h3>What is Intrusion Detection?</h3>
+                <p>Intrusion Detection Systems (IDS) are security tools that monitor network traffic and system activities to identify suspicious patterns, policy violations, and malicious behavior. IDS serves as a critical component of defense-in-depth strategies by providing real-time visibility into potential security breaches.</p>
+                
+                <h3>Types of Intrusion Detection Systems</h3>
+                
+                <h4>Network-Based IDS (NIDS)</h4>
+                <p>NIDS monitors network traffic in real-time, analyzing packets to detect suspicious patterns:</p>
+                <ul>
+                    <li><strong>Deployment:</strong> Positioned at strategic network points (gateways, DMZ, critical subnets)</li>
+                    <li><strong>Examples:</strong> Snort, Suricata, Zeek (formerly Bro)</li>
+                    <li><strong>Advantages:</strong> Low impact on network performance, can monitor entire network segments</li>
+                    <li><strong>Limitations:</strong> Cannot inspect encrypted traffic (HTTPS, VPN), may miss host-level attacks</li>
+                </ul>
+                
+                <h4>Host-Based IDS (HIDS)</h4>
+                <p>HIDS monitors individual hosts for suspicious activity by analyzing system logs, file integrity, and process behavior:</p>
+                <ul>
+                    <li><strong>Deployment:</strong> Installed on critical servers, workstations, and endpoints</li>
+                    <li><strong>Examples:</strong> OSSEC, Wazuh, Tripwire</li>
+                    <li><strong>Advantages:</strong> Can detect local attacks, monitors encrypted traffic at endpoint, detects file changes</li>
+                    <li><strong>Limitations:</strong> Consumes host resources, must be installed on each system</li>
+                </ul>
+                
+                <h3>Detection Methods</h3>
+                
+                <h4>Signature-Based Detection</h4>
+                <p>Compares network traffic or system activity against a database of known attack signatures:</p>
+                <div class="query-box">
+                    <code># Example Snort Rule - Detecting SQL Injection
+alert tcp any any -> $HOME_NET 80 (msg:"SQL Injection Attempt"; \
+  content:"union"; nocase; content:"select"; nocase; \
+  classtype:web-application-attack; sid:1000001; rev:1;)</code>
+                </div>
+                <ul>
+                    <li><strong>Advantages:</strong> High accuracy for known attacks, low false positive rate</li>
+                    <li><strong>Disadvantages:</strong> Cannot detect zero-day attacks, requires constant signature updates</li>
+                </ul>
+                
+                <h4>Anomaly-Based Detection</h4>
+                <p>Establishes a baseline of normal behavior and flags deviations as potential threats:</p>
+                <ul>
+                    <li><strong>Statistical Analysis:</strong> Monitors metrics like bandwidth usage, connection counts, protocol distributions</li>
+                    <li><strong>Machine Learning:</strong> Uses algorithms to identify patterns that deviate from normal behavior</li>
+                    <li><strong>Advantages:</strong> Can detect unknown attacks, adapts to environment</li>
+                    <li><strong>Disadvantages:</strong> Higher false positive rate, requires training period</li>
+                </ul>
+                
+                <h4>Protocol Analysis</h4>
+                <p>Compares network traffic against protocol standards to detect violations:</p>
+                <ul>
+                    <li>Identifies malformed packets, protocol abuse, and evasion techniques</li>
+                    <li>Examples: HTTP protocol violations, unusual DNS queries, fragmented packets</li>
+                </ul>
+                
+                <h3>Intrusion Detection Playbook</h3>
+                
+                <h4>Phase 1: Alert Triage</h4>
+                <p>When an IDS alert is triggered, follow this systematic approach:</p>
+                <div class="description">
+                    <strong>Initial Assessment (First 5 minutes):</strong>
+                </div>
+                <ol>
+                    <li><strong>Alert Classification:</strong> Determine severity (Critical, High, Medium, Low)</li>
+                    <li><strong>Context Gathering:</strong>
+                        <ul>
+                            <li>Source IP address (internal or external?)</li>
+                            <li>Destination IP address and port</li>
+                            <li>Protocol and application involved</li>
+                            <li>Time of detection and duration</li>
+                        </ul>
+                    </li>
+                    <li><strong>Quick Validation:</strong> Is this a true positive or false positive?</li>
+                </ol>
+                
+                <div class="tip">
+                    <strong>💡 Triage Tip:</strong> Not all alerts are equal. Prioritize based on:
+                    <ul>
+                        <li>Asset criticality (production servers > test systems)</li>
+                        <li>Attack type (data exfiltration > reconnaissance)</li>
+                        <li>Number of affected systems</li>
+                        <li>Threat actor sophistication</li>
+                    </ul>
+                </div>
+                
+                <h4>Phase 2: Investigation</h4>
+                <div class="description">
+                    <strong>Deep Dive Analysis (15-30 minutes):</strong>
+                </div>
+                
+                <p><strong>Network-Level Investigation:</strong></p>
+                <ul>
+                    <li><strong>PCAP Analysis:</strong> Review packet captures to understand attack mechanics</li>
+                    <li><strong>Session Reconstruction:</strong> Follow TCP streams to see complete attack flow</li>
+                    <li><strong>Timeline Analysis:</strong> Map out sequence of events leading to detection</li>
+                </ul>
+                
+                <div class="query-box">
+                    <code># Wireshark/tshark Commands for IDS Alert Investigation
+# Extract specific conversation
+tshark -r capture.pcap -q -z conv,ip
+
+# Follow TCP stream for suspicious connection
+tshark -r capture.pcap -q -z follow,tcp,ascii,0
+
+# Filter by attacker IP
+tshark -r capture.pcap -Y "ip.src == 192.168.1.100" -w filtered.pcap
+
+# Extract HTTP objects (potential malware)
+tshark -r capture.pcap --export-objects http,./extracted_files/</code>
+                </div>
+                
+                <p><strong>Host-Level Investigation:</strong></p>
+                <ul>
+                    <li><strong>Process Analysis:</strong> Check for suspicious processes, parent-child relationships</li>
+                    <li><strong>File System:</strong> Look for newly created files, modified binaries, unauthorized scripts</li>
+                    <li><strong>Network Connections:</strong> Identify active and listening connections</li>
+                    <li><strong>User Activity:</strong> Review login history, privilege escalations, account creation</li>
+                </ul>
+                
+                <div class="query-box">
+                    <code># Linux Host Investigation Commands
+# Check for suspicious processes
+ps auxf | grep -v "\[" | awk '{if($3>50.0) print}'
+
+# Find recently modified files (last 24 hours)
+find /home /var/www /tmp -type f -mtime -1 -ls
+
+# Check established connections
+netstat -antp | grep ESTABLISHED
+
+# Review authentication logs
+grep -i "failed\|failure\|invalid" /var/log/auth.log | tail -50
+
+# Check for SUID binaries (privilege escalation)
+find / -perm -4000 -type f 2>/dev/null</code>
+                </div>
+                
+                <h4>Phase 3: Threat Intelligence Enrichment</h4>
+                <p>Enhance your analysis with external intelligence:</p>
+                <ul>
+                    <li><strong>IP Reputation:</strong> Check source IPs against threat intelligence feeds (VirusTotal, AbuseIPDB, AlienVault OTX)</li>
+                    <li><strong>Domain/URL Analysis:</strong> Investigate suspicious domains for malicious content</li>
+                    <li><strong>File Hashing:</strong> Calculate and check file hashes against malware databases</li>
+                    <li><strong>MITRE ATT&CK Mapping:</strong> Identify which tactics and techniques were used</li>
+                </ul>
+                
+                <div class="query-box">
+                    <code># Threat Intelligence Commands
+# Calculate file hash
+sha256sum suspicious_file.exe
+
+# Query VirusTotal via CLI (requires API key)
+curl -X POST 'https://www.virustotal.com/vtapi/v2/file/report' \
+  -d apikey=YOUR_API_KEY -d resource=FILE_HASH
+
+# WHOIS lookup for suspicious domain
+whois malicious-domain.com
+
+# DNS history
+dig malicious-domain.com ANY +noall +answer</code>
+                </div>
+                
+                <h4>Phase 4: Containment</h4>
+                <p>If the investigation confirms malicious activity, take immediate containment actions:</p>
+                <div class="important">
+                    <strong>⚠️ Containment Actions:</strong>
+                    <ul>
+                        <li><strong>Network Isolation:</strong> Implement firewall rules to block attacker IPs/domains</li>
+                        <li><strong>System Quarantine:</strong> Isolate compromised hosts from network (disconnect or VLAN segregation)</li>
+                        <li><strong>Account Lockdown:</strong> Disable compromised user accounts, force password resets</li>
+                        <li><strong>Service Termination:</strong> Stop malicious processes or services</li>
+                        <li><strong>Evidence Preservation:</strong> Take memory dumps, disk images before remediation</li>
+                    </ul>
+                </div>
+                
+                <h4>Phase 5: Remediation and Recovery</h4>
+                <ol>
+                    <li><strong>Malware Removal:</strong> Clean infected systems using EDR tools or reimaging</li>
+                    <li><strong>Patch Vulnerabilities:</strong> Apply security updates that were exploited</li>
+                    <li><strong>Restore from Backup:</strong> Use clean backups for critical systems if available</li>
+                    <li><strong>Credential Reset:</strong> Change all potentially compromised passwords</li>
+                    <li><strong>Security Hardening:</strong> Implement additional controls to prevent recurrence</li>
+                </ol>
+                
+                <h4>Phase 6: Post-Incident Activities</h4>
+                <ul>
+                    <li><strong>Incident Report:</strong> Document timeline, actions taken, and lessons learned</li>
+                    <li><strong>IOC Sharing:</strong> Share indicators with security community and update IDS signatures</li>
+                    <li><strong>Tuning:</strong> Adjust IDS rules to reduce false positives and improve detection</li>
+                    <li><strong>Metrics:</strong> Track MTTD (Mean Time to Detect) and MTTR (Mean Time to Respond)</li>
+                </ul>
+                
+                <h3>Common IDS Evasion Techniques</h3>
+                <p>Attackers employ various techniques to bypass IDS detection. Understanding these helps in improving detection capabilities:</p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Evasion Technique</th>
+                                <th>Description</th>
+                                <th>Detection/Mitigation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fragmentation</td>
+                                <td>Split malicious payload across multiple packets</td>
+                                <td>Enable packet reassembly in IDS, normalize fragmented traffic</td>
+                            </tr>
+                            <tr>
+                                <td>Encryption</td>
+                                <td>Use HTTPS/SSL to hide malicious payloads</td>
+                                <td>TLS inspection, certificate pinning, analyze metadata</td>
+                            </tr>
+                            <tr>
+                                <td>Polymorphism</td>
+                                <td>Change malware signature with each iteration</td>
+                                <td>Behavioral analysis, sandboxing, anomaly detection</td>
+                            </tr>
+                            <tr>
+                                <td>Protocol Abuse</td>
+                                <td>Hide data in legitimate protocol fields (DNS tunneling, ICMP covert channels)</td>
+                                <td>Protocol anomaly detection, baseline traffic analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Timing Attacks</td>
+                                <td>Slow, low-volume attacks to avoid thresholds</td>
+                                <td>Long-term behavioral analysis, correlate events over time</td>
+                            </tr>
+                            <tr>
+                                <td>Obfuscation</td>
+                                <td>Encode payloads (Base64, XOR, custom encoding)</td>
+                                <td>Multi-layer decoding, entropy analysis, deobfuscation tools</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>IDS Deployment Best Practices</h3>
+                <ul>
+                    <li><strong>Strategic Placement:</strong> Deploy NIDS at network perimeter, internal segments, and DMZ</li>
+                    <li><strong>Signature Updates:</strong> Regularly update IDS rules and signatures (daily or automated)</li>
+                    <li><strong>Tuning:</strong> Continuously refine rules to reduce false positives without missing threats</li>
+                    <li><strong>Integration:</strong> Forward IDS alerts to SIEM for correlation with other security events</li>
+                    <li><strong>Redundancy:</strong> Use multiple detection methods (signature + anomaly + protocol analysis)</li>
+                    <li><strong>Testing:</strong> Regularly test IDS with penetration tests and red team exercises</li>
+                    <li><strong>Resource Allocation:</strong> Ensure adequate CPU, memory, and storage for packet capture</li>
+                    <li><strong>Alert Management:</strong> Implement alert aggregation to prevent analyst fatigue</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Performance Tip:</strong> In high-traffic environments, consider:
+                    <ul>
+                        <li>Using hardware-accelerated NICs for packet capture</li>
+                        <li>Load balancing across multiple IDS sensors</li>
+                        <li>Focusing deep inspection on critical assets only</li>
+                        <li>Sampling traffic if full inspection isn't feasible</li>
+                    </ul>
+                </div>
+                
+                <h3>MITRE ATT&CK Framework in IDS Context</h3>
+                <p>Map IDS detections to MITRE ATT&CK tactics and techniques for better threat understanding:</p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tactic</th>
+                                <th>Common Techniques</th>
+                                <th>IDS Detection Opportunities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Initial Access</td>
+                                <td>Phishing, Exploit Public-Facing Application</td>
+                                <td>Suspicious email attachments, exploit signatures, unusual inbound connections</td>
+                            </tr>
+                            <tr>
+                                <td>Execution</td>
+                                <td>PowerShell, Command Shell, Scripting</td>
+                                <td>Process creation logs, encoded commands, suspicious parent-child relationships</td>
+                            </tr>
+                            <tr>
+                                <td>Persistence</td>
+                                <td>Registry Run Keys, Scheduled Tasks, Services</td>
+                                <td>Registry modifications, task scheduler activity, new service creation</td>
+                            </tr>
+                            <tr>
+                                <td>Privilege Escalation</td>
+                                <td>Exploitation, Token Manipulation</td>
+                                <td>Privilege changes, exploitation attempts, SUID binaries</td>
+                            </tr>
+                            <tr>
+                                <td>Defense Evasion</td>
+                                <td>Obfuscation, Process Injection, Log Clearing</td>
+                                <td>Encoded commands, process anomalies, log tampering indicators</td>
+                            </tr>
+                            <tr>
+                                <td>Credential Access</td>
+                                <td>Brute Force, Credential Dumping</td>
+                                <td>Multiple failed logins, LSASS access, mimikatz signatures</td>
+                            </tr>
+                            <tr>
+                                <td>Discovery</td>
+                                <td>Network Scanning, Account Discovery</td>
+                                <td>Port scans, reconnaissance traffic, enumeration activity</td>
+                            </tr>
+                            <tr>
+                                <td>Lateral Movement</td>
+                                <td>Remote Services, SMB/Windows Admin Shares</td>
+                                <td>Unusual internal connections, admin share access, remote execution</td>
+                            </tr>
+                            <tr>
+                                <td>Collection</td>
+                                <td>Data Staged, Archive Collection</td>
+                                <td>Large file transfers, compression activity, unusual data access</td>
+                            </tr>
+                            <tr>
+                                <td>Command and Control</td>
+                                <td>Web Protocols, DNS, Encrypted Channels</td>
+                                <td>Beaconing patterns, DNS tunneling, connections to known C2 IPs</td>
+                            </tr>
+                            <tr>
+                                <td>Exfiltration</td>
+                                <td>Exfiltration Over C2, Alternative Protocols</td>
+                                <td>Unusual outbound traffic, large data transfers, protocol violations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Remember:</strong> IDS is a detective control, not preventive. It alerts you to attacks but doesn't block them. 
+                    Consider pairing IDS with IPS (Intrusion Prevention System) for automated blocking, but be cautious of false positives 
+                    potentially disrupting legitimate traffic.
                 </div>
             </div>
 

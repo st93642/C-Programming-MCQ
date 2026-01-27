@@ -97,6 +97,11 @@
             background-color: var(--light-color);
             padding: 20px;
             border-right: 3px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            align-self: flex-start;
+            max-height: 100vh;
+            overflow-y: auto;
         }
 
         .navigation {
@@ -319,46 +324,134 @@
             <!-- Introduction Section -->
             <div id="intro" class="section">
                 <h2>📖 Introduction</h2>
-                <h3>How to use this guide</h3>
+                
+                <h3>What is a Security Operations Center (SOC)?</h3>
+                <p>A Security Operations Center (SOC) is a centralized unit within an organization that employs people, processes, and technology to continuously monitor, detect, analyze, and respond to cybersecurity incidents. SOC analysts serve as the first line of defense against cyber threats, utilizing Security Information and Event Management (SIEM) systems as their primary investigative tool.</p>
+                
+                <h3>The Role of SIEM in Security Operations</h3>
+                <p>SIEM systems aggregate and correlate log data from diverse sources across an organization's IT infrastructure, including:</p>
+                <ul>
+                    <li><strong>Network devices:</strong> Firewalls, routers, switches, intrusion detection/prevention systems (IDS/IPS)</li>
+                    <li><strong>Endpoints:</strong> Workstations, servers, mobile devices with security agents</li>
+                    <li><strong>Applications:</strong> Web servers, databases, custom business applications</li>
+                    <li><strong>Security tools:</strong> Antivirus, endpoint detection and response (EDR), data loss prevention (DLP)</li>
+                    <li><strong>Cloud services:</strong> AWS CloudTrail, Azure Activity Logs, Google Cloud Audit Logs</li>
+                </ul>
+                <p>By normalizing and indexing this data, SIEM platforms enable real-time security monitoring, historical analysis, and compliance reporting through sophisticated query languages and correlation rules.</p>
+                
+                <h3>Fundamental Concepts in Log Analysis</h3>
+                <h4>Log Structure and Parsing</h4>
+                <p>Logs are structured or semi-structured records of events that occur within systems. Understanding log anatomy is critical:</p>
+                <ul>
+                    <li><strong>Timestamp:</strong> When the event occurred (essential for temporal correlation)</li>
+                    <li><strong>Source:</strong> Which system or component generated the event</li>
+                    <li><strong>Event Type/Code:</strong> Classification of the event (e.g., Windows Event ID 4625 for failed logon)</li>
+                    <li><strong>Severity Level:</strong> Importance indicator (informational, warning, error, critical)</li>
+                    <li><strong>Message/Details:</strong> Descriptive information about the event</li>
+                    <li><strong>Contextual Fields:</strong> User, IP address, process name, file path, etc.</li>
+                </ul>
+                
+                <h4>The Cybersecurity Kill Chain</h4>
+                <p>SOC analysts use frameworks like the Cyber Kill Chain to understand attack progression:</p>
                 <ol>
-                    <li>Start with the <strong>Incident flow</strong> in your SIEM (Splunk/Elastic/Sentinel) to triage alerts.</li>
-                    <li>Pivot using the <strong>cheatsheets</strong> for each platform to validate and enrich findings.</li>
-                    <li>Correlate with <strong>Linux terminal</strong> checks on hosts when deeper visibility is needed.</li>
-                    <li>Apply the <strong>Best practices</strong> section for documentation, tuning, and follow-up actions.</li>
+                    <li><strong>Reconnaissance:</strong> Attacker gathers information about the target</li>
+                    <li><strong>Weaponization:</strong> Creation of malicious payload</li>
+                    <li><strong>Delivery:</strong> Transmission of weapon to target (email, web, USB)</li>
+                    <li><strong>Exploitation:</strong> Execution of code on victim system</li>
+                    <li><strong>Installation:</strong> Persistence mechanism establishment</li>
+                    <li><strong>Command & Control (C2):</strong> Remote access channel establishment</li>
+                    <li><strong>Actions on Objectives:</strong> Data exfiltration, destruction, or other malicious activities</li>
                 </ol>
+                <p>Each phase generates distinct log signatures that analysts can detect through SIEM queries.</p>
+                
+                <h3>Query Language Paradigms</h3>
+                <p>Different SIEM platforms employ distinct query languages optimized for their underlying data storage:</p>
+                <ul>
+                    <li><strong>Splunk SPL (Search Processing Language):</strong> Pipeline-based language using the pipe operator (|) to chain search commands</li>
+                    <li><strong>Elastic KQL/Lucene:</strong> Kibana Query Language for simple searches, Lucene syntax for complex queries, and DSL for advanced aggregations</li>
+                    <li><strong>Microsoft Sentinel KQL (Kusto Query Language):</strong> Declarative language similar to SQL, optimized for Azure Data Explorer backend</li>
+                </ul>
+                <p>While syntax varies, the analytical approach remains consistent: filter, aggregate, correlate, and visualize security events to identify anomalous behavior.</p>
+                
+                <h3>How to Use This Guide</h3>
+                <p>This comprehensive guide is structured to support both learning and operational reference:</p>
+                <ol>
+                    <li><strong>Understand the Theory:</strong> Each section begins with conceptual foundations before presenting practical queries</li>
+                    <li><strong>Start with the Incident Flow:</strong> Use your SIEM (Splunk/Elastic/Sentinel) to triage alerts according to established playbooks</li>
+                    <li><strong>Apply Platform-Specific Queries:</strong> Leverage the detailed query examples to validate and enrich findings during investigations</li>
+                    <li><strong>Correlate with System-Level Analysis:</strong> Use Linux terminal commands for deeper visibility when SIEM data alone is insufficient</li>
+                    <li><strong>Follow Best Practices:</strong> Apply the methodology section for systematic documentation, tuning, and post-incident activities</li>
+                    <li><strong>Adapt and Customize:</strong> Modify queries to fit your organization's specific data sources, naming conventions, and use cases</li>
+                </ol>
+                
+                <div class="important">
+                    <strong>⚠️ Academic Context:</strong> This guide bridges theoretical security concepts with practical implementation. Each query is accompanied by its underlying detection logic, potential false positives, and evasion considerations. Understanding the "why" behind each query is as important as knowing the "how."
+                </div>
+                
                 <div class="tip">
-                    <strong>💡 Tip:</strong> Bookmark this page for quick reference during incident response and threat hunting activities.
+                    <strong>💡 Learning Tip:</strong> For maximum benefit, practice these queries in a controlled lab environment before deploying in production. Consider using datasets like Security Onion, BOTS (Boss of the SOC), or custom test data to develop proficiency without impacting live security monitoring.
                 </div>
             </div>
 
             <!-- Splunk Section -->
             <div id="splunk" class="section">
-                <h2>🔍 Splunk Query Cheatsheet</h2>
+                <h2>🔍 Splunk: Enterprise SIEM Platform</h2>
                 
-                <h3>Basic Search Syntax</h3>
-                <div class="description">
-                    Search for events containing specific keywords:
-                </div>
+                <h3>Splunk Architecture and Data Model</h3>
+                <p>Splunk is a distributed search and analytics platform that ingests machine-generated data through Universal Forwarders or HTTP Event Collectors (HEC). Data flows through the following pipeline:</p>
+                <ol>
+                    <li><strong>Input Layer:</strong> Data collection via forwarders, APIs, or direct file monitoring</li>
+                    <li><strong>Parsing Layer:</strong> Event breaking, timestamp extraction, and field identification</li>
+                    <li><strong>Indexing Layer:</strong> Data compression and storage in time-series indexes with bloom filters for efficient retrieval</li>
+                    <li><strong>Search Layer:</strong> SPL (Search Processing Language) queries execute in distributed fashion across indexers</li>
+                </ol>
+                <p>Understanding this architecture is crucial for query optimization and troubleshooting performance issues.</p>
+                
+                <h3>Search Processing Language (SPL) Fundamentals</h3>
+                <p>SPL follows a pipeline model where each command transforms the result set before passing it to the next command:</p>
                 <div class="query-box">
-                    <code>index=main sourcetype=access_combined error</code>
+                    <code>index=main sourcetype=access_combined error
+| stats count by src_ip 
+| where count > 10
+| sort -count</code>
+                </div>
+                <p><strong>Pipeline breakdown:</strong></p>
+                <ul>
+                    <li><strong>Line 1:</strong> Base search filters events from the "main" index with sourcetype "access_combined" containing "error"</li>
+                    <li><strong>Line 2:</strong> Aggregates events by source IP, counting occurrences</li>
+                    <li><strong>Line 3:</strong> Post-processing filter to show only IPs with more than 10 errors</li>
+                    <li><strong>Line 4:</strong> Sort results in descending order by count</li>
+                </ul>
+                
+                <h3>Index and Sourcetype Selection Strategy</h3>
+                <p>Efficient Splunk queries always specify the index (and ideally sourcetype) to minimize the search scope:</p>
+                <ul>
+                    <li><strong>index=</strong> Specifies which data repository to search (e.g., security, network, windows)</li>
+                    <li><strong>sourcetype=</strong> Identifies the format/parser for the data (e.g., WinEventLog:Security, syslog, firewall:cisco:asa)</li>
+                    <li><strong>Time range:</strong> Default is "All time" but should be limited to relevant period (last 24h, last 7d, etc.)</li>
+                </ul>
+                <div class="tip">
+                    <strong>💡 Performance Tip:</strong> Searches without index specification scan all indexes, dramatically increasing query time and resource consumption. Always include index= as the first filter.
                 </div>
 
-                <h3>Common Investigation Queries</h3>
-
+                <h3>Incident Response Methodology</h3>
                 <div class="important">
-                    <strong>Splunk incident playbook:</strong>
+                    <strong>Splunk Incident Investigation Workflow:</strong>
                     <ol>
-                        <li>Open alert → review notable fields (src/dest, user, signature, severity).</li>
-                        <li>Pivot with <code>| tstats</code> to scope by time, index, sourcetype.</li>
-                        <li>Validate by replaying key queries below; export to timeline.</li>
-                        <li>Enrich IPs/domains with threat intel (<code>| lookup</code>).</li>
-                        <li>Document actions and create adaptive response (block/quarantine) if required.</li>
+                        <li><strong>Alert Triage:</strong> Review notable events dashboard, examining key fields (source/destination IP, username, signature name, severity level)</li>
+                        <li><strong>Scope Determination:</strong> Use <code>| tstats</code> command for fast aggregation across time, index, and sourcetype to understand event volume</li>
+                        <li><strong>Evidence Collection:</strong> Execute targeted queries to extract relevant events, building a timeline of attacker activity</li>
+                        <li><strong>Threat Intelligence Enrichment:</strong> Apply lookups (<code>| lookup threat_intel ip AS src_ip</code>) to contextualize IOCs</li>
+                        <li><strong>Response Actions:</strong> Document findings, create adaptive responses (automated blocking/quarantine), and generate reports for stakeholders</li>
                     </ol>
                 </div>
 
-                <h4>1. Failed Login Attempts</h4>
+                <h3>Authentication Security Analysis</h3>
+
+                <h4>1. Failed Login Attempts (Brute Force Detection)</h4>
+                <p><strong>Threat Context:</strong> Brute force attacks attempt to guess credentials through repeated login attempts. This pattern is characteristic of the "Exploitation" phase in the Cyber Kill Chain.</p>
                 <div class="description">
-                    Detect potential brute force attacks by identifying failed authentication attempts:
+                    <strong>Detection Logic:</strong> Aggregate Windows Security Event ID 4625 (failed logon) by source IP and username, filtering for accounts exceeding a threshold.
                 </div>
                 <div class="query-box">
                     <code>index=security sourcetype=WinEventLog:Security EventCode=4625
@@ -366,10 +459,19 @@
 | where count > 5
 | sort -count</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>EventCode=4625:</strong> Windows logs failed authentication attempts with this ID</li>
+                    <li><strong>stats count by src_ip, user:</strong> Aggregates by source and target, revealing attack patterns</li>
+                    <li><strong>where count > 5:</strong> Threshold should be tuned based on baseline (consider legitimate typos)</li>
+                </ul>
+                <p><strong>False Positive Considerations:</strong> Legitimate users forgetting passwords, misconfigured services, time synchronization issues. Adjust threshold based on organizational behavior.</p>
+                <p><strong>Evasion Techniques:</strong> Attackers may use slow brute force (low-and-slow), distributed sources (botnets), or credential stuffing with valid username/password pairs.</p>
 
                 <h4>2. Successful Logins After Failed Attempts</h4>
+                <p><strong>Threat Context:</strong> A successful login (EventCode 4624) immediately following multiple failures strongly indicates credential compromise or successful brute force.</p>
                 <div class="description">
-                    Identify compromised accounts by correlating failed and successful logins:
+                    <strong>Detection Logic:</strong> Use transaction command to correlate temporally related authentication events for the same user within a 30-minute window.
                 </div>
                 <div class="query-box">
                     <code>index=security (EventCode=4625 OR EventCode=4624)
@@ -377,20 +479,38 @@
 | search EventCode=4625 EventCode=4624
 | stats count by user, src_ip</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>transaction user maxspan=30m:</strong> Groups events for the same user within 30 minutes into transactions</li>
+                    <li><strong>search EventCode=4625 EventCode=4624:</strong> Filters transactions containing BOTH failed and successful logins</li>
+                    <li><strong>Temporal window:</strong> 30 minutes is default; adjust based on typical attack speed vs. legitimate retry patterns</li>
+                </ul>
+                <p><strong>Alternative Approach:</strong> Consider using <code>| streamstats</code> or <code>| eventstats</code> for real-time detection rather than batch processing.</p>
+                <p><strong>Investigation Next Steps:</strong> Examine source IP geolocation, compare against user's typical login locations, check for subsequent lateral movement or privilege escalation.</p>
 
                 <h4>3. Privilege Escalation Detection</h4>
+                <p><strong>Threat Context:</strong> Privilege escalation is a critical phase where attackers elevate their access rights. Windows Event ID 4672 logs whenever special privileges are assigned to a new logon.</p>
                 <div class="description">
-                    Monitor for privilege escalation activities:
+                    <strong>Detection Logic:</strong> Monitor privilege assignment events, focusing on unusual frequency or logon types (especially Type 3: Network, Type 10: RemoteInteractive).
                 </div>
                 <div class="query-box">
                     <code>index=security EventCode=4672
 | stats count by user, Logon_Type
 | where count > 10</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>EventCode=4672:</strong> Special privileges assigned to new logon (SeSecurityPrivilege, SeBackupPrivilege, SeDebugPrivilege)</li>
+                    <li><strong>Logon_Type field:</strong> Reveals how privilege was obtained (2=Interactive, 3=Network, 4=Batch, 5=Service, 10=RemoteInteractive)</li>
+                    <li><strong>Baseline awareness:</strong> Administrator accounts will trigger this frequently; focus on user accounts or service accounts</li>
+                </ul>
+                <p><strong>Enhanced Detection:</strong> Cross-reference with Event ID 4673 (privileged service called) and 4674 (privileged operation attempted) for complete privilege abuse timeline.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1078 (Valid Accounts), T1068 (Exploitation for Privilege Escalation)</p>
 
                 <h4>4. Data Exfiltration Detection</h4>
+                <p><strong>Threat Context:</strong> Data exfiltration represents the final objective phase where attackers transmit stolen data to external infrastructure. Large outbound transfers, especially to unusual destinations, warrant investigation.</p>
                 <div class="description">
-                    Identify large data transfers to external IPs:
+                    <strong>Detection Logic:</strong> Analyze firewall or proxy logs for high-volume outbound connections to non-RFC1918 addresses, aggregating by source, destination, and user.
                 </div>
                 <div class="query-box">
                     <code>index=network sourcetype=firewall action=allowed
@@ -399,10 +519,25 @@
 | stats sum(bytes_mb) as total_mb by src_ip, dest_ip, user
 | sort -total_mb</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>eval bytes_mb:</strong> Converts raw byte counts to megabytes for human readability</li>
+                    <li><strong>NOT (dest_ip="10.*" OR dest_ip="192.168.*"):</strong> Excludes internal RFC1918 addresses (also consider 172.16.0.0/12)</li>
+                    <li><strong>Threshold of 100MB:</strong> Should be adjusted based on organization's normal file transfer patterns</li>
+                </ul>
+                <p><strong>Advanced Considerations:</strong></p>
+                <ul>
+                    <li>Attackers may use DNS tunneling, ICMP tunneling, or steganography to evade detection</li>
+                    <li>Consider protocol analysis: large HTTPS uploads, unusual port usage</li>
+                    <li>Temporal patterns: transfers during off-hours are more suspicious</li>
+                    <li>Baseline each user/system's typical outbound data volume</li>
+                </ul>
+                <p><strong>Complementary Queries:</strong> Correlate with DLP (Data Loss Prevention) alerts, examine file access logs (EventCode 4663), check for archive creation (.zip, .7z, .rar) before transfer.</p>
 
                 <h4>5. Malware Detection via Process Creation</h4>
+                <p><strong>Threat Context:</strong> Attackers frequently use PowerShell and Command Prompt for fileless malware, living-off-the-land techniques, and remote code execution. Event ID 4688 logs process creation when command-line auditing is enabled.</p>
                 <div class="description">
-                    Detect suspicious process executions:
+                    <strong>Detection Logic:</strong> Search for encoded PowerShell commands, web download functions, or execution operators that suggest malicious script execution.
                 </div>
                 <div class="query-box">
                     <code>index=windows EventCode=4688
@@ -410,10 +545,26 @@
 | search command_line="*-enc*" OR command_line="*downloadstring*" OR command_line="*invoke-expression*"
 | stats count by host, user, process_name, command_line</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>-enc or -EncodedCommand:</strong> Base64-encoded PowerShell payload (common obfuscation technique)</li>
+                    <li><strong>downloadstring:</strong> .NET method to download remote content (commonly used in malware droppers)</li>
+                    <li><strong>invoke-expression (IEX):</strong> Executes strings as PowerShell code (indicator of dynamic code execution)</li>
+                </ul>
+                <p><strong>Additional Malicious Patterns to Monitor:</strong></p>
+                <ul>
+                    <li><code>-nop -w hidden</code>: No profile, hidden window (stealth execution)</li>
+                    <li><code>Start-BitsTransfer</code>: Background Intelligent Transfer Service (legitimate tool abused for download)</li>
+                    <li><code>Invoke-WebRequest</code> or <code>curl</code>: Web request functions</li>
+                    <li><code>mimikatz</code>, <code>sekurlsa</code>: Credential dumping tools</li>
+                </ul>
+                <p><strong>False Positive Mitigation:</strong> Whitelist known administrative scripts (hash-based or path-based), exclude system accounts performing legitimate automation.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1059.001 (PowerShell), T1027 (Obfuscated Files or Information), T1105 (Ingress Tool Transfer)</p>
 
-                <h4>6. Network Anomaly Detection</h4>
+                <h4>6. Network Anomaly Detection (Port Scanning)</h4>
+                <p><strong>Threat Context:</strong> Port scanning is reconnaissance activity where attackers probe systems for open ports/services. High unique port counts from a single source indicate scanning tools (Nmap, Masscan).</p>
                 <div class="description">
-                    Find unusual network connections:
+                    <strong>Detection Logic:</strong> Use distinct count (dc) to find sources contacting an unusually high number of unique destination ports.
                 </div>
                 <div class="query-box">
                     <code>index=network
@@ -421,10 +572,24 @@
 | where unique_ports > 100
 | sort -unique_ports</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>dc(dest_port):</strong> Distinct count function identifies unique ports accessed</li>
+                    <li><strong>values(dest_port):</strong> Lists all accessed ports for forensic analysis</li>
+                    <li><strong>Threshold of 100 ports:</strong> Legitimate systems rarely contact >100 ports; adjust based on network profile</li>
+                </ul>
+                <p><strong>Scan Types and Detection:</strong></p>
+                <ul>
+                    <li><strong>Horizontal scan:</strong> Many hosts, few ports (add dest_ip distinct count)</li>
+                    <li><strong>Vertical scan:</strong> Few hosts, many ports (current query)</li>
+                    <li><strong>Slow scan:</strong> May evade detection; consider longer time windows</li>
+                </ul>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1046 (Network Service Scanning)</p>
 
-                <h4>7. Web Application Attacks</h4>
+                <h4>7. Web Application Attacks (SQLi & XSS Detection)</h4>
+                <p><strong>Threat Context:</strong> Web applications are frequent attack vectors. SQL Injection (SQLi) manipulates database queries, while Cross-Site Scripting (XSS) injects malicious JavaScript into web pages.</p>
                 <div class="description">
-                    Detect SQL injection and XSS attempts:
+                    <strong>Detection Logic:</strong> Pattern match URI parameters for common SQLi and XSS syntax, correlating with HTTP response codes.
                 </div>
                 <div class="query-box">
                     <code>index=web sourcetype=access_combined
@@ -432,19 +597,51 @@
 | stats count by src_ip, uri, status
 | sort -count</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>union*select:</strong> SQL UNION-based injection attempt</li>
+                    <li><strong>script:</strong> Potential XSS payload (e.g., &lt;script&gt;alert()&lt;/script&gt;)</li>
+                    <li><strong>exec, drop*table:</strong> SQL command injection patterns</li>
+                    <li><strong>Status code correlation:</strong> 200 (success) may indicate vulnerability, 403/500 suggests blocking</li>
+                </ul>
+                <p><strong>Enhanced Detection Patterns:</strong></p>
+                <ul>
+                    <li>Add: <code>OR uri="*' OR '1'='1*"</code> (authentication bypass)</li>
+                    <li>Add: <code>OR uri="*../..%2F*"</code> (directory traversal)</li>
+                    <li>Add: <code>OR uri="*cmd=*"</code> (OS command injection)</li>
+                    <li>Consider URL-decoded analysis: <code>| eval uri_decoded=urldecode(uri)</code></li>
+                </ul>
+                <p><strong>False Positives:</strong> Legitimate application features, security scanners, penetration tests. Whitelist authorized security testing.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1190 (Exploit Public-Facing Application)</p>
 
-                <h4>8. Time-Based Analysis</h4>
+                <h4>8. Time-Based Analysis (Temporal Pattern Detection)</h4>
+                <p><strong>Threat Context:</strong> Visualizing event distribution over time reveals attack patterns, identifies peak attack periods, and helps establish baselines for anomaly detection.</p>
                 <div class="description">
-                    Create timechart for pattern analysis:
+                    <strong>Detection Logic:</strong> Create time-series visualization of failed login attempts, segmented by user.
                 </div>
                 <div class="query-box">
                     <code>index=security EventCode=4625
 | timechart span=1h count by user</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>timechart:</strong> Automatically bins events by time and creates statistical summary</li>
+                    <li><strong>span=1h:</strong> One-hour buckets; adjust based on analysis needs (5m for real-time, 1d for trends)</li>
+                    <li><strong>count by user:</strong> Creates separate time series for each user (limit 10 by default)</li>
+                </ul>
+                <p><strong>Analytical Insights:</strong></p>
+                <ul>
+                    <li><strong>Spikes:</strong> Sudden increases suggest automated attacks</li>
+                    <li><strong>Periodic patterns:</strong> May indicate scheduled tasks or persistent threats</li>
+                    <li><strong>Off-hours activity:</strong> Events outside business hours warrant investigation</li>
+                    <li><strong>Comparison:</strong> Use <code>timechart ... by user limit=0</code> to aggregate all users</li>
+                </ul>
+                <p><strong>Advanced Visualization:</strong> Combine with <code>| predict</code> for machine learning-based anomaly detection or <code>| baseline</code> for statistical deviation analysis.</p>
 
-                <h4>9. User Behavior Analytics</h4>
+                <h4>9. User Behavior Analytics (Impossible Travel Detection)</h4>
+                <p><strong>Threat Context:</strong> Compromised credentials are often used from multiple geographic locations. Users appearing from multiple IPs simultaneously or from geographically distant locations in short time periods indicate account compromise.</p>
                 <div class="description">
-                    Identify unusual user activity patterns:
+                    <strong>Detection Logic:</strong> Identify users authenticating from an anomalous number of distinct source IPs within the analysis timeframe.
                 </div>
                 <div class="query-box">
                     <code>index=security EventCode=4624
@@ -452,10 +649,26 @@
 | where unique_ips > 5
 | sort -unique_ips</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>dc(src_ip):</strong> Distinct count of source IPs per user</li>
+                    <li><strong>values(src_ip):</strong> Lists all IPs for manual review</li>
+                    <li><strong>Threshold of 5:</strong> Depends on user role (executives travel, remote workers VPN); tune per user/department</li>
+                </ul>
+                <p><strong>Enhanced Detection with Geolocation:</strong></p>
+                <div class="query-box">
+                    <code>index=security EventCode=4624
+| iplocation src_ip
+| stats dc(Country) as countries, values(Country) as country_list by user
+| where countries > 2</code>
+                </div>
+                <p><strong>Impossible Travel Detection:</strong> Calculate geographic distance and time delta between consecutive logins to detect physically impossible travel scenarios.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1078 (Valid Accounts), T1133 (External Remote Services)</p>
 
                 <h4>10. Threat Intelligence Integration</h4>
+                <p><strong>Threat Context:</strong> External threat intelligence feeds provide context about known malicious infrastructure (C2 servers, malware distribution sites, scanning hosts). Integrating these feeds enriches security events with actionable threat data.</p>
                 <div class="description">
-                    Check IPs against threat intel feeds:
+                    <strong>Detection Logic:</strong> Use Splunk lookups to match network destinations against threat intelligence databases, filtering for confirmed threats.
                 </div>
                 <div class="query-box">
                     <code>index=network
@@ -463,46 +676,108 @@
 | where isnotnull(threat_level)
 | stats count by src_ip, dest_ip, threat_level, category</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>lookup threat_intel_ips:</strong> References CSV lookup table containing known bad IPs</li>
+                    <li><strong>OUTPUT threat_level, category:</strong> Enriches events with threat severity and classification</li>
+                    <li><strong>isnotnull(threat_level):</strong> Filters only events matching threat intelligence</li>
+                </ul>
+                <p><strong>Threat Intelligence Sources:</strong></p>
+                <ul>
+                    <li><strong>Commercial feeds:</strong> Recorded Future, CrowdStrike, Anomali (high fidelity, subscription-based)</li>
+                    <li><strong>Open source:</strong> AlienVault OTX, AbuseIPDB, EmergingThreats (free but may have higher false positives)</li>
+                    <li><strong>Government feeds:</strong> CISA, FBI InfraGard (sector-specific intelligence)</li>
+                </ul>
+                <p><strong>Lookup Table Maintenance:</strong> Implement automated updates (daily/hourly) via scripts or Splunk apps. Monitor feed freshness and accuracy.</p>
+                <p><strong>Bidirectional Analysis:</strong> Also check source IPs (<code>lookup ... ip as src_ip</code>) to detect compromised internal hosts.</p>
 
                 <div class="tip">
-                    <strong>💡 Splunk Tips:</strong>
+                    <strong>💡 Splunk Performance Optimization:</strong>
                     <ul>
-                        <li>Use <code>| head 100</code> to limit results for faster testing</li>
-                        <li>Save frequently used searches as reports or alerts</li>
-                        <li>Use <code>| fields</code> to select only necessary fields for better performance</li>
-                        <li>Leverage subsearches for complex correlations</li>
+                        <li><strong>Testing:</strong> Use <code>| head 100</code> to limit results during query development</li>
+                        <li><strong>Field selection:</strong> Use <code>| fields src_ip, dest_ip, user</code> to return only necessary fields</li>
+                        <li><strong>Fast mode:</strong> Enable in search bar for preliminary analysis (disables field discovery)</li>
+                        <li><strong>tstats:</strong> Use <code>| tstats</code> instead of stats for accelerated data models (10-1000x faster)</li>
+                        <li><strong>Summary indexing:</strong> Pre-compute frequently used aggregations</li>
+                        <li><strong>Subsearches:</strong> Use sparingly; often <code>join</code> or <code>lookup</code> is more efficient</li>
                     </ul>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Operational Considerations:</strong> Always validate queries in a test environment before deploying as scheduled searches or alerts. Monitor search resource usage (CPU, memory) and set appropriate scheduling priorities. Document query purpose, data sources, and expected results for knowledge transfer.
                 </div>
             </div>
 
             <!-- Elastic Section -->
             <div id="elastic" class="section">
-                <h2>🔎 Elastic (ELK Stack) Query Cheatsheet</h2>
-
-                <h3>Kibana Query Language (KQL) Basics</h3>
-                <div class="description">
-                    Simple field search in Kibana:
-                </div>
+                <h2>🔎 Elastic (ELK Stack): Open Source Security Analytics</h2>
+                
+                <h3>Elastic Stack Architecture</h3>
+                <p>The Elastic Stack (formerly ELK Stack) is a collection of open-source tools for searching, analyzing, and visualizing log data in real-time:</p>
+                <ul>
+                    <li><strong>Elasticsearch:</strong> Distributed search and analytics engine built on Apache Lucene, storing data as JSON documents in inverted indices</li>
+                    <li><strong>Logstash:</strong> Server-side data processing pipeline that ingests, transforms, and forwards data to Elasticsearch</li>
+                    <li><strong>Kibana:</strong> Visualization and exploration interface providing dashboards, query builders, and investigation tools</li>
+                    <li><strong>Beats:</strong> Lightweight data shippers (Filebeat, Metricbeat, Packetbeat, Winlogbeat) deployed on endpoints</li>
+                </ul>
+                <p>Elastic Security (formerly SIEM) adds pre-built detection rules, timeline analysis, case management, and threat intelligence integration.</p>
+                
+                <h3>Elastic Common Schema (ECS)</h3>
+                <p>ECS is a standardized field naming convention ensuring consistent data structure across diverse sources:</p>
+                <ul>
+                    <li><strong>@timestamp:</strong> Event occurrence time (ISO 8601 format)</li>
+                    <li><strong>event.*:</strong> Event metadata (category, action, outcome, type)</li>
+                    <li><strong>user.*:</strong> User identity (name, id, domain)</li>
+                    <li><strong>source/destination.*:</strong> Network endpoints (ip, port, geo)</li>
+                    <li><strong>process.*:</strong> Process details (name, pid, command_line, parent)</li>
+                    <li><strong>file.*:</strong> File operations (path, name, hash)</li>
+                </ul>
+                <p>ECS compliance enables seamless integration of diverse data sources and correlation across security events.</p>
+                
+                <h3>Query Languages in Elastic</h3>
+                
+                <h4>Kibana Query Language (KQL)</h4>
+                <p>KQL is a simplified query syntax for Kibana's Discover and Dashboard interfaces:</p>
                 <div class="query-box">
-                    <code>event.action: "login" AND user.name: "admin"</code>
+                    <code>event.action: "login" AND user.name: "admin" AND NOT event.outcome: "success"</code>
                 </div>
-
-                <h3>Elasticsearch DSL Queries</h3>
-
+                <p><strong>KQL Features:</strong></p>
+                <ul>
+                    <li><strong>Field:value syntax:</strong> Simple equality matching with automatic field type handling</li>
+                    <li><strong>Wildcard support:</strong> <code>process.name: "powershell*"</code> or <code>url.path: "/api/*/user"</code></li>
+                    <li><strong>Boolean operators:</strong> AND, OR, NOT (case-sensitive)</li>
+                    <li><strong>Range queries:</strong> <code>bytes: &gt;= 1000 AND bytes: &lt; 10000</code></li>
+                    <li><strong>Nested field access:</strong> Automatically handles nested objects</li>
+                </ul>
+                
+                <h4>Elasticsearch Query DSL (Domain Specific Language)</h4>
+                <p>DSL is a JSON-based query language for programmatic API access with advanced capabilities:</p>
+                <ul>
+                    <li><strong>Full-text search:</strong> Analyzed text matching with relevance scoring</li>
+                    <li><strong>Aggregations:</strong> Statistical analysis, grouping, and bucketing</li>
+                    <li><strong>Scripting:</strong> Custom logic using Painless scripting language</li>
+                    <li><strong>Geospatial queries:</strong> Location-based filtering and distance calculations</li>
+                </ul>
+                
+                <h3>Incident Response Workflow</h3>
                 <div class="important">
-                    <strong>Elastic incident playbook:</strong>
+                    <strong>Elastic Security Investigation Methodology:</strong>
                     <ol>
-                        <li>Open alert in <em>Security</em> → inspect rule and mapped fields.</li>
-                        <li>Use <em>View in Discover</em> to pivot on the event with filters for src/dest, user, host.</li>
-                        <li>Replay with <em>Inspect</em> → <em>Request</em> or copy DSL, then refine using queries below.</li>
-                        <li>Use <em>Timeline</em> to build an investigation story; add evidence panels.</li>
-                        <li>Contain via cases/actions (isolate host, disable user) and record notes.</li>
+                        <li><strong>Alert Triage:</strong> Open alert in Security → Detection Engine, inspect rule logic and matched fields</li>
+                        <li><strong>Contextual Pivoting:</strong> Use "View in Discover" to explore related events with automatic filters (source/destination, user, host)</li>
+                        <li><strong>Query Refinement:</strong> Access raw DSL via "Inspect" → "Request" to understand underlying query, modify, and rerun</li>
+                        <li><strong>Timeline Construction:</strong> Build investigation timeline with evidence panels, annotate findings, and correlate events</li>
+                        <li><strong>Response Actions:</strong> Isolate compromised hosts via Endpoint Security integration, disable user accounts, create cases for tracking</li>
+                        <li><strong>Threat Hunting:</strong> Leverage Machine Learning jobs and anomaly detection for proactive threat discovery</li>
                     </ol>
                 </div>
 
+                <h3>Detection Queries</h3>
+
                 <h4>1. Failed Authentication Detection</h4>
+                <p><strong>Threat Context:</strong> Failed authentication events are primary indicators of credential-based attacks (brute force, password spraying, credential stuffing).</p>
                 <div class="description">
-                    Query for failed login attempts:
+                    <strong>Detection Logic:</strong> Query authentication failure events from the last hour, aggregating by username to identify targeted accounts.
                 </div>
                 <div class="query-box">
                     <code>GET /logs-*/_search
@@ -524,10 +799,20 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>bool query:</strong> Combines multiple query clauses (must, filter, should, must_not)</li>
+                    <li><strong>match:</strong> Full-text search on analyzed fields</li>
+                    <li><strong>filter context:</strong> Range query in filter (cached, no scoring) for performance</li>
+                    <li><strong>terms aggregation:</strong> Groups results by user.name.keyword (non-analyzed field for exact matching)</li>
+                    <li><strong>Index pattern /logs-*/_search:</strong> Searches all indices matching the pattern</li>
+                </ul>
+                <p><strong>ECS Compliance:</strong> Uses standard ECS fields (event.action, @timestamp, user.name) ensuring compatibility with diverse data sources.</p>
 
                 <h4>2. Brute Force Attack Detection</h4>
+                <p><strong>Threat Context:</strong> Brute force attacks generate high volumes of authentication failures from the same source, attempting to compromise accounts through credential guessing.</p>
                 <div class="description">
-                    Aggregate failed logins by source IP:
+                    <strong>Detection Logic:</strong> Aggregate authentication failures by source IP with nested aggregation counting attempts, revealing attack sources.
                 </div>
                 <div class="query-box">
                     <code>GET /logs-*/_search
@@ -551,10 +836,20 @@
   "size": 0
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>Multiple must clauses:</strong> Both conditions must be satisfied (AND logic)</li>
+                    <li><strong>event.category: authentication:</strong> ECS category for all auth-related events</li>
+                    <li><strong>Nested aggregations:</strong> Sub-aggregation counts failures per IP</li>
+                    <li><strong>size: 0:</strong> Returns only aggregation results, not individual documents (performance optimization)</li>
+                </ul>
+                <p><strong>Advanced Analysis:</strong> Enhance with <code>"min_doc_count": 5</code> parameter in terms aggregation to show only IPs exceeding threshold.</p>
+                <p><strong>Visualization:</strong> Create Kibana heatmap showing attack intensity over time, or geographic map showing attacker locations.</p>
 
                 <h4>3. Network Connection Monitoring</h4>
+                <p><strong>Threat Context:</strong> Monitoring outbound connections identifies C2 communications, data exfiltration, and lateral movement to external infrastructure.</p>
                 <div class="description">
-                    Monitor outbound connections to external IPs:
+                    <strong>Detection Logic:</strong> Filter network flows excluding RFC1918 private addresses, aggregating external destinations.
                 </div>
                 <div class="query-box">
                     <code>GET /network-*/_search
@@ -578,10 +873,19 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>must_not clause:</strong> Exclusion logic for filtering internal traffic</li>
+                    <li><strong>prefix match:</strong> Efficient filtering for IP ranges (consider 172.16-31 for full RFC1918 compliance)</li>
+                    <li><strong>Limitation:</strong> Also exclude multicast (224.0.0.0/4), loopback (127.0.0.0/8), and link-local (169.254.0.0/16)</li>
+                </ul>
+                <p><strong>Enhanced Detection:</strong> Add geolocation aggregation and filter for unexpected countries, or integrate with threat intelligence.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1071 (Application Layer Protocol), T1041 (Exfiltration Over C2 Channel)</p>
 
                 <h4>4. Process Execution Monitoring</h4>
+                <p><strong>Threat Context:</strong> Malicious PowerShell usage is prevalent in modern attacks for remote code execution, credential harvesting, and living-off-the-land techniques.</p>
                 <div class="description">
-                    Track suspicious process executions:
+                    <strong>Detection Logic:</strong> Use wildcard matching on process command lines to identify encoded commands and web-based payload delivery.
                 </div>
                 <div class="query-box">
                     <code>GET /endpoint-*/_search
@@ -601,10 +905,19 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>should clause with minimum_should_match:</strong> OR logic requiring at least one pattern to match</li>
+                    <li><strong>wildcard:</strong> Pattern matching with * (any characters); case-sensitive by default</li>
+                    <li><strong>Performance consideration:</strong> Wildcards on analyzed text fields are expensive; use .keyword suffix for exact matching</li>
+                </ul>
+                <p><strong>Additional Suspicious Patterns:</strong> <code>bypass</code>, <code>-nop -w hidden</code>, <code>FromBase64String</code>, <code>Net.WebClient</code></p>
+                <p><strong>MITRE ATT&CK:</strong> T1059.001 (PowerShell), T1027 (Obfuscated Files or Information)</p>
 
                 <h4>5. File Modification Detection</h4>
+                <p><strong>Threat Context:</strong> Modifications to critical system files indicate privilege escalation, persistence mechanisms, or system compromise.</p>
                 <div class="description">
-                    Monitor critical file changes:
+                    <strong>Detection Logic:</strong> Monitor file modification events on critical system paths across Windows and Linux systems.
                 </div>
                 <div class="query-box">
                     <code>GET /endpoint-*/_search
@@ -625,10 +938,19 @@
   }
 }</code>
                 </div>
+                <p><strong>Critical Paths to Monitor:</strong></p>
+                <ul>
+                    <li><strong>Linux:</strong> /etc/passwd, /etc/shadow, /etc/sudoers, /etc/crontab, ~/.ssh/authorized_keys</li>
+                    <li><strong>Windows:</strong> C:\Windows\System32\*, Registry hives (SAM, SYSTEM), startup folders</li>
+                    <li><strong>Application:</strong> Web server roots, database files, application configurations</li>
+                </ul>
+                <p><strong>File Integrity Monitoring (FIM):</strong> Combine with hash comparison (file.hash.sha256) to detect unauthorized modifications.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1078 (Valid Accounts), T1547 (Boot or Logon Autostart Execution)</p>
 
                 <h4>6. Web Application Attack Detection</h4>
+                <p><strong>Threat Context:</strong> Web applications are exposed attack surfaces vulnerable to injection attacks that can lead to data breaches.</p>
                 <div class="description">
-                    Detect SQL injection and XSS attempts:
+                    <strong>Detection Logic:</strong> Use regular expressions to pattern-match common SQLi and XSS payloads in URLs.
                 </div>
                 <div class="query-box">
                     <code>GET /web-*/_search
@@ -650,10 +972,25 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>regexp:</strong> Supports full regular expression syntax (more powerful but slower than wildcard)</li>
+                    <li><strong>.*:</strong> Matches any characters (equivalent to * in wildcard)</li>
+                    <li><strong>Case sensitivity:</strong> Elasticsearch regexes are case-sensitive by default</li>
+                </ul>
+                <p><strong>Enhanced Patterns:</strong></p>
+                <ul>
+                    <li><strong>SQLi:</strong> <code>' OR '1'='1</code>, <code>; DROP TABLE</code>, <code>UNION ALL SELECT</code></li>
+                    <li><strong>XSS:</strong> <code>&lt;iframe&gt;</code>, <code>javascript:</code>, <code>onerror=</code></li>
+                    <li><strong>Command Injection:</strong> <code>; ls</code>, <code>| cat /etc/passwd</code></li>
+                </ul>
+                <p><strong>Correlation:</strong> Match with HTTP response codes (200 = possible success, 500 = error, 403 = blocked)</p>
+                <p><strong>MITRE ATT&CK:</strong> T1190 (Exploit Public-Facing Application)</p>
 
                 <h4>7. DNS Tunneling Detection</h4>
+                <p><strong>Threat Context:</strong> DNS tunneling abuses DNS protocol to exfiltrate data or establish C2 channels, bypassing traditional firewall rules that allow DNS traffic.</p>
                 <div class="description">
-                    Identify potential DNS tunneling activities:
+                    <strong>Detection Logic:</strong> Analyze DNS query patterns using aggregations to identify domains with suspicious characteristics (high query volume, many unique subdomains).
                 </div>
                 <div class="query-box">
                     <code>GET /dns-*/_search
@@ -680,16 +1017,29 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>Nested aggregations:</strong> Count total queries AND unique subdomain count per domain</li>
+                    <li><strong>cardinality aggregation:</strong> Approximate distinct count (uses HyperLogLog algorithm)</li>
+                    <li><strong>order parameter:</strong> Sorts buckets by nested aggregation value</li>
+                </ul>
+                <p><strong>DNS Tunneling Indicators:</strong></p>
+                <ul>
+                    <li><strong>High query volume:</strong> Hundreds or thousands of queries to same domain</li>
+                    <li><strong>Unusual subdomain patterns:</strong> Long, random-looking subdomains (encoded data)</li>
+                    <li><strong>Request/response size:</strong> Unusually large TXT records or response sizes</li>
+                    <li><strong>Query frequency:</strong> Regular, automated patterns</li>
+                </ul>
+                <p><strong>Advanced Detection:</strong> Use Elasticsearch ML anomaly detection on query length, entropy, and frequency patterns.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1071.004 (Application Layer Protocol: DNS), T1048.003 (Exfiltration Over Alternative Protocol: DNS)</p>
 
                 <h4>8. Time-Series Anomaly Detection</h4>
-                <div class="description">
-                    Use date histogram for pattern analysis:
-                </div>
+                <p><strong>Threat Context:</strong> Temporal analysis reveals attack patterns, identifies peak activity periods, and establishes behavioral baselines.</p>
                 <div class="query-box">
                     <code>GET /logs-*/_search
 {
   "query": {
-    "match": { "event.category": "authentication" }
+    "range": { "@timestamp": { "gte": "now-24h" }}
   },
   "aggs": {
     "events_over_time": {
@@ -698,8 +1048,8 @@
         "fixed_interval": "1h"
       },
       "aggs": {
-        "by_outcome": {
-          "terms": { "field": "event.outcome" }
+        "by_category": {
+          "terms": { "field": "event.category" }
         }
       }
     }
@@ -707,556 +1057,1597 @@
   "size": 0
 }</code>
                 </div>
-
-                <h3>KQL Examples for Kibana Discover</h3>
-
-                <h4>Basic KQL Queries</h4>
-                <div class="query-box">
-                    <code>// Failed SSH logins
-event.action: "ssh_login" AND event.outcome: "failure"
-
-// Successful privileged operations
-event.action: "sudo" AND event.outcome: "success"
-
-// Large file uploads
-http.request.method: "POST" AND http.request.bytes > 10000000
-
-// Suspicious PowerShell execution
-process.name: "powershell.exe" AND process.command_line: *encoded*
-
-// Multiple failed logins from same IP
-source.ip: * AND event.outcome: "failure" AND event.category: "authentication"</code>
-                </div>
+                <p><strong>Advanced Capabilities:</strong></p>
+                <ul>
+                    <li><strong>date_histogram:</strong> Time-based bucketing (minute, hour, day intervals)</li>
+                    <li><strong>Moving averages:</strong> Add pipeline aggregations for trend analysis</li>
+                    <li><strong>Percentile aggregations:</strong> Identify outliers statistically</li>
+                    <li><strong>Machine Learning:</strong> Elastic ML can automatically detect anomalies in time-series data</li>
+                </ul>
 
                 <div class="tip">
-                    <strong>💡 Elastic Tips:</strong>
+                    <strong>💡 Elastic Performance Best Practices:</strong>
                     <ul>
-                        <li>Use field aggregations for statistical analysis</li>
-                        <li>Leverage Elastic Machine Learning for anomaly detection</li>
-                        <li>Create index patterns for efficient data organization</li>
-                        <li>Use visualization dashboards for real-time monitoring</li>
-                        <li>Save frequently used queries as saved searches</li>
+                        <li><strong>Index patterns:</strong> Use specific index patterns (/logs-2024.01.*/) instead of wildcards when possible</li>
+                        <li><strong>Keyword fields:</strong> Use .keyword suffix for aggregations and exact matching</li>
+                        <li><strong>Filter context:</strong> Place range queries in filter clause for caching</li>
+                        <li><strong>Size parameter:</strong> Set "size": 0 when only aggregations are needed</li>
+                        <li><strong>Scroll API:</strong> Use for large result sets (>10,000 documents)</li>
+                        <li><strong>Index lifecycle management:</strong> Implement hot-warm-cold architecture for cost optimization</li>
                     </ul>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Elastic Security Integration:</strong> Leverage Elastic Security's pre-built detection rules based on MITRE ATT&CK framework. These rules are continuously updated by Elastic's threat research team and provide high-fidelity detections with minimal tuning required. Customize rules to match your environment and disable noisy detections.
                 </div>
             </div>
 
             <!-- Microsoft Sentinel Section -->
             <div id="sentinel" class="section">
-                <h2>🛰️ Microsoft Sentinel Runbook</h2>
+                <h2>🛰️ Microsoft Sentinel: Cloud-Native SIEM</h2>
+                
+                <h3>Microsoft Sentinel Architecture and Azure Integration</h3>
+                <p>Microsoft Sentinel is a cloud-native Security Information and Event Management (SIEM) and Security Orchestration, Automation, and Response (SOAR) solution built on Azure's scalable infrastructure. Unlike traditional on-premises SIEM solutions, Sentinel leverages Azure's compute and storage capabilities, enabling elastic scaling and pay-as-you-go pricing models.</p>
+                
+                <h4>Core Components</h4>
+                <ul>
+                    <li><strong>Log Analytics Workspace:</strong> The data storage foundation where all security logs are ingested. Uses columnar storage optimized for fast queries across petabytes of data.</li>
+                    <li><strong>Data Connectors:</strong> Pre-built integrations for Azure services, Microsoft 365, third-party security solutions, and generic formats (Syslog, CEF, REST API).</li>
+                    <li><strong>Analytics Engine:</strong> Rule-based detection system supporting scheduled queries, Microsoft security alerts, ML-based anomaly detection, and fusion correlation.</li>
+                    <li><strong>Incident Management:</strong> Centralized case management with investigation graph, entity behavior analytics (UEBA), and automated response playbooks.</li>
+                    <li><strong>Workbooks:</strong> Interactive dashboards built on Azure Monitor providing visualization and threat context for investigations.</li>
+                    <li><strong>Hunting Queries:</strong> Proactive threat hunting repository with community-driven KQL queries aligned to MITRE ATT&CK.</li>
+                </ul>
+                
+                <h4>Azure Integration Benefits</h4>
+                <ul>
+                    <li><strong>Native Integration:</strong> Zero-configuration connectivity to Azure AD, Azure resources, Microsoft 365, and Defender suite</li>
+                    <li><strong>Elastic Scalability:</strong> Automatically handles ingestion spikes without infrastructure management</li>
+                    <li><strong>Global Availability:</strong> Deploy across Azure regions for compliance and data residency requirements</li>
+                    <li><strong>Cost Efficiency:</strong> Pay only for data ingested; leverage commitment tiers and data retention policies</li>
+                    <li><strong>AI/ML Capabilities:</strong> Built-in machine learning for anomaly detection, user/entity behavior analytics (UEBA), and threat intelligence matching</li>
+                </ul>
+                
+                <h3>Kusto Query Language (KQL) Fundamentals</h3>
+                <p>KQL is a read-only query language designed for fast data exploration across massive datasets. Unlike SQL, KQL is optimized for time-series data and follows a tabular data model where each table represents a specific log source.</p>
+                
+                <h4>KQL Syntax Structure</h4>
+                <div class="query-box">
+                    <code>// Basic KQL query structure
+TableName                           // Start with a table
+| where TimeGenerated > ago(1h)    // Filter rows (WHERE clause)
+| extend NewField = Field1 + Field2 // Add calculated columns
+| project Field1, Field2, NewField  // Select columns to display
+| summarize Count=count() by Field1 // Aggregate data
+| order by Count desc               // Sort results
+| take 100                          // Limit output</code>
+                </div>
+                
+                <h4>Key KQL Operators</h4>
+                <ul>
+                    <li><strong>where:</strong> Filters rows based on conditions (similar to SQL WHERE)</li>
+                    <li><strong>project:</strong> Selects specific columns (similar to SQL SELECT)</li>
+                    <li><strong>extend:</strong> Adds calculated columns without removing existing ones</li>
+                    <li><strong>summarize:</strong> Aggregates data (count, sum, avg, min, max, make_set, make_list)</li>
+                    <li><strong>join:</strong> Combines data from multiple tables (inner, leftouter, rightouter, fullouter)</li>
+                    <li><strong>parse:</strong> Extracts structured data from strings using patterns</li>
+                    <li><strong>mv-expand:</strong> Expands multi-value fields into separate rows</li>
+                    <li><strong>ago():</strong> Time function for relative time ranges (ago(1h), ago(7d))</li>
+                    <li><strong>bin():</strong> Buckets time values for time-series analysis</li>
+                </ul>
+                
+                <h4>KQL String Matching Operators</h4>
+                <ul>
+                    <li><strong>==</strong> (equals), <strong>!=</strong> (not equals): Case-sensitive exact match</li>
+                    <li><strong>=~</strong> (equals), <strong>!~</strong> (not equals): Case-insensitive exact match</li>
+                    <li><strong>contains:</strong> Case-insensitive substring search</li>
+                    <li><strong>has:</strong> Case-insensitive whole word search (faster than contains)</li>
+                    <li><strong>startswith, endswith:</strong> Prefix/suffix matching</li>
+                    <li><strong>matches regex:</strong> Regular expression pattern matching</li>
+                    <li><strong>has_any, has_all:</strong> Efficient multi-value matching</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 KQL Performance Optimization:</strong>
+                    <ul>
+                        <li><strong>Filter early:</strong> Place time filters (where TimeGenerated) at the beginning of queries</li>
+                        <li><strong>Use "has" over "contains":</strong> "has" searches whole words and is indexed</li>
+                        <li><strong>Project before summarize:</strong> Reduce data volume before aggregations</li>
+                        <li><strong>Leverage materialized views:</strong> Pre-compute frequently accessed aggregations</li>
+                        <li><strong>Avoid "search *":</strong> Specify table names explicitly for better performance</li>
+                    </ul>
+                </div>
+                
+                <h3>Data Connectors Overview</h3>
+                <p>Data connectors are the ingestion pipelines that populate Sentinel's Log Analytics workspace. Understanding connector types is essential for data availability and troubleshooting.</p>
+                
+                <h4>Connector Categories</h4>
+                <ul>
+                    <li><strong>Service-to-Service (Microsoft):</strong> Azure AD, Microsoft 365 Defender, Azure Activity, Azure Firewall - enabled with one-click authentication</li>
+                    <li><strong>Agent-Based:</strong> Log Analytics agent for Windows/Linux servers, Azure Monitor Agent (AMA) for modern deployments</li>
+                    <li><strong>API-Based:</strong> Third-party integrations via REST APIs (AWS, GCP, Okta, ServiceNow)</li>
+                    <li><strong>Syslog/CEF:</strong> Network devices, security appliances using Common Event Format over Syslog</li>
+                    <li><strong>Custom Logs:</strong> Data Collector API for proprietary log formats and custom applications</li>
+                </ul>
+                
+                <h4>Common Data Tables and Their Sources</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Table Name</th>
+                                <th>Data Source</th>
+                                <th>Key Fields</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SecurityEvent</strong></td>
+                                <td>Windows Security Event Logs</td>
+                                <td>EventID, Account, Computer, Activity</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SigninLogs</strong></td>
+                                <td>Azure AD Sign-in Events</td>
+                                <td>UserPrincipalName, IPAddress, AppDisplayName, ResultType</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AuditLogs</strong></td>
+                                <td>Azure AD Administrative Changes</td>
+                                <td>OperationName, Result, InitiatedBy, TargetResources</td>
+                            </tr>
+                            <tr>
+                                <td><strong>OfficeActivity</strong></td>
+                                <td>Microsoft 365 Audit Logs</td>
+                                <td>Operation, UserId, ClientIP, Workload</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DeviceProcessEvents</strong></td>
+                                <td>Microsoft Defender for Endpoint</td>
+                                <td>DeviceName, ProcessCommandLine, AccountName, SHA256</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CommonSecurityLog</strong></td>
+                                <td>Firewalls, Proxies (CEF format)</td>
+                                <td>DeviceVendor, DeviceAction, SourceIP, DestinationIP</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Syslog</strong></td>
+                                <td>Linux/Unix Systems</td>
+                                <td>Computer, Facility, SeverityLevel, SyslogMessage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AzureActivity</strong></td>
+                                <td>Azure Resource Manager Operations</td>
+                                <td>OperationName, Caller, ResourceGroup, ActivityStatus</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Data Connector Health Monitoring:</strong> Regularly verify connector status in the Data Connectors page. Missing data can indicate agent failures, authentication issues, or API quota limits. Use the Heartbeat table to monitor agent connectivity and the _LogOperation table to track ingestion errors.
+                </div>
+
+                <h3>Incident Investigation Workflow</h3>
                 <p>Step-by-step guide for investigating alerts and hunting threats in Microsoft Sentinel using KQL, workbooks, and incident tools.</p>
 
-                <h3>Core Log Tables</h3>
-                <ul>
-                    <li><strong>SecurityEvent</strong> (Windows), <strong>DeviceEvents</strong> / <strong>DeviceProcessEvents</strong> (Defender for Endpoint)</li>
-                    <li><strong>SigninLogs</strong> &amp; <strong>AuditLogs</strong> (Entra ID), <strong>OfficeActivity</strong> (M365), <strong>CommonSecurityLog</strong> (firewalls/proxies)</li>
-                    <li><strong>Syslog</strong> (Linux), <strong>AzureDiagnostics</strong> (platform), <strong>Heartbeat</strong> (agent health)</li>
-                </ul>
-
+                <h4>Incident Response Lifecycle in Sentinel</h4>
+                <p>Sentinel's incident management follows the NIST Cybersecurity Framework's incident response phases:</p>
+                <ol>
+                    <li><strong>Detection:</strong> Analytics rules correlate events and generate alerts; multiple related alerts coalesce into a single incident</li>
+                    <li><strong>Triage:</strong> Review incident severity (Informational, Low, Medium, High), entities involved, and automated investigation results</li>
+                    <li><strong>Investigation:</strong> Use investigation graph to visualize relationships; pivot to logs for detailed forensics</li>
+                    <li><strong>Containment:</strong> Execute playbooks for automated response (disable accounts, isolate devices)</li>
+                    <li><strong>Remediation:</strong> Apply fixes and restore normal operations</li>
+                    <li><strong>Post-Incident:</strong> Document findings, update detection rules, conduct lessons learned</li>
+                </ol>
+                
                 <div class="important">
-                    <strong>Sentinel incident playbook:</strong>
+                    <strong>⚠️ Sentinel Incident Playbook - Step-by-Step:</strong>
                     <ol>
-                        <li>Incident → review entities, evidence, severity, owner.</li>
-                        <li>Investigation graph → expand entities, note related alerts/IPs/processes.</li>
-                        <li>View in Logs → run KQL from templates below; adjust time/filters.</li>
-                        <li>Workbooks → open Identity/Endpoint/Email workbook scoped to entities.</li>
-                        <li>Response → trigger playbooks (Logic Apps), isolate host (Defender), reset creds.</li>
-                        <li>Close → document timeline, root cause, actions, and lessons learned.</li>
+                        <li><strong>Incident Overview:</strong> Review entities (accounts, hosts, IPs), evidence timeline, severity assignment, and alert grouping logic</li>
+                        <li><strong>Investigation Graph:</strong> Expand entities to visualize related alerts, processes, network connections, and file activities; identify lateral movement paths</li>
+                        <li><strong>View in Logs:</strong> Pivot to KQL queries with entity context pre-populated; run targeted investigations (queries below)</li>
+                        <li><strong>Workbooks Analysis:</strong> Open Identity/Endpoint/Email workbooks scoped to incident entities for contextual pivots</li>
+                        <li><strong>Automated Response:</strong> Trigger Logic Apps playbooks for containment (account disable, device isolation via Defender, ticket creation)</li>
+                        <li><strong>Documentation:</strong> Update incident with timeline, root cause analysis, MITRE ATT&CK tactics/techniques, actions taken, and lessons learned</li>
                     </ol>
                 </div>
 
-                <h3>Investigation Flow (Portal)</h3>
+                <h3>Investigation Portal Navigation</h3>
+                <p><strong>Best Practices for Efficient Incident Handling:</strong></p>
                 <ol>
-                    <li>Open <em>Incidents</em> → pick incident → review <em>Entities</em> (accounts, hosts, IPs) and alert details.</li>
-                    <li>Use <em>Evidence &amp; Response</em> to see correlated alerts and timeline; assign owner and severity.</li>
-                    <li>Open <em>Investigation graph</em> → expand entities to see related alerts, IPs, processes.</li>
-                    <li>Click <em>View in Logs</em> to pivot into KQL with entity context; run targeted queries (below).</li>
-                    <li>Open <em>Workbooks</em> (Identity/Endpoint/Email) for curated pivots; add filters for the incident entities.</li>
-                    <li>Remediate: trigger playbooks (Logic Apps) or live response (Defender) if integrated; document in comments.</li>
+                    <li><strong>Incidents Dashboard:</strong> Navigate to <em>Incidents</em> blade → filter by status (New, Active, Closed), severity, and assignment; use bulk operations for efficiency</li>
+                    <li><strong>Incident Details:</strong> Select incident → review <em>Full Details</em> pane showing alert count, entity mapping, and incident timeline</li>
+                    <li><strong>Evidence & Response:</strong> Examine correlated alerts, bookmarked logs, and automated investigation results; assign owner and adjust severity based on findings</li>
+                    <li><strong>Investigation Graph:</strong> Click <em>Investigate</em> → expand entity nodes to reveal relationships; right-click entities for contextual queries</li>
+                    <li><strong>Logs Pivot:</strong> Use <em>View in Logs</em> button to transition to Log Analytics with entity filters pre-applied; modify timeframes and add custom filters</li>
+                    <li><strong>Workbooks:</strong> Access <em>Workbooks</em> gallery → select domain-specific workbooks (Identity & Access, Insider Threat, Threat Intelligence); filter by incident entities</li>
+                    <li><strong>Playbook Execution:</strong> Trigger manual or automated playbooks from incident actions menu; monitor execution in Logic Apps run history</li>
                 </ol>
-
-                <h3>Quick KQL Playbook</h3>
-
-                <h4>1) Coverage / Agent Health</h4>
-                <div class="query-box">
-<code>Heartbeat
-| summarize last_beat=max(TimeGenerated) by Computer, OSType
-| where last_beat < ago(1h)</code>
+                
+                <div class="tip">
+                    <strong>💡 Investigation Graph Tips:</strong>
+                    <ul>
+                        <li>Use <strong>Related Alerts</strong> to identify if the same attacker targeted multiple systems</li>
+                        <li><strong>Timeline view</strong> reveals the attack sequence and dwell time</li>
+                        <li><strong>Entity insights</strong> provide UEBA scores, historical behavior, and threat intelligence matches</li>
+                        <li><strong>Bookmarks</strong> allow you to save interesting queries and findings for reporting</li>
+                    </ul>
                 </div>
 
-                <h4>2) Failed → Successful Sign-ins (Entra ID)</h4>
+                <h3>KQL Investigation Query Library</h3>
+                <p>The following queries are organized by investigation scenario and aligned with MITRE ATT&CK framework techniques. Each query includes detection logic, expected results, and tuning recommendations.</p>
+
+                <h4>1. Agent Health and Data Coverage</h4>
+                <p><strong>Investigation Context:</strong> Before investigating security incidents, verify that data sources are operational. Missing logs can create blind spots where attacker activity goes undetected.</p>
+                <div class="description">
+                    <strong>Detection Logic:</strong> Query the Heartbeat table to identify agents that haven't reported recently. Healthy agents send heartbeats every 30 seconds; anything older than 1 hour indicates potential issues.
+                </div>
                 <div class="query-box">
-<code>let window = 15m;
+<code>// Identify agents with missing heartbeats (potential coverage gaps)
+Heartbeat
+| summarize LastHeartbeat = max(TimeGenerated) by Computer, OSType, Category
+| where LastHeartbeat < ago(1h)
+| extend TimeSinceLastBeat = now() - LastHeartbeat
+| project Computer, OSType, Category, LastHeartbeat, TimeSinceLastBeat
+| order by TimeSinceLastBeat desc</code>
+                </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>summarize max():</strong> Finds the most recent heartbeat for each computer, handling duplicate entries</li>
+                    <li><strong>where LastHeartbeat < ago(1h):</strong> Filters to agents silent for over 1 hour (adjust threshold based on environment)</li>
+                    <li><strong>extend TimeSinceLastBeat:</strong> Calculates time delta for prioritization</li>
+                    <li><strong>Category field:</strong> Indicates agent type (Direct Agent, Azure VM, Azure Security Center)</li>
+                </ul>
+                <p><strong>Troubleshooting Steps:</strong></p>
+                <ul>
+                    <li><strong>Network issues:</strong> Verify firewall rules allow TCP 443 to *.ods.opinsights.azure.com</li>
+                    <li><strong>Agent service:</strong> Check if HealthService (Windows) or omsagent (Linux) is running</li>
+                    <li><strong>Authentication:</strong> Validate workspace ID and key configuration</li>
+                    <li><strong>Disk space:</strong> Agents fail when disk is full; check /var/opt/microsoft/omsagent (Linux) or C:\Program Files\Microsoft Monitoring Agent (Windows)</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1562.001 (Impair Defenses: Disable or Modify Tools) - Attackers may stop monitoring agents</p>
+
+                <h4>2. Brute Force Detection: Failed-to-Successful Authentication (Azure AD)</h4>
+                <p><strong>Threat Context:</strong> Password spray and credential stuffing attacks generate numerous failed authentication attempts before eventually succeeding with valid credentials. This pattern (failures followed by success from the same IP) indicates a successful compromise.</p>
+                <div class="description">
+                    <strong>Detection Logic:</strong> Use time-windowed aggregation to identify IPs or users with multiple failures followed by a successful login within a short timeframe (15 minutes).
+                </div>
+                <div class="query-box">
+<code>// Detect successful logins after multiple failures (brute force indicators)
+let threshold = 5;             // Minimum failed attempts
+let timeWindow = 15m;          // Time window for correlation
 SigninLogs
 | where TimeGenerated > ago(24h)
-| project TimeGenerated, UserPrincipalName, IPAddress, ResultType
-| summarize fails = countif(ResultType != 0), success = countif(ResultType == 0)
-    by bin(TimeGenerated, window), UserPrincipalName, IPAddress
-| where fails > 5 and success > 0</code>
+| extend ResultDescription = iif(ResultType == "0", "Success", "Failure")
+| project TimeGenerated, UserPrincipalName, IPAddress, ResultType, ResultDescription, Location, AppDisplayName
+| summarize 
+    FailureCount = countif(ResultType != "0"), 
+    SuccessCount = countif(ResultType == "0"),
+    Applications = make_set(AppDisplayName),
+    Locations = make_set(Location)
+    by bin(TimeGenerated, timeWindow), UserPrincipalName, IPAddress
+| where FailureCount >= threshold and SuccessCount > 0
+| project TimeGenerated, UserPrincipalName, IPAddress, FailureCount, SuccessCount, Applications, Locations
+| order by FailureCount desc</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>let statements:</strong> Define variables for easy threshold tuning without modifying query logic</li>
+                    <li><strong>ResultType == "0":</strong> Azure AD uses 0 for success; non-zero codes indicate specific failure reasons</li>
+                    <li><strong>bin(TimeGenerated, timeWindow):</strong> Creates time buckets for aggregation; prevents correlation across unrelated timeframes</li>
+                    <li><strong>countif():</strong> Conditional counting within summarize operation</li>
+                    <li><strong>make_set():</strong> Aggregates unique values into an array; useful for seeing which apps/locations were involved</li>
+                </ul>
+                <p><strong>Investigation Steps:</strong></p>
+                <ul>
+                    <li><strong>IP Reputation:</strong> Check IPAddress against threat intelligence feeds (VirusTotal, AbuseIPDB)</li>
+                    <li><strong>Geolocation:</strong> Verify if Location matches user's typical access patterns</li>
+                    <li><strong>Account Review:</strong> Check if UserPrincipalName has been compromised before or has privileged access</li>
+                    <li><strong>Failure Codes:</strong> Add ResultType to project to see specific failure reasons (50126=invalid password, 50053=locked account)</li>
+                </ul>
+                <p><strong>False Positives:</strong></p>
+                <ul>
+                    <li>Users genuinely forgetting passwords and retrying</li>
+                    <li>Automated scripts with incorrect credentials that eventually succeed</li>
+                    <li>VPN reconnections generating multiple authentication attempts</li>
+                </ul>
+                <p><strong>Tuning Recommendations:</strong> Adjust threshold (currently 5) based on baseline. Create exception list for service accounts and known automation.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1110.003 (Brute Force: Password Spraying), T1110.004 (Brute Force: Credential Stuffing)</p>
 
-                <h4>3) Suspicious PowerShell (Defender)</h4>
+                <h4>3. Suspicious PowerShell Execution (Defender for Endpoint)</h4>
+                <p><strong>Threat Context:</strong> PowerShell is a powerful administration tool frequently abused by attackers for execution, lateral movement, and data exfiltration. Encoded commands, download cradles, and reflection-based execution are strong indicators of malicious activity.</p>
+                <div class="description">
+                    <strong>Detection Logic:</strong> Search process creation events for PowerShell with suspicious command-line arguments commonly used in attacks.
+                </div>
                 <div class="query-box">
-<code>DeviceProcessEvents
+<code>// Detect malicious PowerShell patterns (encoding, web downloads, reflective loading)
+DeviceProcessEvents
 | where TimeGenerated > ago(1d)
-| where ProcessCommandLine has_any ("-enc", "DownloadString", "Invoke-Expression")
-| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine</code>
+| where FileName =~ "powershell.exe" or FileName =~ "pwsh.exe"
+| where ProcessCommandLine has_any (
+    "-enc", "-encodedcommand",           // Base64 encoded commands
+    "DownloadString", "DownloadFile",     // Web download cradles
+    "Invoke-Expression", "IEX",           // Dynamic code execution
+    "Invoke-WebRequest", "iwr",           // HTTP requests
+    "Net.WebClient",                      // .NET web client
+    "FromBase64String",                   // Decoding operations
+    "Reflection.Assembly",                // Reflective loading
+    "-nop", "-noprofile",                 // Stealth options
+    "-w hidden", "-windowstyle hidden",   // Hidden window
+    "bypass"                              // Execution policy bypass
+)
+| project TimeGenerated, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessCommandLine
+| order by TimeGenerated desc</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>=~ operator:</strong> Case-insensitive comparison; PowerShell can be invoked as powershell.exe, POWERSHELL.EXE, etc.</li>
+                    <li><strong>has_any():</strong> Efficient multi-pattern matching; optimized for performance compared to multiple OR conditions</li>
+                    <li><strong>InitiatingProcess fields:</strong> Shows parent process that launched PowerShell; helps identify if started by Office documents, browsers, or other suspicious sources</li>
+                </ul>
+                <p><strong>Attack Patterns Detected:</strong></p>
+                <ul>
+                    <li><strong>-enc / -encodedcommand:</strong> Base64 encoding obfuscates malicious payloads; decode with: <code>[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String("base64_string"))</code></li>
+                    <li><strong>DownloadString + IEX:</strong> Fileless malware pattern; downloads and executes scripts in memory without touching disk</li>
+                    <li><strong>Reflection.Assembly:</strong> Reflective PE injection; loads .NET assemblies directly into memory to evade antivirus</li>
+                    <li><strong>-noprofile -windowstyle hidden:</strong> Stealth flags indicating attempt to avoid detection</li>
+                </ul>
+                <p><strong>Investigation Steps:</strong></p>
+                <ul>
+                    <li><strong>Decode commands:</strong> Extract Base64 strings and decode to reveal true intent</li>
+                    <li><strong>Network analysis:</strong> If DownloadString detected, query DeviceNetworkEvents for destination URLs and IPs</li>
+                    <li><strong>File analysis:</strong> Check if InitiatingProcess is a document (Excel, Word) indicating macro-based attack</li>
+                    <li><strong>Lateral movement:</strong> Search for same AccountName executing PowerShell on other devices</li>
+                </ul>
+                <p><strong>False Positives:</strong> Legitimate administration scripts may use some patterns (DownloadString for updates, -noprofile for automation). Whitelist known administrative accounts and script hashes.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1059.001 (Command and Scripting Interpreter: PowerShell), T1027 (Obfuscated Files or Information), T1620 (Reflective Code Loading)</p>
 
-                <h4>4) Large Outbound Transfers (Firewall/Proxy)</h4>
+                <h4>4. Large Outbound Data Transfers (Data Exfiltration)</h4>
+                <p><strong>Threat Context:</strong> After achieving objectives, attackers exfiltrate sensitive data to external destinations. Large data transfers to non-corporate IPs, especially outside business hours, indicate potential data theft.</p>
+                <div class="description">
+                    <strong>Detection Logic:</strong> Aggregate firewall/proxy logs to identify sources generating unusually large outbound traffic volumes to external destinations.
+                </div>
                 <div class="query-box">
-<code>CommonSecurityLog
-| where TimeGenerated > ago(24h) and DeviceAction == "ALLOW"
-| extend BytesMB = toreal(SentBytes + ReceivedBytes) / 1024 / 1024
-| where BytesMB > 500 and not(startswith(DestinationIP, "10.") or startswith(DestinationIP, "192.168."))
-| summarize TotalMB = sum(BytesMB) by SourceIP, DestinationIP, DestinationPort
+<code>// Identify potential data exfiltration based on high-volume outbound transfers
+let threshold = 500;  // MB threshold
+CommonSecurityLog
+| where TimeGenerated > ago(24h) 
+| where DeviceAction =~ "ALLOW" or DeviceAction =~ "ACCEPT"
+| extend TotalBytes = coalesce(SentBytes, 0) + coalesce(ReceivedBytes, 0)
+| extend BytesMB = toreal(TotalBytes) / 1024 / 1024
+| where BytesMB > threshold
+| where not(ipv4_is_private(DestinationIP))  // Exclude internal RFC1918 addresses
+| summarize 
+    TotalMB = sum(BytesMB),
+    ConnectionCount = count(),
+    FirstSeen = min(TimeGenerated),
+    LastSeen = max(TimeGenerated),
+    Ports = make_set(DestinationPort)
+    by SourceIP, DestinationIP, DeviceVendor
+| extend Duration = LastSeen - FirstSeen
+| project SourceIP, DestinationIP, TotalMB, ConnectionCount, Duration, Ports, DeviceVendor, FirstSeen, LastSeen
 | order by TotalMB desc</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>coalesce():</strong> Returns first non-null value; handles missing byte count fields gracefully</li>
+                    <li><strong>ipv4_is_private():</strong> Built-in function identifying RFC1918 addresses (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16); filters out legitimate internal traffic</li>
+                    <li><strong>make_set(DestinationPort):</strong> Collects unique ports used; helps identify protocols (443=HTTPS, 22=SSH/SCP, 3389=RDP)</li>
+                    <li><strong>Duration calculation:</strong> Time span between first and last connection; prolonged connections suggest sustained exfiltration</li>
+                </ul>
+                <p><strong>Exfiltration Indicators:</strong></p>
+                <ul>
+                    <li><strong>Cloud storage services:</strong> High uploads to AWS S3, Azure Blob, Dropbox, Google Drive (may need to parse DestinationHostName)</li>
+                    <li><strong>Unusual ports:</strong> Data exfiltration over DNS (port 53), SSH (port 22), or custom ports</li>
+                    <li><strong>Off-hours activity:</strong> Large transfers outside business hours when legitimate bulk operations are unlikely</li>
+                    <li><strong>Repeated small transfers:</strong> Modify to detect frequency patterns with bin() for slow-and-steady exfiltration</li>
+                </ul>
+                <p><strong>Investigation Steps:</strong></p>
+                <ul>
+                    <li><strong>Source identification:</strong> Determine if SourceIP is a workstation, server, or IoT device; correlate with asset inventory</li>
+                    <li><strong>Destination reputation:</strong> Check DestinationIP against threat intelligence; identify hosting provider and geolocation</li>
+                    <li><strong>User context:</strong> Join with authentication logs to identify which user account was active on SourceIP during exfiltration window</li>
+                    <li><strong>Baseline comparison:</strong> Compare current volume to historical baseline for the source system</li>
+                </ul>
+                <p><strong>False Positives:</strong> Legitimate cloud backups, software updates, media streaming servers, database replication. Whitelist known backup destinations and service accounts.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1048 (Exfiltration Over Alternative Protocol), T1041 (Exfiltration Over C2 Channel)</p>
 
-                <h4>5) Rare Logon Locations (Entra ID)</h4>
-                <div class="query-box">
-<code>SigninLogs
-| where TimeGenerated > ago(7d)
-| summarize CountByLocation = count() by UserPrincipalName, Location = tostring(LocationDetails.country)
-| join kind=inner (
-    SigninLogs
-    | where TimeGenerated > ago(1d)
-    | summarize RecentCount = count() by UserPrincipalName, Location = tostring(LocationDetails.country)
-) on UserPrincipalName, Location
-| where RecentCount > 0 and CountByLocation < 3</code>
+                <h4>5. Anomalous Authentication: Rare Logon Locations (Azure AD)</h4>
+                <p><strong>Threat Context:</strong> Attackers using stolen credentials typically authenticate from geographical locations inconsistent with user's normal behavior. Detecting authentications from new or rare countries/cities can reveal account compromise.</p>
+                <div class="description">
+                    <strong>Detection Logic:</strong> Compare historical login locations (7-day baseline) against recent activity (last 24 hours) to identify new geographical sources.
                 </div>
+                <div class="query-box">
+<code>// Detect logins from rare or new geographic locations
+let baseline_period = 7d;
+let detection_period = 1d;
+let historical_locations = SigninLogs
+    | where TimeGenerated between (ago(baseline_period) .. ago(detection_period))
+    | where ResultType == "0"  // Only successful logins
+    | extend Country = tostring(LocationDetails.countryOrRegion)
+    | summarize HistoricalCount = count() by UserPrincipalName, Country;
+SigninLogs
+| where TimeGenerated > ago(detection_period)
+| where ResultType == "0"
+| extend Country = tostring(LocationDetails.countryOrRegion)
+| extend City = tostring(LocationDetails.city)
+| summarize RecentCount = count(), IPAddresses = make_set(IPAddress) by UserPrincipalName, Country, City
+| join kind=leftanti (historical_locations) on UserPrincipalName, Country
+| where RecentCount > 0
+| project UserPrincipalName, Country, City, RecentCount, IPAddresses
+| order by RecentCount desc</code>
+                </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>let with subquery:</strong> Creates reusable dataset for baseline comparison; improves performance by calculating once</li>
+                    <li><strong>between operator:</strong> Defines precise time range excluding overlap with detection window</li>
+                    <li><strong>tostring(LocationDetails.countryOrRegion):</strong> Extracts nested JSON field; LocationDetails is a dynamic type requiring explicit casting</li>
+                    <li><strong>leftanti join:</strong> Returns records from left table with NO match in right table; effectively finds new locations</li>
+                </ul>
+                <p><strong>Enhanced Detection Variants:</strong></p>
+                <ul>
+                    <li><strong>Impossible travel:</strong> Calculate distance/time between consecutive logins; flag if travel speed exceeds 500 mph</li>
+                    <li><strong>Risk score integration:</strong> Include RiskLevelDuringSignIn and RiskLevelAggregated fields from SigninLogs</li>
+                    <li><strong>Device consistency:</strong> Add DeviceDetail.deviceId to detect same account from new device in new location</li>
+                    <li><strong>VPN detection:</strong> Some VPNs are legitimate; correlate with known VPN ranges or UserAgent strings</li>
+                </ul>
+                <p><strong>Investigation Steps:</strong></p>
+                <ul>
+                    <li><strong>User verification:</strong> Contact user to confirm if travel or VPN usage is legitimate</li>
+                    <li><strong>IP analysis:</strong> Check IPAddresses for known VPN providers, hosting providers, or Tor exit nodes</li>
+                    <li><strong>Access patterns:</strong> Review AppDisplayName to see which services were accessed (anomalous app access increases suspicion)</li>
+                    <li><strong>Session revocation:</strong> If confirmed compromise, revoke all active sessions via Azure AD or execute playbook</li>
+                </ul>
+                <p><strong>False Positives:</strong> Business travel, VPN usage, remote work from new locations. Implement user-specific baselines and travel notification system.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1078 (Valid Accounts), T1133 (External Remote Services)</p>
+
+                <h4>6. Privilege Escalation Detection (Windows Security Events)</h4>
+                <p><strong>Threat Context:</strong> Attackers elevate privileges to gain administrative control. Monitoring sensitive Windows Event IDs reveals privilege changes, security group modifications, and credential theft attempts.</p>
+                <div class="query-box">
+<code>// Monitor privilege escalation activities
+SecurityEvent
+| where TimeGenerated > ago(24h)
+| where EventID in (
+    4672,  // Special privileges assigned to new logon
+    4673,  // Privileged service called
+    4674,  // Privileged operation attempted
+    4688,  // Process creation (with command line)
+    4732,  // Member added to security-enabled local group
+    4756   // Member added to security-enabled universal group
+)
+| extend AccountType = case(
+    EventID == 4672, "Privileged Logon",
+    EventID == 4732 or EventID == 4756, "Group Modification",
+    EventID == 4688, "Process Creation",
+    "Privileged Operation"
+)
+| project TimeGenerated, Computer, Account, EventID, AccountType, Activity, Process, CommandLine
+| order by TimeGenerated desc</code>
+                </div>
+                <p><strong>Key Event IDs:</strong></p>
+                <ul>
+                    <li><strong>4672:</strong> Special privileges assigned (includes SeDebugPrivilege, often abused for process injection)</li>
+                    <li><strong>4688:</strong> Process creation with command line; detects privilege escalation tools (mimikatz, PsExec)</li>
+                    <li><strong>4732/4756:</strong> User added to privileged groups (Administrators, Domain Admins)</li>
+                    <li><strong>4673:</strong> Sensitive privilege use (e.g., SeBackupPrivilege for reading arbitrary files)</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1068 (Exploitation for Privilege Escalation), T1134 (Access Token Manipulation)</p>
 
                 <div class="tip">
-                    <strong>Playbook trigger:</strong> Use automation rules to run playbooks for High incidents or VIP entities.
+                    <strong>💡 Sentinel Hunting Best Practices:</strong>
+                    <ul>
+                        <li><strong>Time optimization:</strong> Start with narrow time ranges (1h, 6h) before expanding to 24h or 7d</li>
+                        <li><strong>Hypothesis-driven:</strong> Begin with MITRE ATT&CK technique and work backward to log sources</li>
+                        <li><strong>Bookmark findings:</strong> Save interesting queries and results for future reference and reporting</li>
+                        <li><strong>Use workbooks:</strong> Pre-built workbooks provide contextualized views faster than custom queries</li>
+                        <li><strong>Threat intelligence:</strong> Integrate ThreatIntelligenceIndicator table with queries using join operations</li>
+                        <li><strong>Automation:</strong> Convert validated hunting queries to scheduled analytics rules</li>
+                    </ul>
                 </div>
 
-                <h3>Hunting &amp; Detections</h3>
-                <ol>
-                    <li>Go to <em>Hunting</em> → run relevant queries (last 24h); add missing entity mappings.</li>
-                    <li>Review results → create incident for positives or link to existing incidents.</li>
-                    <li>Save as scheduled analytics rule with suppression to prevent noise.</li>
-                </ol>
 
-                <h3>Log Onboarding Checklist</h3>
+                <h3>Advanced Hunting and Detection Engineering</h3>
+                <p>Proactive threat hunting goes beyond alerts to discover unknown threats lurking in your environment.</p>
+                
+                <h4>Hunting Workflow</h4>
+                <ol>
+                    <li><strong>Hypothesis Development:</strong> Based on threat intelligence, recent breaches, or anomaly observations, formulate a threat hypothesis (e.g., "Are there lateral movement attempts in our environment?")</li>
+                    <li><strong>Query Construction:</strong> Navigate to <em>Hunting</em> blade → select relevant queries from Microsoft's curated library or write custom KQL</li>
+                    <li><strong>Data Exploration:</strong> Run queries against last 24 hours initially; expand timeframe if patterns require longer baselines</li>
+                    <li><strong>Result Analysis:</strong> Review results → add entity mappings if missing → bookmark suspicious findings</li>
+                    <li><strong>Incident Creation:</strong> For true positives, create new incident or link to existing incident</li>
+                    <li><strong>Rule Operationalization:</strong> Convert validated hunts to scheduled analytics rules with appropriate suppression</li>
+                </ol>
+                
+                <h4>Analytics Rule Types</h4>
                 <ul>
-                    <li>Data connectors show <strong>Connected</strong> for M365, Defender, Entra ID, firewalls/proxies.</li>
-                    <li>Enable analytics rules for new sources; map entities; tune thresholds.</li>
-                    <li>Set retention/archive for critical tables; watch cost and ingestion caps.</li>
-                    <li>Test with sample events (failed logins, EICAR, firewall allow) and confirm in <code>Logs</code>.</li>
+                    <li><strong>Scheduled:</strong> KQL queries run at intervals (every 5m to 14 days); most common rule type for custom detections</li>
+                    <li><strong>Microsoft Security:</strong> Automatically converts alerts from Microsoft Defender, Azure Defender, and other Microsoft security products into Sentinel incidents</li>
+                    <li><strong>Fusion:</strong> ML-powered correlation engine that links multiple low/medium severity signals into high-confidence incidents</li>
+                    <li><strong>ML Behavior Analytics:</strong> Uses machine learning models to detect anomalies (impossible travel, anomalous login patterns)</li>
+                    <li><strong>Threat Intelligence:</strong> Matches IoCs from TI feeds against logs (IPs, domains, file hashes)</li>
+                </ul>
+                
+                <h4>Detection Rule Best Practices</h4>
+                <ul>
+                    <li><strong>Entity mapping:</strong> Always map to entities (Account, Host, IP, FileHash, URL) for investigation graph population</li>
+                    <li><strong>Alert enrichment:</strong> Include context in alert descriptions using dynamic variables (e.g., {{UserPrincipalName}} attempted suspicious action)</li>
+                    <li><strong>Suppression:</strong> Use alert grouping to prevent 1000 alerts for same incident; group by entity or custom field</li>
+                    <li><strong>Threshold tuning:</strong> Start conservative (high threshold) then lower as false positives are managed</li>
+                    <li><strong>Query optimization:</strong> Rules have 10-minute query timeout; optimize using techniques from earlier section</li>
+                    <li><strong>MITRE tagging:</strong> Tag rules with ATT&CK techniques for coverage tracking and reporting</li>
                 </ul>
 
-                <h3>Incident Closure</h3>
+                <h3>Automation and Orchestration with Playbooks</h3>
+                <p>Sentinel playbooks are Azure Logic Apps workflows that automate response actions, enrichment, and notifications.</p>
+                
+                <h4>Common Playbook Use Cases</h4>
+                <ul>
+                    <li><strong>Automated Enrichment:</strong> Query threat intelligence APIs (VirusTotal, IPinfo, DomainTools) and add results as comments</li>
+                    <li><strong>Containment Actions:</strong> Disable compromised Azure AD accounts, isolate devices via Defender, block IPs in firewall</li>
+                    <li><strong>Ticket Integration:</strong> Automatically create ServiceNow/Jira tickets for High severity incidents</li>
+                    <li><strong>Notification:</strong> Send Teams/Slack messages or emails to on-call analysts</li>
+                    <li><strong>Data Collection:</strong> Trigger Defender live response to collect forensic artifacts</li>
+                </ul>
+                
+                <h4>Triggering Playbooks</h4>
+                <ul>
+                    <li><strong>Automation rules:</strong> Set conditions (severity=High, tag=VIP) to automatically run playbooks on incident creation</li>
+                    <li><strong>Manual execution:</strong> Run playbooks on-demand from incident actions menu</li>
+                    <li><strong>Alert-based:</strong> Configure analytics rules to trigger specific playbooks when alerts fire</li>
+                </ul>
+                
+                <div class="important">
+                    <strong>⚠️ Playbook Security Considerations:</strong>
+                    <ul>
+                        <li><strong>Least privilege:</strong> Assign minimum required permissions to Sentinel managed identity</li>
+                        <li><strong>Approval gates:</strong> Add human approval steps for destructive actions (account deletion, device isolation)</li>
+                        <li><strong>Error handling:</strong> Implement try-catch logic to prevent playbook failures from breaking response workflows</li>
+                        <li><strong>Audit logging:</strong> All playbook executions are logged; review regularly for unauthorized usage</li>
+                    </ul>
+                </div>
+
+                <h3>Data Onboarding and Management</h3>
+                
+                <h4>Log Onboarding Checklist</h4>
                 <ol>
-                    <li>Summarize what happened, impact, root cause, and actions.</li>
-                    <li>Tag MITRE tactics and add evidence links/screenshots.</li>
-                    <li>Create follow-ups: rule/playbook/workbook updates to prevent recurrence.</li>
+                    <li><strong>Connector Configuration:</strong> Navigate to <em>Data Connectors</em> → verify status shows <strong>Connected</strong> for all critical sources (M365, Defender, Azure AD, firewalls, EDR)</li>
+                    <li><strong>Data Validation:</strong> Query each table (SecurityEvent, SigninLogs, etc.) to confirm logs are flowing; check TimeGenerated for recent data</li>
+                    <li><strong>Analytics Rule Enablement:</strong> Enable out-of-the-box rules relevant to new data sources; map entities correctly; tune thresholds</li>
+                    <li><strong>Retention Configuration:</strong> Set interactive retention (default 90 days) and archive retention (up to 7 years) per table based on compliance requirements</li>
+                    <li><strong>Cost Management:</strong> Configure daily ingestion caps; monitor costs in <em>Usage and Estimated Costs</em>; implement data collection rules to filter noisy logs</li>
+                    <li><strong>Health Monitoring:</strong> Create alert for data connector failures; schedule regular reviews of Heartbeat and _LogOperation tables</li>
+                    <li><strong>Smoke Testing:</strong> Generate test events (failed logins, EICAR file, firewall allow) and confirm detection in <em>Logs</em> and <em>Incidents</em></li>
                 </ol>
+                
+                <h4>Data Retention and Cost Optimization</h4>
+                <ul>
+                    <li><strong>Interactive vs. Archive:</strong> Interactive retention (searchable via Log Analytics) is expensive; use archive for compliance-only data</li>
+                    <li><strong>Basic Logs:</strong> Lower-cost tier for verbose logs (firewall, web proxy); limited query capabilities but significant cost savings</li>
+                    <li><strong>Transformation Rules:</strong> Filter/transform data at ingestion to reduce volume (e.g., drop debug-level events)</li>
+                    <li><strong>Table-level settings:</strong> Configure retention per table; don't pay for 90-day retention on low-value logs</li>
+                    <li><strong>Commitment tiers:</strong> Pre-purchase ingestion capacity for 30-50% discount if volume is predictable</li>
+                </ul>
+
+                <h3>Incident Closure and Documentation</h3>
+                <p>Proper incident closure ensures organizational learning and continuous improvement.</p>
+                
+                <h4>Closure Workflow</h4>
+                <ol>
+                    <li><strong>Timeline Documentation:</strong> Summarize chronological sequence: initial detection, lateral movement, containment actions, and eradication</li>
+                    <li><strong>Root Cause Analysis:</strong> Identify initial access vector and vulnerabilities exploited; document how detection could be improved</li>
+                    <li><strong>Impact Assessment:</strong> Define scope (number of systems, data accessed, users affected) and business impact</li>
+                    <li><strong>Actions Taken:</strong> List all response actions with timestamps (accounts disabled, devices isolated, passwords reset)</li>
+                    <li><strong>MITRE ATT&CK Mapping:</strong> Tag incident with observed tactics and techniques; improves threat landscape understanding</li>
+                    <li><strong>Evidence Preservation:</strong> Link to bookmarked queries, screenshots, and exported logs for legal/compliance requirements</li>
+                    <li><strong>Lessons Learned:</strong> Document what went well and what needs improvement; create follow-up tasks for detection gaps</li>
+                    <li><strong>Status Update:</strong> Set closure classification (True Positive, False Positive, Benign Positive) and add detailed closure notes</li>
+                </ol>
+                
+                <h4>Post-Incident Improvement Actions</h4>
+                <ul>
+                    <li><strong>Rule tuning:</strong> Adjust thresholds or add exclusions if false positive; create new rules for detection gaps</li>
+                    <li><strong>Playbook updates:</strong> Enhance automation based on manual steps performed during investigation</li>
+                    <li><strong>Threat intelligence:</strong> Add identified IoCs to watchlists or threat intelligence platform</li>
+                    <li><strong>Workbook enhancements:</strong> Add visualizations or panels that would have accelerated investigation</li>
+                    <li><strong>Training:</strong> Share findings with SOC team; update runbooks and standard operating procedures</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Sentinel Resources:</strong>
+                    <ul>
+                        <li><strong>Content Hub:</strong> Browse and install solution packages with pre-built rules, workbooks, and playbooks for specific technologies</li>
+                        <li><strong>Repositories:</strong> Sentinel community GitHub (Azure/Azure-Sentinel) contains 800+ hunting queries and detection rules</li>
+                        <li><strong>Notebooks:</strong> Jupyter notebooks for advanced hunting and investigation with Python and KQL</li>
+                        <li><strong>MSSP capabilities:</strong> Multi-tenant architecture for managed security service providers</li>
+                        <li><strong>API access:</strong> Automate incident management and query execution via REST API</li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Linux Log Analysis Section -->
             <div id="linux" class="section">
-                <h2>🐧 Linux Log Analysis from Terminal</h2>
+                <h2>🐧 Linux Log Analysis and System Forensics</h2>
+                
+                <h3>Linux System Administration Fundamentals</h3>
+                <p>Linux systems are ubiquitous in modern infrastructure, powering web servers, databases, containers, and cloud instances. Understanding Linux logging architecture is essential for security monitoring and incident response in environments where SIEM agents may not be deployed or during forensic investigations requiring host-level analysis.</p>
+                
+                <h4>The Unix Philosophy and Logging</h4>
+                <p>Linux follows the Unix principle of "everything is a file." Logs are text files written to <code>/var/log</code>, making them accessible through standard text processing tools (grep, awk, sed). This design enables powerful command-line analysis without specialized software, crucial during incident response when every second counts.</p>
+                
+                <h3>Syslog Architecture and Protocol</h3>
+                <p>Syslog is the standard logging protocol on Unix-like systems, defined by RFC 5424. Understanding its architecture helps analysts locate relevant logs and interpret their contents.</p>
+                
+                <h4>Syslog Components</h4>
+                <ul>
+                    <li><strong>Facility:</strong> Categorizes the source of the message (auth, kernel, mail, cron, daemon, user, local0-7). Determines which log file receives the message.</li>
+                    <li><strong>Severity:</strong> Importance level from 0 (emergency) to 7 (debug). Security events typically use levels 0-4 (emergency, alert, critical, error, warning).</li>
+                    <li><strong>Timestamp:</strong> When the event occurred; critical for timeline reconstruction</li>
+                    <li><strong>Hostname:</strong> Identifies the source system; essential in centralized logging environments</li>
+                    <li><strong>Process/PID:</strong> Application that generated the message and its process ID</li>
+                    <li><strong>Message:</strong> Descriptive text about the event</li>
+                </ul>
+                
+                <h4>Syslog Daemons</h4>
+                <ul>
+                    <li><strong>rsyslog:</strong> Default on RHEL/CentOS; supports advanced filtering, templating, and remote forwarding</li>
+                    <li><strong>syslog-ng:</strong> Alternative with more flexible configuration syntax; popular in security-focused environments</li>
+                    <li><strong>systemd-journald:</strong> Modern logging system integrated with systemd; binary format with structured metadata</li>
+                </ul>
+                
+                <h4>Configuration Files</h4>
+                <ul>
+                    <li><strong>/etc/rsyslog.conf:</strong> Main rsyslog configuration; defines routing rules (facility.severity → destination)</li>
+                    <li><strong>/etc/rsyslog.d/:</strong> Modular configuration directory; drop-in files for specific applications</li>
+                    <li><strong>/etc/logrotate.conf:</strong> Log rotation settings; prevents disk exhaustion by compressing/archiving old logs</li>
+                    <li><strong>/etc/logrotate.d/:</strong> Application-specific rotation rules</li>
+                </ul>
 
-                <h3>Common Log File Locations</h3>
+                <h3>Critical Log File Locations and Purposes</h3>
+                <p>Linux distributions vary in log file organization, but standard locations remain consistent. Knowing where to look is the first step in log analysis.</p>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
                                 <th>Log File</th>
                                 <th>Description</th>
+                                <th>Key Information</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><code>/var/log/auth.log</code></td>
                                 <td>Authentication logs (Debian/Ubuntu)</td>
+                                <td>SSH logins, sudo usage, user authentication, PAM events</td>
                             </tr>
                             <tr>
                                 <td><code>/var/log/secure</code></td>
                                 <td>Authentication logs (RHEL/CentOS)</td>
+                                <td>Same as auth.log; RHEL-based distributions use this name</td>
                             </tr>
                             <tr>
                                 <td><code>/var/log/syslog</code></td>
-                                <td>System logs</td>
+                                <td>General system logs (Debian/Ubuntu)</td>
+                                <td>Catch-all for system events, daemon messages, kernel logs</td>
                             </tr>
                             <tr>
                                 <td><code>/var/log/messages</code></td>
-                                <td>General system messages</td>
+                                <td>General system logs (RHEL/CentOS)</td>
+                                <td>Global system messages; equivalent to syslog</td>
                             </tr>
                             <tr>
                                 <td><code>/var/log/kern.log</code></td>
-                                <td>Kernel logs</td>
+                                <td>Kernel messages</td>
+                                <td>Hardware errors, driver issues, kernel panics, security modules (SELinux, AppArmor)</td>
                             </tr>
                             <tr>
                                 <td><code>/var/log/apache2/</code></td>
                                 <td>Apache web server logs</td>
+                                <td>access.log (HTTP requests), error.log (server errors)</td>
                             </tr>
                             <tr>
                                 <td><code>/var/log/nginx/</code></td>
                                 <td>Nginx web server logs</td>
+                                <td>access.log (HTTP requests), error.log (server errors)</td>
                             </tr>
                             <tr>
                                 <td><code>/var/log/mysql/</code></td>
                                 <td>MySQL database logs</td>
+                                <td>error.log (DB errors), slow-query.log (performance issues)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/audit/audit.log</code></td>
+                                <td>Linux Audit Framework (auditd)</td>
+                                <td>Detailed system call auditing; file access, process execution, SELinux events</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/lastlog</code></td>
+                                <td>Last login information (binary)</td>
+                                <td>Last login time for each user; read with 'lastlog' command</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/wtmp</code></td>
+                                <td>Login history (binary)</td>
+                                <td>Historical login/logout records; read with 'last' command</td>
+                            </tr>
+                            <tr>
+                                <td><code>/var/log/btmp</code></td>
+                                <td>Failed login attempts (binary)</td>
+                                <td>Failed login records; read with 'lastb' command</td>
+                            </tr>
+                            <tr>
+                                <td><code>journalctl</code></td>
+                                <td>systemd journal (binary)</td>
+                                <td>Unified logging system; query with journalctl command</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                
+                <div class="tip">
+                    <strong>💡 Distribution Differences:</strong>
+                    <ul>
+                        <li><strong>Debian/Ubuntu:</strong> Use <code>/var/log/auth.log</code> and <code>/var/log/syslog</code></li>
+                        <li><strong>RHEL/CentOS/Fedora:</strong> Use <code>/var/log/secure</code> and <code>/var/log/messages</code></li>
+                        <li><strong>systemd-based:</strong> Modern distributions use journald; traditional logs may be symlinks or duplicates</li>
+                        <li><strong>Log rotation:</strong> Archived logs are compressed with .gz extension (auth.log.1.gz)</li>
+                    </ul>
+                </div>
 
+                <h3>Linux Incident Response Triage Checklist</h3>
+                <p>When responding to a suspected compromise, follow systematic procedures to preserve evidence and identify the scope of the incident.</p>
+                
                 <div class="important">
-                    <strong>Linux triage checklist:</strong>
+                    <strong>⚠️ Linux Forensic Triage Process:</strong>
                     <ol>
-                        <li>Confirm time sync (<code>timedatectl</code>) and review recent auth failures.</li>
-                        <li>Check persistence (crontab, systemd services, rc.local) and new users/groups.</li>
-                        <li>Inspect running processes and network listeners; capture suspicious binaries (hash/upload to VT).</li>
-                        <li>Review web/app logs around alert time; look for exploitation patterns.</li>
-                        <li>Collect artifacts (logs, bash history, configs) before remediation.</li>
+                        <li><strong>Time Synchronization:</strong> Verify system time with <code>timedatectl status</code>; incorrect time skews correlation with other logs. Check for time manipulation (indicator of anti-forensics).</li>
+                        <li><strong>Authentication Review:</strong> Examine recent authentication failures in auth.log/secure; identify brute force patterns or successful logins from unexpected IPs.</li>
+                        <li><strong>Persistence Mechanisms:</strong> Check crontabs (<code>/etc/crontab</code>, <code>/var/spool/cron/</code>), systemd services (<code>systemctl list-units</code>), init scripts (<code>/etc/rc*.d/</code>), and <code>/etc/rc.local</code> for malicious scheduled tasks or startup items.</li>
+                        <li><strong>User Account Analysis:</strong> Review <code>/etc/passwd</code> and <code>/etc/shadow</code> for unauthorized accounts; check UID 0 accounts (root privileges); validate user group memberships in <code>/etc/group</code>.</li>
+                        <li><strong>Process Inspection:</strong> List all running processes with <code>ps auxww</code> or <code>pstree -ap</code>; identify suspicious process names, arguments, or parent-child relationships; check process binary locations.</li>
+                        <li><strong>Network Connections:</strong> Capture active connections with <code>ss -tulpn</code> or <code>netstat -tulpn</code>; identify unusual listening ports or connections to external IPs; document PIDs for correlation.</li>
+                        <li><strong>Binary Analysis:</strong> Hash suspicious executables with <code>sha256sum</code>; upload to VirusTotal; check file metadata with <code>stat</code> and <code>file</code> commands.</li>
+                        <li><strong>Web/Application Logs:</strong> Review Apache/Nginx access logs during alert timeframe; search for exploitation patterns (SQLi, directory traversal, shell uploads).</li>
+                        <li><strong>Artifact Collection:</strong> Before remediation, preserve logs, bash history (<code>~/.bash_history</code>), shell configuration files (<code>~/.bashrc</code>, <code>~/.profile</code>), and suspicious binaries for forensic analysis.</li>
+                        <li><strong>Memory Dump (Optional):</strong> For advanced forensics, capture volatile memory with tools like LiME before rebooting or isolating system.</li>
                     </ol>
+                </div>
+                
+                <div class="important">
+                    <strong>🔒 Evidence Preservation:</strong> Never perform forensic analysis on the live system if possible. Create forensic images using dd or equivalent tools. If live analysis is necessary, document every command executed and its timestamp to maintain chain of custody. Ideally, mount filesystems read-only or use forensic distributions like SIFT or CAINE.
                 </div>
 
                 <h3>Essential Commands for Log Analysis</h3>
+                <p>Linux provides powerful text processing utilities for log analysis. Mastering these commands enables rapid investigation without deploying specialized tools.</p>
 
-                <h4>1. View Log Files</h4>
+                <h4>1. Log Viewing Commands</h4>
+                <p><strong>Context:</strong> These commands provide different perspectives on log files: real-time monitoring, recent entries, or paginated viewing.</p>
                 <div class="description">
-                    Basic commands to view logs:
+                    <strong>Use Cases:</strong> Monitoring active intrusions (tail -f), examining recent activity (tail -n), or browsing entire log files (less).
                 </div>
                 <div class="query-box">
-                    <code># View last 100 lines of auth.log
+                    <code># View last 100 lines of auth.log (recent authentication events)
 tail -n 100 /var/log/auth.log
 
-# Follow log in real-time
+# Follow log in real-time (essential for active incident monitoring)
 tail -f /var/log/syslog
 
-# View first 50 lines
+# View first 50 lines (useful for checking log format or file headers)
 head -n 50 /var/log/messages
 
-# View entire log with pagination
+# View entire log with pagination (spacebar = next page, /pattern = search, q = quit)
 less /var/log/syslog
 
-# View compressed logs
-zcat /var/log/syslog.1.gz | less</code>
-                </div>
+# View compressed logs (rotated logs older than today)
+zcat /var/log/syslog.1.gz | less
 
-                <h4>2. Search and Filter Logs</h4>
+# View multiple rotated logs in chronological order
+zcat /var/log/auth.log.{3,2,1}.gz | cat - /var/log/auth.log | less</code>
+                </div>
+                <p><strong>Command Explanations:</strong></p>
+                <ul>
+                    <li><strong>tail -f:</strong> "Follow" mode updates in real-time; press Ctrl+C to exit. Critical for observing ongoing attacks.</li>
+                    <li><strong>less:</strong> Interactive viewer with search (/) and navigation (arrows, PgUp/PgDn); superior to more/cat for large files.</li>
+                    <li><strong>zcat:</strong> Decompresses .gz files to stdout without creating temp files; efficient for searching rotated logs.</li>
+                    <li><strong>Brace expansion {3,2,1}:</strong> Efficient way to list multiple files in order; expands to auth.log.3.gz auth.log.2.gz auth.log.1.gz.</li>
+                </ul>
+                <p><strong>Best Practices:</strong></p>
+                <ul>
+                    <li>Always use sudo/root when accessing system logs (permissions typically 640, root:adm)</li>
+                    <li>Check log rotation schedule in /etc/logrotate.d/ to understand data retention</li>
+                    <li>For investigations spanning multiple days, search rotated logs (auth.log.1.gz, auth.log.2.gz, etc.)</li>
+                </ul>
+
+                <h4>2. Search and Filter Logs with grep</h4>
+                <p><strong>Context:</strong> grep (Global Regular Expression Print) is the most powerful tool for log analysis, enabling pattern matching, context extraction, and filtering.</p>
                 <div class="description">
-                    Using grep to search logs:
+                    <strong>Detection Logic:</strong> Use grep with regular expressions and flags to rapidly locate security events across massive log files.
                 </div>
                 <div class="query-box">
-                    <code># Search for failed SSH logins
+                    <code># Search for failed SSH logins (brute force detection)
 grep "Failed password" /var/log/auth.log
 
-# Case-insensitive search
+# Case-insensitive search (catches ERROR, error, Error)
 grep -i "error" /var/log/syslog
 
-# Show line numbers
+# Show line numbers (helps correlate with other tools or documentation)
 grep -n "authentication failure" /var/log/secure
 
-# Show context (5 lines before and after)
+# Show context: 5 lines before AND after match (reveals attack sequence)
 grep -C 5 "kernel panic" /var/log/kern.log
 
-# Search multiple files
+# Show only before or after context
+grep -B 10 "Out of memory" /var/log/syslog  # 10 lines before
+grep -A 3 "Failed password" /var/log/auth.log  # 3 lines after
+
+# Search multiple files with wildcard
 grep "error" /var/log/*.log
 
-# Recursive search in directory
+# Recursive search in directory (searches all files in /var/log and subdirectories)
 grep -r "connection refused" /var/log/
 
-# Invert match (exclude lines)
+# Invert match: show lines NOT containing pattern (filter out noise)
 grep -v "DEBUG" /var/log/application.log
 
-# Count occurrences
-grep -c "Failed password" /var/log/auth.log</code>
-                </div>
+# Count occurrences (quantify attack intensity)
+grep -c "Failed password" /var/log/auth.log
 
-                <h4>3. Failed Login Attempts Analysis</h4>
+# Multiple patterns with OR logic
+grep -E "error|critical|alert" /var/log/syslog
+
+# Extended regex for complex patterns
+grep -E "192\.168\.[0-9]{1,3}\.[0-9]{1,3}" /var/log/auth.log  # Match IP addresses</code>
+                </div>
+                <p><strong>grep Flags Explained:</strong></p>
+                <ul>
+                    <li><strong>-i:</strong> Case-insensitive matching</li>
+                    <li><strong>-n:</strong> Show line numbers</li>
+                    <li><strong>-C N:</strong> Show N lines of context (before and after)</li>
+                    <li><strong>-B N:</strong> Show N lines before match</li>
+                    <li><strong>-A N:</strong> Show N lines after match</li>
+                    <li><strong>-r / -R:</strong> Recursive directory search</li>
+                    <li><strong>-v:</strong> Invert match (exclude lines matching pattern)</li>
+                    <li><strong>-c:</strong> Count matches instead of displaying them</li>
+                    <li><strong>-E:</strong> Extended regular expressions (supports +, ?, |, {}, () without escaping)</li>
+                    <li><strong>-l:</strong> List filenames only (useful for finding which log files contain events)</li>
+                    <li><strong>-w:</strong> Match whole words only (prevents partial matches)</li>
+                    <li><strong>--color=auto:</strong> Highlights matches (recommended for alias: alias grep='grep --color=auto')</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1552.004 (Unsecured Credentials: Private Keys) - grep for "BEGIN RSA PRIVATE KEY" to find exposed SSH keys</p>
+
+                <h4>3. Failed Login Attempts Analysis (Brute Force Detection)</h4>
+                <p><strong>Threat Context:</strong> SSH brute force attacks are among the most common attacks on Linux servers. Analyzing failed authentication attempts reveals attack sources and intensity.</p>
                 <div class="description">
-                    Detect brute force attacks:
+                    <strong>Detection Logic:</strong> Extract failed login entries, parse source IPs, aggregate by frequency, and sort to identify top attackers.
                 </div>
                 <div class="query-box">
-                    <code># Count failed SSH login attempts by IP
-grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -rn
+                    <code># Count failed SSH login attempts by source IP (identifies attackers)
+grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -rn | head -20
 
-# Show all failed login attempts with timestamps
-grep "Failed password" /var/log/auth.log | awk '{print $1, $2, $3, $(NF-5), $(NF-3)}'
+# Show all failed login attempts with timestamps and usernames
+grep "Failed password" /var/log/auth.log | awk '{print $1, $2, $3, $(NF-5), "from", $(NF-3)}'
 
-# Failed logins for specific user
-grep "Failed password for invalid user" /var/log/auth.log | grep "username"
+# Failed logins for specific user (targeted attack detection)
+grep "Failed password" /var/log/auth.log | grep "for invalid user username"
 
-# Successful logins after failures
-grep -E "(Failed password|Accepted password)" /var/log/auth.log | grep "192.168.1.100"</code>
+# Successful logins after failures from same IP (compromised credentials)
+grep -E "(Failed password|Accepted password)" /var/log/auth.log | grep "192.168.1.100"
+
+# Comprehensive authentication analysis: failures vs successes by IP
+awk '/Failed password/ {failed[$13]++} /Accepted password/ {success[$13]++} END {print "IP\t\t\tFailed\tSuccess"; for (ip in failed) print ip "\t" failed[ip] "\t" success[ip]}' /var/log/auth.log | column -t</code>
                 </div>
+                <p><strong>Command Breakdown:</strong></p>
+                <ul>
+                    <li><strong>$(NF-3):</strong> awk extracts 3rd field from end (source IP location in syslog format)</li>
+                    <li><strong>sort | uniq -c:</strong> Sorts results then counts unique entries</li>
+                    <li><strong>sort -rn:</strong> Sorts numerically (-n) in reverse order (-r) to show highest counts first</li>
+                    <li><strong>head -20:</strong> Limits to top 20 attackers (adjust as needed)</li>
+                    <li><strong>column -t:</strong> Formats output into aligned columns for readability</li>
+                </ul>
+                <p><strong>Mitigation Recommendations:</strong></p>
+                <ul>
+                    <li>Block attacking IPs with firewall: <code>iptables -A INPUT -s [IP] -j DROP</code> or <code>ufw deny from [IP]</code></li>
+                    <li>Deploy fail2ban to automatically block IPs after threshold failures</li>
+                    <li>Disable password authentication; use SSH keys only (PasswordAuthentication no in sshd_config)</li>
+                    <li>Change default SSH port from 22 to reduce automated scanner traffic</li>
+                    <li>Implement rate limiting with iptables hashlimit module</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1110.001 (Brute Force: Password Guessing), T1078.003 (Valid Accounts: Local Accounts)</p>
 
-                <h4>4. User Activity Monitoring</h4>
+                <h4>4. User Activity and Session Monitoring</h4>
+                <p><strong>Context:</strong> Track user sessions, login history, and command execution to detect unauthorized access and insider threats.</p>
                 <div class="description">
-                    Track user sessions and commands:
+                    <strong>Investigation Purpose:</strong> Identify who accessed the system, when, from where, and what commands they executed.
                 </div>
                 <div class="query-box">
-                    <code># Show current logged-in users
+                    <code># Show current logged-in users with terminal and login time
 who
 
-# Show last logged-in users
+# Detailed current user information (includes idle time and login source)
+w
+
+# Show last 20 login sessions (successful logins)
 last -n 20
 
-# Show failed login attempts
+# Show failed login attempts (reads /var/log/btmp)
 lastb -n 20
 
-# Show user login history
+# Show login history for specific user
 last username
 
-# Show all sudo commands
+# Show all sudo command executions (privilege escalation tracking)
 grep "sudo" /var/log/auth.log | grep "COMMAND"
 
-# Show user command history
-cat /home/username/.bash_history</code>
+# Show user command history (forensic artifact)
+cat /home/username/.bash_history
+
+# Check for .bash_history tampering (timestamps using HISTTIMEFORMAT)
+export HISTTIMEFORMAT='%F %T '
+history
+
+# Find recently modified files by user (data access/modification)
+find /home/username -type f -mtime -1 -ls
+
+# Check SSH authorized_keys for persistence (backdoor SSH keys)
+cat /home/*/.ssh/authorized_keys
+cat /root/.ssh/authorized_keys</code>
                 </div>
+                <p><strong>Forensic Considerations:</strong></p>
+                <ul>
+                    <li><strong>lastlog/wtmp/btmp:</strong> Binary files; attackers may tamper or delete. Check file integrity against backups.</li>
+                    <li><strong>.bash_history:</strong> User-writable; attackers can clear with <code>history -c</code> or disable with <code>unset HISTFILE</code>. Check for suspicious gaps.</li>
+                    <li><strong>Authorized_keys:</strong> Attackers add SSH keys for persistent access. Compare against known good state or user-reported keys.</li>
+                    <li><strong>Sudo logs:</strong> Critical for privilege escalation detection; monitor for unusual sudo usage patterns or privilege abuse.</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1136 (Create Account), T1098 (Account Manipulation), T1078 (Valid Accounts)</p>
 
                 <h4>5. Network Connection Analysis</h4>
-                <div class="description">
-                    Monitor network activities:
-                </div>
+                <p><strong>Context:</strong> Active network connections reveal C2 channels, lateral movement, and data exfiltration in progress.</p>
                 <div class="query-box">
-                    <code># Show established connections
+                    <code># Show established connections with process/PID (identifies malware C2)
 netstat -tupn | grep ESTABLISHED
+ss -tupn | grep ESTAB  # Modern alternative (faster)
 
-# Show listening ports
+# Show all listening ports with process names (backdoor detection)
 ss -tlnp
+netstat -tlnp
 
-# Show connections by IP
+# Show connections to/from specific IP
 netstat -an | grep "192.168.1.100"
+ss -an | grep "192.168.1.100"
 
-# Monitor connections in real-time
+# Monitor connections in real-time (detect new connections)
 watch -n 1 'netstat -tupn | grep ESTABLISHED'
 
-# Show firewall logs (iptables)
-grep "DPT=" /var/log/syslog | tail -50</code>
-                </div>
+# Show firewall logs for dropped packets (blocked attack attempts)
+grep "DPT=" /var/log/syslog | tail -50
 
-                <h4>6. Process Monitoring</h4>
-                <div class="description">
-                    Track running processes:
+# Count connections per remote IP (identify top talkers)
+netstat -an | awk '/ESTABLISHED/ {print $5}' | cut -d: -f1 | sort | uniq -c | sort -rn
+
+# Identify processes with most network activity
+lsof -i -n -P | awk '{print $1}' | sort | uniq -c | sort -rn</code>
                 </div>
+                <p><strong>Analysis Tips:</strong></p>
+                <ul>
+                    <li><strong>ss vs netstat:</strong> ss is faster and more feature-rich; prefer ss on modern systems</li>
+                    <li><strong>Unknown PIDs:</strong> If connection lacks PID, run as root/sudo (permission required to see all processes)</li>
+                    <li><strong>Suspicious indicators:</strong> Connections to non-standard ports, foreign IPs, or from unexpected processes</li>
+                    <li><strong>lsof -i:</strong> Lists files/sockets opened by processes; reveals which processes own connections</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1071 (Application Layer Protocol), T1095 (Non-Application Layer Protocol), T1572 (Protocol Tunneling)</p>
+
+                <h4>6. Process Monitoring and Analysis</h4>
+                <p><strong>Context:</strong> Running processes reveal active malware, privilege escalation, and persistence mechanisms.</p>
                 <div class="query-box">
-                    <code># Show all processes
-ps aux
+                    <code># Show all processes with full command line
+ps auxww
 
-# Search for specific process
+# Search for specific process (web server, potential malware)
 ps aux | grep nginx
 
-# Show process tree
-pstree -p
+# Show process tree (reveals parent-child relationships; detects process injection)
+pstree -ap
 
-# Monitor processes in real-time
+# Monitor processes in real-time with resource usage
 top -c
 
-# Better process monitor
+# Better interactive process monitor (color-coded, mouse support)
 htop
 
-# Show processes by user
-ps -u username</code>
-                </div>
+# Show processes by specific user (insider threat investigation)
+ps -u username
 
-                <h4>7. Analyze Web Server Logs</h4>
-                <div class="description">
-                    Apache/Nginx log analysis:
+# Find processes listening on network ports
+lsof -i -P -n | grep LISTEN
+
+# Show process details including open files and network connections
+lsof -p [PID]
+
+# Find processes running from suspicious locations (/tmp, /dev/shm often used by malware)
+ps aux | grep -E "/tmp/|/dev/shm"
+
+# Check for hidden processes (process ID gaps or rootkit detection)
+ps aux | sort -n -k2  # Sort by PID to find gaps
+
+# Monitor specific process in real-time
+watch -n 1 'ps aux | grep [p]rocess_name'</code>
                 </div>
+                <p><strong>Suspicious Process Indicators:</strong></p>
+                <ul>
+                    <li><strong>Unusual names:</strong> Random strings, mimicking system processes with typos (systmd vs systemd)</li>
+                    <li><strong>Unexpected locations:</strong> Executables in /tmp, /var/tmp, /dev/shm, or user home directories</li>
+                    <li><strong>High resource usage:</strong> Cryptocurrency miners consume excessive CPU; keyloggers and scanners generate high network activity</li>
+                    <li><strong>Parent-child anomalies:</strong> Web server spawning bash/nc (reverse shell); cron executing binary from /tmp</li>
+                    <li><strong>Deleted binaries:</strong> Process running from deleted file (shown as "(deleted)" in lsof output) - common anti-forensics tactic</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1055 (Process Injection), T1036 (Masquerading), T1496 (Resource Hijacking)</p>
+
+                <h4>7. Web Server Log Analysis</h4>
+                <p><strong>Context:</strong> Apache/Nginx logs expose web application attacks, including SQL injection, XSS, directory traversal, and shell uploads.</p>
                 <div class="query-box">
-                    <code># Top 10 IP addresses accessing site
+                    <code># Top 10 IP addresses accessing site (identify scanners, botnets)
 awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head -10
 
-# Show 404 errors
-grep "404" /var/log/apache2/access.log
+# Show 404 errors (reconnaissance for hidden directories/files)
+grep " 404 " /var/log/apache2/access.log | tail -50
 
-# Show POST requests
+# Show all POST requests (form submissions, potential attacks)
 grep "POST" /var/log/apache2/access.log
 
-# Analyze user agents
-awk -F'"' '{print $6}' /var/log/apache2/access.log | sort | uniq -c | sort -rn
+# Analyze user agents (identify bots, scanners, attack tools)
+awk -F'"' '{print $6}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head -20
 
 # Find SQL injection attempts
-grep -E "(union.*select|drop.*table|exec.*\()" /var/log/apache2/access.log
+grep -E "(union.*select|drop.*table|exec.*\(|select.*from|insert.*into)" -i /var/log/apache2/access.log
 
-# Show requests to specific URL
+# Find XSS attempts (including encoded variants)
+grep -E "(<script|javascript:|onerror=|onload=|%3Cscript|%3D|&#|\\x3c)" -i /var/log/apache2/access.log
+
+# Find directory traversal attempts
+grep -E "(\.\.\/|\.\.\\\\)" /var/log/apache2/access.log
+
+# Find shell upload attempts (common webshell filenames)
+grep -E "(cmd\.php|shell\.php|c99\.php|r57\.php|phpshell\.php|backdoor\.php)" -i /var/log/nginx/access.log
+
+# Show requests to specific sensitive URL
 grep "/admin" /var/log/nginx/access.log
 
-# Count requests by hour
-awk '{print $4}' /var/log/apache2/access.log | cut -c 14-15 | sort | uniq -c</code>
-                </div>
+# Count requests by hour (identify attack timeframes or DDoS)
+awk '{print $4}' /var/log/apache2/access.log | cut -c 14-15 | sort | uniq -c
 
-                <h4>8. System Resource Analysis</h4>
-                <div class="description">
-                    Monitor system performance:
+# Find brute force on login pages
+grep "/wp-login.php\|/admin/login\|/login.php" /var/log/apache2/access.log | awk '{print $1}' | sort | uniq -c | sort -rn
+
+# Analyze response codes by IP (200 after many 401/403 indicates successful attack)
+awk '{print $1" "$9}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head -30</code>
                 </div>
+                <p><strong>Apache/Nginx Log Format (Common Log Format):</strong></p>
+                <ul>
+                    <li><strong>$1:</strong> Client IP address</li>
+                    <li><strong>$4:</strong> Timestamp [day/month/year:hour:minute:second timezone]</li>
+                    <li><strong>$6 (in quotes):</strong> Request method and URL</li>
+                    <li><strong>$9:</strong> HTTP status code (200=success, 404=not found, 500=server error, 403=forbidden)</li>
+                    <li><strong>$10:</strong> Response size in bytes</li>
+                    <li><strong>Last quoted field:</strong> User-Agent string</li>
+                </ul>
+                <p><strong>Response Code Analysis:</strong></p>
+                <ul>
+                    <li><strong>200:</strong> Success - confirm if expected for attacked URL (may indicate successful exploitation)</li>
+                    <li><strong>403/401:</strong> Access denied - likely WAF blocking or failed authentication</li>
+                    <li><strong>404:</strong> Not found - reconnaissance activity</li>
+                    <li><strong>500/503:</strong> Server errors - possible crash from exploit or DoS</li>
+                </ul>
+                <p><strong>MITRE ATT&CK:</strong> T1190 (Exploit Public-Facing Application), T1505.003 (Server Software Component: Web Shell)</p>
+
+                <h4>8. System Resource and Performance Analysis</h4>
+                <p><strong>Context:</strong> Resource exhaustion (CPU, memory, disk) can indicate crypto miners, DoS attacks, or system compromise.</p>
                 <div class="query-box">
-                    <code># Check disk space
+                    <code># Check disk space (log overflow detection)
 df -h
 
-# Show disk usage by directory
+# Show disk usage by directory (find space-consuming logs or malware)
 du -sh /var/* | sort -rh | head -10
 
-# Monitor memory usage
+# Monitor memory usage (detect memory-resident malware)
 free -h
 
-# Show largest log files
+# Show largest log files (identify logging issues or attack artifacts)
 find /var/log -type f -exec ls -lh {} \; | sort -k5 -rh | head -10
 
-# Monitor I/O statistics
-iostat -x 5</code>
+# Monitor I/O statistics (detect data exfiltration or disk-based attacks)
+iostat -x 5
+
+# Monitor CPU usage per process
+top -b -n 1 | head -20
+
+# Check system load average (current, 5min, 15min)
+uptime</code>
                 </div>
+                <p><strong>MITRE ATT&CK:</strong> T1496 (Resource Hijacking), T1499 (Endpoint Denial of Service)</p>
 
                 <h4>9. Time-Based Log Analysis</h4>
-                <div class="description">
-                    Filter logs by date and time:
-                </div>
+                <p><strong>Context:</strong> Filter logs to specific time ranges to correlate with alerts or incident timelines.</p>
                 <div class="query-box">
                     <code># Show logs from specific date
 grep "Jan 26" /var/log/syslog
 
-# Show logs between time range
+# Show logs between time range (using sed)
 sed -n '/09:00:00/,/17:00:00/p' /var/log/syslog
 
 # Show logs from last hour using awk
 awk -v date="$(date --date='1 hour ago' '+%b %_d %H')" '$0 ~ date' /var/log/syslog
 
 # Show today's auth logs
-grep "$(date '+%b %e')" /var/log/auth.log</code>
+grep "$(date '+%b %e')" /var/log/auth.log
+
+# Extract events within specific timeframe (more precise)
+grep "Jan 26 14:" /var/log/auth.log | grep -E "14:(3[0-9]|4[0-5])"  # 14:30-14:45</code>
                 </div>
 
                 <h4>10. Advanced Log Analysis with awk</h4>
-                <div class="description">
-                    Complex pattern extraction:
-                </div>
+                <p><strong>Context:</strong> awk is a powerful text processing language ideal for extracting fields, calculating statistics, and complex filtering.</p>
                 <div class="query-box">
                     <code># Extract specific fields from logs
 awk '/Failed password/ {print $1, $2, $3, $11}' /var/log/auth.log
 
-# Calculate statistics
+# Calculate statistics (count events)
 awk '/error/ {count++} END {print "Total errors:", count}' /var/log/syslog
 
-# Filter by multiple conditions
+# Filter by multiple conditions (status code 404 AND URL contains admin)
 awk '$9 == 404 && $7 ~ /admin/ {print $1, $7}' /var/log/apache2/access.log
 
-# Sum bandwidth usage
-awk '{sum+=$10} END {print "Total bytes:", sum}' /var/log/nginx/access.log</code>
+# Sum bandwidth usage (aggregate bytes transferred)
+awk '{sum+=$10} END {print "Total bytes:", sum}' /var/log/nginx/access.log
+
+# Group and count by field (like SQL GROUP BY)
+awk '{count[$1]++} END {for (ip in count) print ip, count[ip]}' /var/log/apache2/access.log | sort -k2 -rn</code>
                 </div>
 
                 <h4>11. Log Rotation and Management</h4>
-                <div class="description">
-                    Manage log files:
-                </div>
                 <div class="query-box">
                     <code># View logrotate configuration
 cat /etc/logrotate.conf
 
-# Manually rotate logs
+# View application-specific rotation rules
+ls -la /etc/logrotate.d/
+
+# Manually trigger log rotation (useful after clearing disk space)
 logrotate -f /etc/logrotate.conf
 
-# Check log sizes
+# Check log sizes (monitor for abnormal growth)
 ls -lh /var/log/
 
-# Archive old logs
+# Archive old logs for investigation or compliance
 tar -czf logs_backup_$(date +%Y%m%d).tar.gz /var/log/*.log
 
-# Clear log file (keep file)
-truncate -s 0 /var/log/application.log</code>
+# Safely clear log file without breaking open file handles (preserves file descriptor)
+truncate -s 0 /var/log/application.log
+# Alternatively: > /var/log/application.log
+# NEVER use: rm /var/log/application.log (breaks logging)</code>
                 </div>
 
-                <h4>12. Journalctl (systemd logs)</h4>
-                <div class="description">
-                    Modern systemd log analysis:
-                </div>
+                <h4>12. systemd Journal Analysis (journalctl)</h4>
+                <p><strong>Context:</strong> systemd-based distributions use journald for centralized binary logging with rich metadata and filtering capabilities.</p>
                 <div class="query-box">
-                    <code># View all system logs
+                    <code># View all system logs (paged output)
 journalctl
 
-# Follow logs in real-time
+# Follow logs in real-time (like tail -f)
 journalctl -f
 
-# Show logs for specific service
+# Show logs for specific service (systemd unit)
 journalctl -u ssh.service
+journalctl -u apache2.service
 
-# Show logs since boot
+# Show logs since last boot
 journalctl -b
+journalctl -b -1  # Previous boot
 
 # Show logs for time range
 journalctl --since "2026-01-26 09:00:00" --until "2026-01-26 17:00:00"
+journalctl --since "1 hour ago"
+journalctl --since yesterday
 
-# Show only errors
+# Show only errors and critical messages
 journalctl -p err
+journalctl -p crit
 
-# Show kernel messages
+# Show kernel messages (equivalent to dmesg)
 journalctl -k
 
-# Show logs with priority levels
-journalctl -p warning..err</code>
+# Show logs with priority range
+journalctl -p warning..err  # warnings and errors only
+
+# Show logs for specific process ID
+journalctl _PID=1234
+
+# Show logs for specific user
+journalctl _UID=1000
+
+# Export to JSON for SIEM ingestion
+journalctl -o json --since "1 hour ago" > logs.json
+
+# Show disk usage of journal
+journalctl --disk-usage
+
+# Clean old journal entries (retain last 7 days)
+journalctl --vacuum-time=7d
+
+# Search journal with grep
+journalctl | grep "Failed password"</code>
                 </div>
+                <p><strong>journalctl Priority Levels:</strong></p>
+                <ul>
+                    <li><strong>0 (emerg):</strong> System is unusable</li>
+                    <li><strong>1 (alert):</strong> Action must be taken immediately</li>
+                    <li><strong>2 (crit):</strong> Critical conditions</li>
+                    <li><strong>3 (err):</strong> Error conditions</li>
+                    <li><strong>4 (warning):</strong> Warning conditions</li>
+                    <li><strong>5 (notice):</strong> Normal but significant condition</li>
+                    <li><strong>6 (info):</strong> Informational messages</li>
+                    <li><strong>7 (debug):</strong> Debug-level messages</li>
+                </ul>
 
                 <div class="tip">
-                    <strong>💡 Linux Log Analysis Tips:</strong>
+                    <strong>💡 Linux Log Analysis Best Practices:</strong>
                     <ul>
-                        <li>Always use sudo/root for accessing system logs</li>
-                        <li>Combine commands with pipes for powerful analysis</li>
-                        <li>Use <code>watch</code> command for real-time monitoring</li>
-                        <li>Regular log rotation prevents disk space issues</li>
-                        <li>Create aliases for frequently used log analysis commands</li>
-                        <li>Use <code>rsyslog</code> or <code>syslog-ng</code> for centralized logging</li>
+                        <li><strong>Root access:</strong> Always use sudo for system logs; many logs have restrictive permissions (640 root:adm)</li>
+                        <li><strong>Command chaining:</strong> Use pipes (|) to combine tools: <code>grep | awk | sort | uniq -c | sort -rn</code></li>
+                        <li><strong>watch command:</strong> Monitor changing output in real-time: <code>watch -n 1 'command'</code></li>
+                        <li><strong>Screen/tmux:</strong> Use terminal multiplexers for persistent sessions during investigations</li>
+                        <li><strong>Aliases:</strong> Create shortcuts: <code>alias authfail='grep "Failed password" /var/log/auth.log | awk "{print \$(NF-3)}" | sort | uniq -c | sort -rn'</code></li>
+                        <li><strong>Centralized logging:</strong> Forward logs to SIEM using rsyslog or syslog-ng for correlation</li>
+                        <li><strong>NTP synchronization:</strong> Ensure accurate timestamps with ntpd or chronyd for timeline accuracy</li>
+                        <li><strong>Log integrity:</strong> Consider AIDE or Tripwire to detect log tampering</li>
+                    </ul>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Anti-Forensics Detection:</strong> Attackers may clear logs to hide their tracks. Check for:
+                    <ul>
+                        <li><strong>Empty logs:</strong> Recently created logs with size 0 (check with <code>ls -la /var/log/</code>)</li>
+                        <li><strong>Time gaps:</strong> Missing log entries during known activity periods</li>
+                        <li><strong>Modified timestamps:</strong> Use <code>stat /var/log/auth.log</code> to check file modification times</li>
+                        <li><strong>Unset history:</strong> Check if HISTFILE variable is unset or HISTSIZE=0</li>
+                        <li><strong>Audit rules:</strong> Verify auditd is running and rules haven't been disabled</li>
                     </ul>
                 </div>
             </div>
 
             <!-- Best Practices Section -->
             <div id="best-practices" class="section">
-                <h2>✅ Best Practices for SOC Analysts</h2>
-
-                <h3>Investigation Methodology</h3>
+                <h2>✅ Best Practices and Investigation Frameworks</h2>
+                
+                <h3>Academic and Industry Frameworks</h3>
+                <p>Effective SOC operations rely on structured frameworks that provide standardized methodologies for incident handling, security controls, and continuous improvement.</p>
+                
+                <h4>NIST Cybersecurity Framework</h4>
+                <p>The National Institute of Standards and Technology (NIST) Cybersecurity Framework provides a risk-based approach to managing cybersecurity:</p>
+                <ul>
+                    <li><strong>Identify:</strong> Asset inventory, risk assessment, threat intelligence integration. <em>SOC Application:</em> Maintain asset database; correlate logs with asset criticality</li>
+                    <li><strong>Protect:</strong> Access control, awareness training, data security. <em>SOC Application:</em> Monitor authentication logs; detect privilege escalation</li>
+                    <li><strong>Detect:</strong> Anomaly detection, continuous monitoring, detection processes. <em>SOC Application:</em> SIEM deployment; analytics rule development; threat hunting</li>
+                    <li><strong>Respond:</strong> Response planning, communications, analysis, mitigation. <em>SOC Application:</em> Incident playbooks; SOAR automation; stakeholder notifications</li>
+                    <li><strong>Recover:</strong> Recovery planning, improvements, communications. <em>SOC Application:</em> Post-incident reviews; detection gap analysis; lessons learned</li>
+                </ul>
+                
+                <h4>NIST SP 800-61: Incident Response Lifecycle</h4>
+                <p>NIST Special Publication 800-61 defines the incident response lifecycle adopted by SOC teams globally:</p>
                 <ol>
-                    <li><strong>Initial Triage:</strong> Quickly assess the severity and scope of the incident</li>
-                    <li><strong>Data Collection:</strong> Gather relevant logs from all affected systems</li>
-                    <li><strong>Timeline Creation:</strong> Build a chronological timeline of events</li>
-                    <li><strong>Correlation:</strong> Correlate events across multiple data sources</li>
-                    <li><strong>Root Cause Analysis:</strong> Identify the initial attack vector</li>
-                    <li><strong>Containment:</strong> Take action to prevent further damage</li>
-                    <li><strong>Documentation:</strong> Document all findings and actions taken</li>
-                    <li><strong>Post-Incident Review:</strong> Review and improve detection capabilities</li>
+                    <li><strong>Preparation:</strong> Develop IR plan, train staff, deploy monitoring tools, establish communication channels</li>
+                    <li><strong>Detection & Analysis:</strong> Monitor alerts, analyze indicators, determine incident scope and severity, document findings</li>
+                    <li><strong>Containment, Eradication & Recovery:</strong> Isolate affected systems, remove malicious artifacts, restore operations, validate remediation</li>
+                    <li><strong>Post-Incident Activity:</strong> Lessons learned meeting, update detection rules, improve processes, update documentation</li>
                 </ol>
-
-                <h3>Query Optimization Tips</h3>
+                
+                <h4>ISO/IEC 27001: Information Security Management</h4>
+                <p>ISO 27001 provides requirements for establishing, implementing, and maintaining an Information Security Management System (ISMS):</p>
                 <ul>
-                    <li>Start with specific time ranges to reduce search scope</li>
-                    <li>Use indexed fields for faster searches</li>
-                    <li>Limit results with head/limit commands during testing</li>
-                    <li>Use subsearches only when necessary</li>
-                    <li>Leverage statistical commands (stats, chart, timechart)</li>
-                    <li>Create lookup tables for threat intelligence</li>
+                    <li><strong>Control A.12.4:</strong> Logging and monitoring - requires security event logging and protection of log information</li>
+                    <li><strong>Control A.16:</strong> Information security incident management - defines incident reporting, assessment, and response procedures</li>
+                    <li><strong>Control A.18:</strong> Compliance - mandates log retention for legal and regulatory requirements</li>
                 </ul>
-
-                <h3>Alert Creation Guidelines</h3>
+                <p><strong>SOC Alignment:</strong> SIEM systems support ISO 27001 compliance by providing centralized logging, tamper-evident storage, and audit trail capabilities.</p>
+                
+                <h4>MITRE ATT&CK Framework</h4>
+                <p>A globally-accessible knowledge base of adversary tactics and techniques based on real-world observations:</p>
+                <ul>
+                    <li><strong>14 Tactics:</strong> Reconnaissance, Resource Development, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command & Control, Exfiltration, Impact</li>
+                    <li><strong>Detection Coverage:</strong> Map SIEM detection rules to ATT&CK techniques; identify coverage gaps using ATT&CK Navigator</li>
+                    <li><strong>Threat Intelligence:</strong> Correlate incident findings with known threat actor TTPs (Tactics, Techniques, Procedures)</li>
+                    <li><strong>Hypothesis Generation:</strong> Use ATT&CK to develop threat hunting hypotheses</li>
+                </ul>
+                
+                <h3>Investigation Methodology</h3>
+                <p>Systematic investigation methodology ensures consistency, thoroughness, and defensibility of findings.</p>
+                
+                <h4>Structured Investigation Process</h4>
+                <ol>
+                    <li><strong>Initial Triage (5-15 minutes):</strong> 
+                        <ul>
+                            <li>Review alert details: severity, affected assets, indicators of compromise (IOCs)</li>
+                            <li>Assess alert fidelity: Is this a true positive, false positive, or benign positive?</li>
+                            <li>Determine urgency: Is the threat active? Is data at risk? Are critical assets affected?</li>
+                            <li>Assign incident owner and set initial severity based on CVSS or organizational matrix</li>
+                        </ul>
+                    </li>
+                    <li><strong>Data Collection (15-30 minutes):</strong>
+                        <ul>
+                            <li>Identify relevant log sources: Firewall, proxy, EDR, authentication, application logs</li>
+                            <li>Define investigation timeframe: Alert timestamp ± appropriate window (1h for targeted attack, 24h for data exfiltration)</li>
+                            <li>Gather endpoint data: Process trees, network connections, file system changes, registry modifications (Windows)</li>
+                            <li>Collect threat intelligence: IP/domain/hash reputation, known malware families, related campaigns</li>
+                        </ul>
+                    </li>
+                    <li><strong>Timeline Creation (20-40 minutes):</strong>
+                        <ul>
+                            <li>Build chronological event sequence using SIEM correlation or manual analysis</li>
+                            <li>Identify initial access vector: Phishing email, exploit, stolen credentials, insider threat</li>
+                            <li>Map attacker progression: Execution → Persistence → Privilege Escalation → Lateral Movement → Objective</li>
+                            <li>Note key timestamps: First observed activity, privilege escalation, data access, exfiltration</li>
+                        </ul>
+                    </li>
+                    <li><strong>Correlation Analysis (30-60 minutes):</strong>
+                        <ul>
+                            <li>Correlate events across data sources: Match authentication logs with network connections with process execution</li>
+                            <li>Identify affected systems: Search for IOCs (IP addresses, file hashes, domains) across all log sources</li>
+                            <li>Determine scope: How many users? How many systems? What data was accessed?</li>
+                            <li>Assess lateral movement: Did attacker pivot to additional systems? Which accounts were used?</li>
+                        </ul>
+                    </li>
+                    <li><strong>Root Cause Analysis (30-60 minutes):</strong>
+                        <ul>
+                            <li>Identify vulnerability exploited: Unpatched software, weak password, misconfiguration, social engineering</li>
+                            <li>Determine why detection was delayed: Detection gap, tuning issue, alert fatigue</li>
+                            <li>Assess control failures: Which security controls failed to prevent or detect? Why?</li>
+                            <li>Document lessons learned: What should have detected this earlier? What processes failed?</li>
+                        </ul>
+                    </li>
+                    <li><strong>Containment (Variable - immediate to hours):</strong>
+                        <ul>
+                            <li>Short-term containment: Isolate infected systems, disable compromised accounts, block malicious IPs/domains</li>
+                            <li>Long-term containment: Patch vulnerabilities, strengthen authentication, update firewall rules</li>
+                            <li>Evidence preservation: Create forensic images before remediation; preserve logs and memory dumps</li>
+                            <li>Business continuity: Coordinate with business units to minimize operational impact</li>
+                        </ul>
+                    </li>
+                    <li><strong>Documentation (Ongoing throughout investigation):</strong>
+                        <ul>
+                            <li>Maintain detailed incident log: All queries executed, findings, actions taken, timestamps</li>
+                            <li>Screenshot critical evidence: Alert details, query results, investigation graph</li>
+                            <li>Record communications: Stakeholder notifications, approvals for containment actions</li>
+                            <li>Document chain of custody: Who accessed what evidence, when, and why</li>
+                        </ul>
+                    </li>
+                    <li><strong>Post-Incident Review (1-2 hours, scheduled within 1 week):</strong>
+                        <ul>
+                            <li>Conduct lessons learned meeting with SOC team and stakeholders</li>
+                            <li>Review timeline: What happened, when, how was it detected, how was it contained</li>
+                            <li>Identify improvements: Detection rules, playbooks, training, technical controls</li>
+                            <li>Update documentation: Runbooks, detection logic, IOC lists, threat intelligence</li>
+                            <li>Implement preventive measures: Deploy missing controls, patch systems, update policies</li>
+                        </ul>
+                    </li>
+                </ol>
+                
                 <div class="important">
-                    <strong>⚠️ Important:</strong> Poorly configured alerts lead to alert fatigue. Focus on high-fidelity detections.
+                    <strong>⚠️ Investigation Priorities:</strong> Prioritize incidents using a risk matrix combining:
+                    <ul>
+                        <li><strong>Asset Criticality:</strong> Production systems > Development systems > Test systems</li>
+                        <li><strong>Data Sensitivity:</strong> Customer PII > Internal confidential > Public information</li>
+                        <li><strong>Attack Stage:</strong> Active C2 > Persistence established > Initial reconnaissance</li>
+                        <li><strong>Potential Impact:</strong> Ransomware > Data exfiltration > Defacement > Scanning</li>
+                    </ul>
+                    <strong>Critical incidents (High severity + Critical asset):</strong> Immediate escalation to incident commander; executive notification within 1 hour.
                 </div>
+
+
+                <h4>Universal Query Optimization Principles</h4>
                 <ul>
-                    <li>Define clear alert criteria based on known attack patterns</li>
-                    <li>Set appropriate thresholds to minimize false positives</li>
-                    <li>Include relevant context in alert notifications</li>
-                    <li>Regularly review and tune alert rules</li>
-                    <li>Use alert suppression for known maintenance windows</li>
-                    <li>Implement alert escalation procedures</li>
+                    <li><strong>Time Filtering First:</strong> Always start with time range filters; indexed timestamp fields are the fastest search criteria. Place time filters at beginning of query (Splunk earliest=/latest=, Elastic range query, KQL TimeGenerated filter)</li>
+                    <li><strong>Use Indexed Fields:</strong> Search on indexed fields (Splunk: source, sourcetype, host; Elastic: .keyword fields; Sentinel: specific columns). Avoid full-text search when structured field search is available</li>
+                    <li><strong>Limit Result Sets:</strong> Use head/limit commands during query development to test logic without processing millions of events. Expand limits only after validating query logic</li>
+                    <li><strong>Minimize Subsearches:</strong> Subsearches are expensive; use joins or lookups instead. If subsearch is necessary, ensure it returns minimal results (< 10,000 records)</li>
+                    <li><strong>Statistical Commands Over Raw Data:</strong> Use stats, chart, timechart (Splunk); aggregations (Elastic); summarize (KQL) instead of returning raw events. Aggregated data is exponentially smaller</li>
+                    <li><strong>Field Extraction Efficiency:</strong> Extract fields once using | eval or | extend, then reuse. Avoid redundant rex/parse operations</li>
+                    <li><strong>Filter Before Aggregation:</strong> Apply where clauses before summarize/stats operations to reduce dataset size</li>
+                    <li><strong>Lookup Tables for Enrichment:</strong> Pre-load threat intelligence, asset inventory into lookup tables rather than querying external sources repeatedly</li>
+                </ul>
+                
+                <h4>Platform-Specific Optimization</h4>
+                <ul>
+                    <li><strong>Splunk:</strong> Use tstats for accelerated data models (100x faster); leverage summary indexing for frequent historical queries; disable auto-finalization in searches with transforming commands</li>
+                    <li><strong>Elasticsearch:</strong> Use filter context (cached) vs query context; specify .keyword suffix for aggregations; implement index lifecycle management (hot-warm-cold); use _routing for multi-tenant environments</li>
+                    <li><strong>Sentinel/KQL:</strong> Place TimeGenerated filter first; use "has" instead of "contains"; project before summarize; leverage materialized views for frequently accessed aggregations</li>
                 </ul>
 
-                <h3>Log Retention and Management</h3>
+                <h3>Alert Creation and Management</h3>
+                <p>High-quality alerts minimize false positives while ensuring true threats are detected and escalated appropriately.</p>
+                
+                <h4>Alert Design Principles</h4>
+                <div class="important">
+                    <strong>⚠️ The Alert Fatigue Problem:</strong> Poorly configured alerts lead to desensitization where analysts ignore or dismiss alerts without proper investigation. Industry studies show SOC teams with >50 alerts/day per analyst experience 30-50% false positive rates and increased incident response times. Focus on high-fidelity detections over alert volume.
+                </div>
+                
+                <h4>SMART Alert Criteria</h4>
                 <ul>
-                    <li>Follow organizational and regulatory retention requirements</li>
-                    <li>Implement hot/warm/cold data tiering strategies</li>
-                    <li>Use compression for archived logs</li>
-                    <li>Regularly test log restoration procedures</li>
-                    <li>Monitor log collection pipeline health</li>
+                    <li><strong>Specific:</strong> Alert describes precise behavior (e.g., "5 failed logins from same IP in 10 minutes" vs "authentication failure"). Include relevant context: username, source IP, affected system</li>
+                    <li><strong>Measurable:</strong> Use quantifiable thresholds based on baseline (e.g., "outbound traffic > 1GB in 1 hour" requires baseline establishment)</li>
+                    <li><strong>Achievable:</strong> Set thresholds that are realistic to investigate; avoid alerts triggering thousands of times per day</li>
+                    <li><strong>Relevant:</strong> Align detections to organizational threat model and risk appetite; prioritize critical assets and sensitive data</li>
+                    <li><strong>Time-bound:</strong> Include appropriate time windows for correlation (too short misses campaigns; too long creates noise)</li>
+                </ul>
+                
+                <h4>Alert Lifecycle Management</h4>
+                <ol>
+                    <li><strong>Development Phase:</strong>
+                        <ul>
+                            <li>Research attack technique using MITRE ATT&CK; understand detection logic and evasion possibilities</li>
+                            <li>Develop query in SIEM search interface; test against historical data (last 30 days)</li>
+                            <li>Identify false positives: Legitimate processes that trigger detection; document exclusion criteria</li>
+                            <li>Set initial threshold conservatively (high confidence, lower sensitivity); adjust after monitoring</li>
+                        </ul>
+                    </li>
+                    <li><strong>Testing Phase:</strong>
+                        <ul>
+                            <li>Deploy in "test" or "audit" mode without generating incidents; monitor for 1-2 weeks</li>
+                            <li>Review all triggered alerts: Calculate true positive rate (TP / (TP + FP)); aim for >80%</li>
+                            <li>Tune thresholds and exclusions: Add whitelists for service accounts, maintenance windows, approved tools</li>
+                            <li>Validate alert enrichment: Ensure entity mapping, context fields, and alert descriptions are accurate</li>
+                        </ul>
+                    </li>
+                    <li><strong>Production Phase:</strong>
+                        <ul>
+                            <li>Enable alert with appropriate severity and priority</li>
+                            <li>Configure suppression/grouping: Prevent duplicate alerts for same incident</li>
+                            <li>Set up automated response: SOAR playbooks for enrichment or containment</li>
+                            <li>Define escalation path: When to escalate to Tier 2, incident commander, or management</li>
+                        </ul>
+                    </li>
+                    <li><strong>Maintenance Phase:</strong>
+                        <ul>
+                            <li>Monthly review: Analyze alert volume, true positive rate, mean time to respond (MTTR)</li>
+                            <li>Quarterly tuning: Adjust thresholds based on environmental changes, new applications, business initiatives</li>
+                            <li>Annual validation: Verify detection logic still aligns with current threat landscape and organizational risks</li>
+                            <li>Deprecation: Disable alerts with consistently <20% true positive rate or no longer relevant threats</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h4>Alert Severity Classification</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Definition</th>
+                                <th>Response Time</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Critical</strong></td>
+                                <td>Active breach with data loss or system compromise</td>
+                                <td>Immediate (< 15 min)</td>
+                                <td>Ransomware encryption, active C2, data exfiltration in progress</td>
+                            </tr>
+                            <tr>
+                                <td><strong>High</strong></td>
+                                <td>Successful compromise or high-confidence malicious activity</td>
+                                <td>< 1 hour</td>
+                                <td>Confirmed malware, privilege escalation, lateral movement</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Medium</strong></td>
+                                <td>Suspicious activity requiring investigation</td>
+                                <td>< 4 hours</td>
+                                <td>Brute force attempts, policy violations, reconnaissance</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Low</strong></td>
+                                <td>Informational or low-risk events</td>
+                                <td>< 24 hours</td>
+                                <td>Scanning activity, failed login single occurrence, certificate expiration</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Informational</strong></td>
+                                <td>Notable events without immediate security impact</td>
+                                <td>Periodic review</td>
+                                <td>New user creation, configuration changes, audit events</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Log Retention and Compliance</h3>
+                <p>Balancing compliance requirements, investigative needs, and storage costs.</p>
+                
+                <h4>Regulatory Retention Requirements</h4>
+                <ul>
+                    <li><strong>PCI DSS:</strong> 3 months online, 1 year archived (for systems processing cardholder data)</li>
+                    <li><strong>HIPAA:</strong> 6 years minimum (healthcare data access logs)</li>
+                    <li><strong>SOX:</strong> 7 years (financial systems audit trails)</li>
+                    <li><strong>GDPR:</strong> No specific requirement; must be "appropriate" based on risk and justified by legitimate purpose</li>
+                    <li><strong>FISMA:</strong> Varies by system classification; typically 3-7 years</li>
+                </ul>
+                
+                <h4>Tiered Storage Strategy</h4>
+                <ol>
+                    <li><strong>Hot Storage (Online, searchable):</strong> 30-90 days
+                        <ul>
+                            <li>Fast SSD/NVMe storage; full indexing; real-time search capability</li>
+                            <li>Most expensive; use for active investigations and recent alerts</li>
+                        </ul>
+                    </li>
+                    <li><strong>Warm Storage (Online, slower search):</strong> 90 days - 1 year
+                        <ul>
+                            <li>HDD storage; reduced indexing; acceptable query performance</li>
+                            <li>Medium cost; sufficient for most investigations and historical analysis</li>
+                        </ul>
+                    </li>
+                    <li><strong>Cold Storage (Archived, restore required):</strong> 1-7 years
+                        <ul>
+                            <li>Object storage (S3, Azure Blob); compressed; requires restore to search</li>
+                            <li>Low cost; compliance-driven retention; rarely accessed</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h4>Data Management Best Practices</h4>
+                <ul>
+                    <li><strong>Index Lifecycle Management:</strong> Automate data movement between hot/warm/cold tiers based on age</li>
+                    <li><strong>Selective Retention:</strong> Retain critical logs (authentication, privileged access, data access) longer than verbose logs (debug, informational)</li>
+                    <li><strong>Compression:</strong> Compress archived logs (gzip, ZSTD) for 70-90% space savings</li>
+                    <li><strong>Restore Testing:</strong> Quarterly test log restoration from cold storage to verify integrity and accessibility</li>
+                    <li><strong>Legal Hold:</strong> Implement legal hold procedures to preserve logs beyond standard retention for litigation or investigations</li>
+                    <li><strong>Pipeline Monitoring:</strong> Alert on ingestion failures, parsing errors, and connector outages</li>
                 </ul>
 
-                <h3>Continuous Improvement</h3>
+                <h3>Continuous Improvement and Professional Development</h3>
+                <p>SOC excellence requires ongoing learning, adaptation to evolving threats, and process refinement.</p>
+                
+                <h4>Threat Intelligence Integration</h4>
                 <ul>
-                    <li>Stay updated with latest threat intelligence</li>
-                    <li>Regularly review and update detection rules</li>
-                    <li>Participate in threat hunting exercises</li>
-                    <li>Share knowledge with team members</li>
-                    <li>Learn from past incidents to improve detection</li>
-                    <li>Practice query writing and log analysis skills</li>
+                    <li><strong>Open Source Intelligence (OSINT):</strong> Subscribe to threat feeds (AlienVault OTX, MISP, abuse.ch); automate IOC ingestion into SIEM</li>
+                    <li><strong>Commercial Intelligence:</strong> Evaluate vendors (Recorded Future, Mandiant, CrowdStrike Intelligence) for industry-specific threat reporting</li>
+                    <li><strong>Information Sharing:</strong> Participate in ISACs (Information Sharing and Analysis Centers) relevant to your sector</li>
+                    <li><strong>Threat Hunting:</strong> Proactively search for threats using intelligence-driven hypotheses; dedicate 20% of SOC time to hunting</li>
+                </ul>
+                
+                <h4>Detection Engineering Maturity</h4>
+                <ol>
+                    <li><strong>Level 1 - Reactive:</strong> Rely on vendor-provided rules; minimal customization; high false positive rates</li>
+                    <li><strong>Level 2 - Proactive:</strong> Tuning vendor rules; creating custom detections for organization-specific threats</li>
+                    <li><strong>Level 3 - Advanced:</strong> Behavior-based analytics; UEBA deployment; correlation rules across multiple data sources</li>
+                    <li><strong>Level 4 - Predictive:</strong> Machine learning for anomaly detection; automated threat hunting; predictive risk scoring</li>
+                    <li><strong>Level 5 - Autonomous:</strong> AI-driven detection; autonomous response; continuous learning from analyst feedback</li>
+                </ol>
+                
+                <h4>SOC Metrics and KPIs</h4>
+                <ul>
+                    <li><strong>Mean Time to Detect (MTTD):</strong> Time from attack initiation to alert generation; goal <1 hour for critical threats</li>
+                    <li><strong>Mean Time to Respond (MTTR):</strong> Time from alert to containment; goal <1 hour for critical incidents</li>
+                    <li><strong>True Positive Rate:</strong> Percentage of alerts representing actual threats; goal >80%</li>
+                    <li><strong>Alert Volume:</strong> Total alerts per day; monitor trends to identify tuning needs</li>
+                    <li><strong>Coverage Percentage:</strong> MITRE ATT&CK techniques with active detection; goal >70% of applicable techniques</li>
+                    <li><strong>Escalation Rate:</strong> Percentage of Tier 1 alerts escalated to Tier 2; indicates appropriate triaging</li>
+                    <li><strong>Incident Closure Rate:</strong> Percentage of incidents fully remediated within SLA; goal >95%</li>
+                </ul>
+                
+                <h4>Training and Skills Development</h4>
+                <ul>
+                    <li><strong>Certifications:</strong> GIAC GCIA (Intrusion Analyst), GCIH (Incident Handler), SEC555 (SIEM), SANS FOR508 (Forensics)</li>
+                    <li><strong>Hands-On Labs:</strong> BOTS (Boss of the SOC), CTF competitions, TryHackMe, HackTheBox, CyberDefenders</li>
+                    <li><strong>Purple Team Exercises:</strong> Collaborate with red team to validate detection coverage; identify blind spots</li>
+                    <li><strong>Tabletop Exercises:</strong> Simulate incident scenarios (ransomware, data breach) to practice response procedures</li>
+                    <li><strong>Knowledge Sharing:</strong> Weekly team case reviews; internal wiki for runbooks and lessons learned; mentorship programs</li>
+                    <li><strong>Vendor Training:</strong> Deep-dive training on SIEM platform features, EDR capabilities, SOAR playbook development</li>
+                    <li><strong>Community Engagement:</strong> Attend conferences (RSA, Black Hat, BSides); participate in forums (r/AskNetsec, SANS Internet Storm Center)</li>
                 </ul>
 
                 <h3>Essential Tools and Resources</h3>

@@ -710,32 +710,74 @@
 
             <!-- Elastic Section -->
             <div id="elastic" class="section">
-                <h2>🔎 Elastic (ELK Stack) Query Cheatsheet</h2>
-
-                <h3>Kibana Query Language (KQL) Basics</h3>
-                <div class="description">
-                    Simple field search in Kibana:
-                </div>
+                <h2>🔎 Elastic (ELK Stack): Open Source Security Analytics</h2>
+                
+                <h3>Elastic Stack Architecture</h3>
+                <p>The Elastic Stack (formerly ELK Stack) is a collection of open-source tools for searching, analyzing, and visualizing log data in real-time:</p>
+                <ul>
+                    <li><strong>Elasticsearch:</strong> Distributed search and analytics engine built on Apache Lucene, storing data as JSON documents in inverted indices</li>
+                    <li><strong>Logstash:</strong> Server-side data processing pipeline that ingests, transforms, and forwards data to Elasticsearch</li>
+                    <li><strong>Kibana:</strong> Visualization and exploration interface providing dashboards, query builders, and investigation tools</li>
+                    <li><strong>Beats:</strong> Lightweight data shippers (Filebeat, Metricbeat, Packetbeat, Winlogbeat) deployed on endpoints</li>
+                </ul>
+                <p>Elastic Security (formerly SIEM) adds pre-built detection rules, timeline analysis, case management, and threat intelligence integration.</p>
+                
+                <h3>Elastic Common Schema (ECS)</h3>
+                <p>ECS is a standardized field naming convention ensuring consistent data structure across diverse sources:</p>
+                <ul>
+                    <li><strong>@timestamp:</strong> Event occurrence time (ISO 8601 format)</li>
+                    <li><strong>event.*:</strong> Event metadata (category, action, outcome, type)</li>
+                    <li><strong>user.*:</strong> User identity (name, id, domain)</li>
+                    <li><strong>source/destination.*:</strong> Network endpoints (ip, port, geo)</li>
+                    <li><strong>process.*:</strong> Process details (name, pid, command_line, parent)</li>
+                    <li><strong>file.*:</strong> File operations (path, name, hash)</li>
+                </ul>
+                <p>ECS compliance enables seamless integration of diverse data sources and correlation across security events.</p>
+                
+                <h3>Query Languages in Elastic</h3>
+                
+                <h4>Kibana Query Language (KQL)</h4>
+                <p>KQL is a simplified query syntax for Kibana's Discover and Dashboard interfaces:</p>
                 <div class="query-box">
-                    <code>event.action: "login" AND user.name: "admin"</code>
+                    <code>event.action: "login" AND user.name: "admin" AND NOT event.outcome: "success"</code>
                 </div>
-
-                <h3>Elasticsearch DSL Queries</h3>
-
+                <p><strong>KQL Features:</strong></p>
+                <ul>
+                    <li><strong>Field:value syntax:</strong> Simple equality matching with automatic field type handling</li>
+                    <li><strong>Wildcard support:</strong> <code>process.name: "powershell*"</code> or <code>url.path: "/api/*/user"</code></li>
+                    <li><strong>Boolean operators:</strong> AND, OR, NOT (case-sensitive)</li>
+                    <li><strong>Range queries:</strong> <code>bytes: &gt;= 1000 AND bytes: &lt; 10000</code></li>
+                    <li><strong>Nested field access:</strong> Automatically handles nested objects</li>
+                </ul>
+                
+                <h4>Elasticsearch Query DSL (Domain Specific Language)</h4>
+                <p>DSL is a JSON-based query language for programmatic API access with advanced capabilities:</p>
+                <ul>
+                    <li><strong>Full-text search:</strong> Analyzed text matching with relevance scoring</li>
+                    <li><strong>Aggregations:</strong> Statistical analysis, grouping, and bucketing</li>
+                    <li><strong>Scripting:</strong> Custom logic using Painless scripting language</li>
+                    <li><strong>Geospatial queries:</strong> Location-based filtering and distance calculations</li>
+                </ul>
+                
+                <h3>Incident Response Workflow</h3>
                 <div class="important">
-                    <strong>Elastic incident playbook:</strong>
+                    <strong>Elastic Security Investigation Methodology:</strong>
                     <ol>
-                        <li>Open alert in <em>Security</em> → inspect rule and mapped fields.</li>
-                        <li>Use <em>View in Discover</em> to pivot on the event with filters for src/dest, user, host.</li>
-                        <li>Replay with <em>Inspect</em> → <em>Request</em> or copy DSL, then refine using queries below.</li>
-                        <li>Use <em>Timeline</em> to build an investigation story; add evidence panels.</li>
-                        <li>Contain via cases/actions (isolate host, disable user) and record notes.</li>
+                        <li><strong>Alert Triage:</strong> Open alert in Security → Detection Engine, inspect rule logic and matched fields</li>
+                        <li><strong>Contextual Pivoting:</strong> Use "View in Discover" to explore related events with automatic filters (source/destination, user, host)</li>
+                        <li><strong>Query Refinement:</strong> Access raw DSL via "Inspect" → "Request" to understand underlying query, modify, and rerun</li>
+                        <li><strong>Timeline Construction:</strong> Build investigation timeline with evidence panels, annotate findings, and correlate events</li>
+                        <li><strong>Response Actions:</strong> Isolate compromised hosts via Endpoint Security integration, disable user accounts, create cases for tracking</li>
+                        <li><strong>Threat Hunting:</strong> Leverage Machine Learning jobs and anomaly detection for proactive threat discovery</li>
                     </ol>
                 </div>
 
+                <h3>Detection Queries</h3>
+
                 <h4>1. Failed Authentication Detection</h4>
+                <p><strong>Threat Context:</strong> Failed authentication events are primary indicators of credential-based attacks (brute force, password spraying, credential stuffing).</p>
                 <div class="description">
-                    Query for failed login attempts:
+                    <strong>Detection Logic:</strong> Query authentication failure events from the last hour, aggregating by username to identify targeted accounts.
                 </div>
                 <div class="query-box">
                     <code>GET /logs-*/_search
@@ -757,10 +799,20 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>bool query:</strong> Combines multiple query clauses (must, filter, should, must_not)</li>
+                    <li><strong>match:</strong> Full-text search on analyzed fields</li>
+                    <li><strong>filter context:</strong> Range query in filter (cached, no scoring) for performance</li>
+                    <li><strong>terms aggregation:</strong> Groups results by user.name.keyword (non-analyzed field for exact matching)</li>
+                    <li><strong>Index pattern /logs-*/_search:</strong> Searches all indices matching the pattern</li>
+                </ul>
+                <p><strong>ECS Compliance:</strong> Uses standard ECS fields (event.action, @timestamp, user.name) ensuring compatibility with diverse data sources.</p>
 
                 <h4>2. Brute Force Attack Detection</h4>
+                <p><strong>Threat Context:</strong> Brute force attacks generate high volumes of authentication failures from the same source, attempting to compromise accounts through credential guessing.</p>
                 <div class="description">
-                    Aggregate failed logins by source IP:
+                    <strong>Detection Logic:</strong> Aggregate authentication failures by source IP with nested aggregation counting attempts, revealing attack sources.
                 </div>
                 <div class="query-box">
                     <code>GET /logs-*/_search
@@ -784,10 +836,20 @@
   "size": 0
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>Multiple must clauses:</strong> Both conditions must be satisfied (AND logic)</li>
+                    <li><strong>event.category: authentication:</strong> ECS category for all auth-related events</li>
+                    <li><strong>Nested aggregations:</strong> Sub-aggregation counts failures per IP</li>
+                    <li><strong>size: 0:</strong> Returns only aggregation results, not individual documents (performance optimization)</li>
+                </ul>
+                <p><strong>Advanced Analysis:</strong> Enhance with <code>"min_doc_count": 5</code> parameter in terms aggregation to show only IPs exceeding threshold.</p>
+                <p><strong>Visualization:</strong> Create Kibana heatmap showing attack intensity over time, or geographic map showing attacker locations.</p>
 
                 <h4>3. Network Connection Monitoring</h4>
+                <p><strong>Threat Context:</strong> Monitoring outbound connections identifies C2 communications, data exfiltration, and lateral movement to external infrastructure.</p>
                 <div class="description">
-                    Monitor outbound connections to external IPs:
+                    <strong>Detection Logic:</strong> Filter network flows excluding RFC1918 private addresses, aggregating external destinations.
                 </div>
                 <div class="query-box">
                     <code>GET /network-*/_search
@@ -811,10 +873,19 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>must_not clause:</strong> Exclusion logic for filtering internal traffic</li>
+                    <li><strong>prefix match:</strong> Efficient filtering for IP ranges (consider 172.16-31 for full RFC1918 compliance)</li>
+                    <li><strong>Limitation:</strong> Also exclude multicast (224.0.0.0/4), loopback (127.0.0.0/8), and link-local (169.254.0.0/16)</li>
+                </ul>
+                <p><strong>Enhanced Detection:</strong> Add geolocation aggregation and filter for unexpected countries, or integrate with threat intelligence.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1071 (Application Layer Protocol), T1041 (Exfiltration Over C2 Channel)</p>
 
                 <h4>4. Process Execution Monitoring</h4>
+                <p><strong>Threat Context:</strong> Malicious PowerShell usage is prevalent in modern attacks for remote code execution, credential harvesting, and living-off-the-land techniques.</p>
                 <div class="description">
-                    Track suspicious process executions:
+                    <strong>Detection Logic:</strong> Use wildcard matching on process command lines to identify encoded commands and web-based payload delivery.
                 </div>
                 <div class="query-box">
                     <code>GET /endpoint-*/_search
@@ -834,10 +905,19 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>should clause with minimum_should_match:</strong> OR logic requiring at least one pattern to match</li>
+                    <li><strong>wildcard:</strong> Pattern matching with * (any characters); case-sensitive by default</li>
+                    <li><strong>Performance consideration:</strong> Wildcards on analyzed text fields are expensive; use .keyword suffix for exact matching</li>
+                </ul>
+                <p><strong>Additional Suspicious Patterns:</strong> <code>bypass</code>, <code>-nop -w hidden</code>, <code>FromBase64String</code>, <code>Net.WebClient</code></p>
+                <p><strong>MITRE ATT&CK:</strong> T1059.001 (PowerShell), T1027 (Obfuscated Files or Information)</p>
 
                 <h4>5. File Modification Detection</h4>
+                <p><strong>Threat Context:</strong> Modifications to critical system files indicate privilege escalation, persistence mechanisms, or system compromise.</p>
                 <div class="description">
-                    Monitor critical file changes:
+                    <strong>Detection Logic:</strong> Monitor file modification events on critical system paths across Windows and Linux systems.
                 </div>
                 <div class="query-box">
                     <code>GET /endpoint-*/_search
@@ -858,10 +938,19 @@
   }
 }</code>
                 </div>
+                <p><strong>Critical Paths to Monitor:</strong></p>
+                <ul>
+                    <li><strong>Linux:</strong> /etc/passwd, /etc/shadow, /etc/sudoers, /etc/crontab, ~/.ssh/authorized_keys</li>
+                    <li><strong>Windows:</strong> C:\Windows\System32\*, Registry hives (SAM, SYSTEM), startup folders</li>
+                    <li><strong>Application:</strong> Web server roots, database files, application configurations</li>
+                </ul>
+                <p><strong>File Integrity Monitoring (FIM):</strong> Combine with hash comparison (file.hash.sha256) to detect unauthorized modifications.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1078 (Valid Accounts), T1547 (Boot or Logon Autostart Execution)</p>
 
                 <h4>6. Web Application Attack Detection</h4>
+                <p><strong>Threat Context:</strong> Web applications are exposed attack surfaces vulnerable to injection attacks that can lead to data breaches.</p>
                 <div class="description">
-                    Detect SQL injection and XSS attempts:
+                    <strong>Detection Logic:</strong> Use regular expressions to pattern-match common SQLi and XSS payloads in URLs.
                 </div>
                 <div class="query-box">
                     <code>GET /web-*/_search
@@ -883,10 +972,25 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>regexp:</strong> Supports full regular expression syntax (more powerful but slower than wildcard)</li>
+                    <li><strong>.*:</strong> Matches any characters (equivalent to * in wildcard)</li>
+                    <li><strong>Case sensitivity:</strong> Elasticsearch regexes are case-sensitive by default</li>
+                </ul>
+                <p><strong>Enhanced Patterns:</strong></p>
+                <ul>
+                    <li><strong>SQLi:</strong> <code>' OR '1'='1</code>, <code>; DROP TABLE</code>, <code>UNION ALL SELECT</code></li>
+                    <li><strong>XSS:</strong> <code>&lt;iframe&gt;</code>, <code>javascript:</code>, <code>onerror=</code></li>
+                    <li><strong>Command Injection:</strong> <code>; ls</code>, <code>| cat /etc/passwd</code></li>
+                </ul>
+                <p><strong>Correlation:</strong> Match with HTTP response codes (200 = possible success, 500 = error, 403 = blocked)</p>
+                <p><strong>MITRE ATT&CK:</strong> T1190 (Exploit Public-Facing Application)</p>
 
                 <h4>7. DNS Tunneling Detection</h4>
+                <p><strong>Threat Context:</strong> DNS tunneling abuses DNS protocol to exfiltrate data or establish C2 channels, bypassing traditional firewall rules that allow DNS traffic.</p>
                 <div class="description">
-                    Identify potential DNS tunneling activities:
+                    <strong>Detection Logic:</strong> Analyze DNS query patterns using aggregations to identify domains with suspicious characteristics (high query volume, many unique subdomains).
                 </div>
                 <div class="query-box">
                     <code>GET /dns-*/_search
@@ -913,6 +1017,70 @@
   }
 }</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>Nested aggregations:</strong> Count total queries AND unique subdomain count per domain</li>
+                    <li><strong>cardinality aggregation:</strong> Approximate distinct count (uses HyperLogLog algorithm)</li>
+                    <li><strong>order parameter:</strong> Sorts buckets by nested aggregation value</li>
+                </ul>
+                <p><strong>DNS Tunneling Indicators:</strong></p>
+                <ul>
+                    <li><strong>High query volume:</strong> Hundreds or thousands of queries to same domain</li>
+                    <li><strong>Unusual subdomain patterns:</strong> Long, random-looking subdomains (encoded data)</li>
+                    <li><strong>Request/response size:</strong> Unusually large TXT records or response sizes</li>
+                    <li><strong>Query frequency:</strong> Regular, automated patterns</li>
+                </ul>
+                <p><strong>Advanced Detection:</strong> Use Elasticsearch ML anomaly detection on query length, entropy, and frequency patterns.</p>
+                <p><strong>MITRE ATT&CK:</strong> T1071.004 (Application Layer Protocol: DNS), T1048.003 (Exfiltration Over Alternative Protocol: DNS)</p>
+
+                <h4>8. Time-Series Anomaly Detection</h4>
+                <p><strong>Threat Context:</strong> Temporal analysis reveals attack patterns, identifies peak activity periods, and establishes behavioral baselines.</p>
+                <div class="query-box">
+                    <code>GET /logs-*/_search
+{
+  "query": {
+    "range": { "@timestamp": { "gte": "now-24h" }}
+  },
+  "aggs": {
+    "events_over_time": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "fixed_interval": "1h"
+      },
+      "aggs": {
+        "by_category": {
+          "terms": { "field": "event.category" }
+        }
+      }
+    }
+  },
+  "size": 0
+}</code>
+                </div>
+                <p><strong>Advanced Capabilities:</strong></p>
+                <ul>
+                    <li><strong>date_histogram:</strong> Time-based bucketing (minute, hour, day intervals)</li>
+                    <li><strong>Moving averages:</strong> Add pipeline aggregations for trend analysis</li>
+                    <li><strong>Percentile aggregations:</strong> Identify outliers statistically</li>
+                    <li><strong>Machine Learning:</strong> Elastic ML can automatically detect anomalies in time-series data</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 Elastic Performance Best Practices:</strong>
+                    <ul>
+                        <li><strong>Index patterns:</strong> Use specific index patterns (/logs-2024.01.*/) instead of wildcards when possible</li>
+                        <li><strong>Keyword fields:</strong> Use .keyword suffix for aggregations and exact matching</li>
+                        <li><strong>Filter context:</strong> Place range queries in filter clause for caching</li>
+                        <li><strong>Size parameter:</strong> Set "size": 0 when only aggregations are needed</li>
+                        <li><strong>Scroll API:</strong> Use for large result sets (>10,000 documents)</li>
+                        <li><strong>Index lifecycle management:</strong> Implement hot-warm-cold architecture for cost optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Elastic Security Integration:</strong> Leverage Elastic Security's pre-built detection rules based on MITRE ATT&CK framework. These rules are continuously updated by Elastic's threat research team and provide high-fidelity detections with minimal tuning required. Customize rules to match your environment and disable noisy detections.
+                </div>
+            </div>
 
                 <h4>8. Time-Series Anomaly Detection</h4>
                 <div class="description">

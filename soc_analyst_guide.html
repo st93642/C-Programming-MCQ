@@ -1082,65 +1082,6 @@
                 </div>
             </div>
 
-                <h4>8. Time-Series Anomaly Detection</h4>
-                <div class="description">
-                    Use date histogram for pattern analysis:
-                </div>
-                <div class="query-box">
-                    <code>GET /logs-*/_search
-{
-  "query": {
-    "match": { "event.category": "authentication" }
-  },
-  "aggs": {
-    "events_over_time": {
-      "date_histogram": {
-        "field": "@timestamp",
-        "fixed_interval": "1h"
-      },
-      "aggs": {
-        "by_outcome": {
-          "terms": { "field": "event.outcome" }
-        }
-      }
-    }
-  },
-  "size": 0
-}</code>
-                </div>
-
-                <h3>KQL Examples for Kibana Discover</h3>
-
-                <h4>Basic KQL Queries</h4>
-                <div class="query-box">
-                    <code>// Failed SSH logins
-event.action: "ssh_login" AND event.outcome: "failure"
-
-// Successful privileged operations
-event.action: "sudo" AND event.outcome: "success"
-
-// Large file uploads
-http.request.method: "POST" AND http.request.bytes > 10000000
-
-// Suspicious PowerShell execution
-process.name: "powershell.exe" AND process.command_line: *encoded*
-
-// Multiple failed logins from same IP
-source.ip: * AND event.outcome: "failure" AND event.category: "authentication"</code>
-                </div>
-
-                <div class="tip">
-                    <strong>💡 Elastic Tips:</strong>
-                    <ul>
-                        <li>Use field aggregations for statistical analysis</li>
-                        <li>Leverage Elastic Machine Learning for anomaly detection</li>
-                        <li>Create index patterns for efficient data organization</li>
-                        <li>Use visualization dashboards for real-time monitoring</li>
-                        <li>Save frequently used queries as saved searches</li>
-                    </ul>
-                </div>
-            </div>
-
             <!-- Microsoft Sentinel Section -->
             <div id="sentinel" class="section">
                 <h2>🛰️ Microsoft Sentinel: Cloud-Native SIEM</h2>

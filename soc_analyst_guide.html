@@ -324,46 +324,134 @@
             <!-- Introduction Section -->
             <div id="intro" class="section">
                 <h2>📖 Introduction</h2>
-                <h3>How to use this guide</h3>
+                
+                <h3>What is a Security Operations Center (SOC)?</h3>
+                <p>A Security Operations Center (SOC) is a centralized unit within an organization that employs people, processes, and technology to continuously monitor, detect, analyze, and respond to cybersecurity incidents. SOC analysts serve as the first line of defense against cyber threats, utilizing Security Information and Event Management (SIEM) systems as their primary investigative tool.</p>
+                
+                <h3>The Role of SIEM in Security Operations</h3>
+                <p>SIEM systems aggregate and correlate log data from diverse sources across an organization's IT infrastructure, including:</p>
+                <ul>
+                    <li><strong>Network devices:</strong> Firewalls, routers, switches, intrusion detection/prevention systems (IDS/IPS)</li>
+                    <li><strong>Endpoints:</strong> Workstations, servers, mobile devices with security agents</li>
+                    <li><strong>Applications:</strong> Web servers, databases, custom business applications</li>
+                    <li><strong>Security tools:</strong> Antivirus, endpoint detection and response (EDR), data loss prevention (DLP)</li>
+                    <li><strong>Cloud services:</strong> AWS CloudTrail, Azure Activity Logs, Google Cloud Audit Logs</li>
+                </ul>
+                <p>By normalizing and indexing this data, SIEM platforms enable real-time security monitoring, historical analysis, and compliance reporting through sophisticated query languages and correlation rules.</p>
+                
+                <h3>Fundamental Concepts in Log Analysis</h3>
+                <h4>Log Structure and Parsing</h4>
+                <p>Logs are structured or semi-structured records of events that occur within systems. Understanding log anatomy is critical:</p>
+                <ul>
+                    <li><strong>Timestamp:</strong> When the event occurred (essential for temporal correlation)</li>
+                    <li><strong>Source:</strong> Which system or component generated the event</li>
+                    <li><strong>Event Type/Code:</strong> Classification of the event (e.g., Windows Event ID 4625 for failed logon)</li>
+                    <li><strong>Severity Level:</strong> Importance indicator (informational, warning, error, critical)</li>
+                    <li><strong>Message/Details:</strong> Descriptive information about the event</li>
+                    <li><strong>Contextual Fields:</strong> User, IP address, process name, file path, etc.</li>
+                </ul>
+                
+                <h4>The Cybersecurity Kill Chain</h4>
+                <p>SOC analysts use frameworks like the Cyber Kill Chain to understand attack progression:</p>
                 <ol>
-                    <li>Start with the <strong>Incident flow</strong> in your SIEM (Splunk/Elastic/Sentinel) to triage alerts.</li>
-                    <li>Pivot using the <strong>cheatsheets</strong> for each platform to validate and enrich findings.</li>
-                    <li>Correlate with <strong>Linux terminal</strong> checks on hosts when deeper visibility is needed.</li>
-                    <li>Apply the <strong>Best practices</strong> section for documentation, tuning, and follow-up actions.</li>
+                    <li><strong>Reconnaissance:</strong> Attacker gathers information about the target</li>
+                    <li><strong>Weaponization:</strong> Creation of malicious payload</li>
+                    <li><strong>Delivery:</strong> Transmission of weapon to target (email, web, USB)</li>
+                    <li><strong>Exploitation:</strong> Execution of code on victim system</li>
+                    <li><strong>Installation:</strong> Persistence mechanism establishment</li>
+                    <li><strong>Command & Control (C2):</strong> Remote access channel establishment</li>
+                    <li><strong>Actions on Objectives:</strong> Data exfiltration, destruction, or other malicious activities</li>
                 </ol>
+                <p>Each phase generates distinct log signatures that analysts can detect through SIEM queries.</p>
+                
+                <h3>Query Language Paradigms</h3>
+                <p>Different SIEM platforms employ distinct query languages optimized for their underlying data storage:</p>
+                <ul>
+                    <li><strong>Splunk SPL (Search Processing Language):</strong> Pipeline-based language using the pipe operator (|) to chain search commands</li>
+                    <li><strong>Elastic KQL/Lucene:</strong> Kibana Query Language for simple searches, Lucene syntax for complex queries, and DSL for advanced aggregations</li>
+                    <li><strong>Microsoft Sentinel KQL (Kusto Query Language):</strong> Declarative language similar to SQL, optimized for Azure Data Explorer backend</li>
+                </ul>
+                <p>While syntax varies, the analytical approach remains consistent: filter, aggregate, correlate, and visualize security events to identify anomalous behavior.</p>
+                
+                <h3>How to Use This Guide</h3>
+                <p>This comprehensive guide is structured to support both learning and operational reference:</p>
+                <ol>
+                    <li><strong>Understand the Theory:</strong> Each section begins with conceptual foundations before presenting practical queries</li>
+                    <li><strong>Start with the Incident Flow:</strong> Use your SIEM (Splunk/Elastic/Sentinel) to triage alerts according to established playbooks</li>
+                    <li><strong>Apply Platform-Specific Queries:</strong> Leverage the detailed query examples to validate and enrich findings during investigations</li>
+                    <li><strong>Correlate with System-Level Analysis:</strong> Use Linux terminal commands for deeper visibility when SIEM data alone is insufficient</li>
+                    <li><strong>Follow Best Practices:</strong> Apply the methodology section for systematic documentation, tuning, and post-incident activities</li>
+                    <li><strong>Adapt and Customize:</strong> Modify queries to fit your organization's specific data sources, naming conventions, and use cases</li>
+                </ol>
+                
+                <div class="important">
+                    <strong>⚠️ Academic Context:</strong> This guide bridges theoretical security concepts with practical implementation. Each query is accompanied by its underlying detection logic, potential false positives, and evasion considerations. Understanding the "why" behind each query is as important as knowing the "how."
+                </div>
+                
                 <div class="tip">
-                    <strong>💡 Tip:</strong> Bookmark this page for quick reference during incident response and threat hunting activities.
+                    <strong>💡 Learning Tip:</strong> For maximum benefit, practice these queries in a controlled lab environment before deploying in production. Consider using datasets like Security Onion, BOTS (Boss of the SOC), or custom test data to develop proficiency without impacting live security monitoring.
                 </div>
             </div>
 
             <!-- Splunk Section -->
             <div id="splunk" class="section">
-                <h2>🔍 Splunk Query Cheatsheet</h2>
+                <h2>🔍 Splunk: Enterprise SIEM Platform</h2>
                 
-                <h3>Basic Search Syntax</h3>
-                <div class="description">
-                    Search for events containing specific keywords:
-                </div>
+                <h3>Splunk Architecture and Data Model</h3>
+                <p>Splunk is a distributed search and analytics platform that ingests machine-generated data through Universal Forwarders or HTTP Event Collectors (HEC). Data flows through the following pipeline:</p>
+                <ol>
+                    <li><strong>Input Layer:</strong> Data collection via forwarders, APIs, or direct file monitoring</li>
+                    <li><strong>Parsing Layer:</strong> Event breaking, timestamp extraction, and field identification</li>
+                    <li><strong>Indexing Layer:</strong> Data compression and storage in time-series indexes with bloom filters for efficient retrieval</li>
+                    <li><strong>Search Layer:</strong> SPL (Search Processing Language) queries execute in distributed fashion across indexers</li>
+                </ol>
+                <p>Understanding this architecture is crucial for query optimization and troubleshooting performance issues.</p>
+                
+                <h3>Search Processing Language (SPL) Fundamentals</h3>
+                <p>SPL follows a pipeline model where each command transforms the result set before passing it to the next command:</p>
                 <div class="query-box">
-                    <code>index=main sourcetype=access_combined error</code>
+                    <code>index=main sourcetype=access_combined error
+| stats count by src_ip 
+| where count > 10
+| sort -count</code>
+                </div>
+                <p><strong>Pipeline breakdown:</strong></p>
+                <ul>
+                    <li><strong>Line 1:</strong> Base search filters events from the "main" index with sourcetype "access_combined" containing "error"</li>
+                    <li><strong>Line 2:</strong> Aggregates events by source IP, counting occurrences</li>
+                    <li><strong>Line 3:</strong> Post-processing filter to show only IPs with more than 10 errors</li>
+                    <li><strong>Line 4:</strong> Sort results in descending order by count</li>
+                </ul>
+                
+                <h3>Index and Sourcetype Selection Strategy</h3>
+                <p>Efficient Splunk queries always specify the index (and ideally sourcetype) to minimize the search scope:</p>
+                <ul>
+                    <li><strong>index=</strong> Specifies which data repository to search (e.g., security, network, windows)</li>
+                    <li><strong>sourcetype=</strong> Identifies the format/parser for the data (e.g., WinEventLog:Security, syslog, firewall:cisco:asa)</li>
+                    <li><strong>Time range:</strong> Default is "All time" but should be limited to relevant period (last 24h, last 7d, etc.)</li>
+                </ul>
+                <div class="tip">
+                    <strong>💡 Performance Tip:</strong> Searches without index specification scan all indexes, dramatically increasing query time and resource consumption. Always include index= as the first filter.
                 </div>
 
-                <h3>Common Investigation Queries</h3>
-
+                <h3>Incident Response Methodology</h3>
                 <div class="important">
-                    <strong>Splunk incident playbook:</strong>
+                    <strong>Splunk Incident Investigation Workflow:</strong>
                     <ol>
-                        <li>Open alert → review notable fields (src/dest, user, signature, severity).</li>
-                        <li>Pivot with <code>| tstats</code> to scope by time, index, sourcetype.</li>
-                        <li>Validate by replaying key queries below; export to timeline.</li>
-                        <li>Enrich IPs/domains with threat intel (<code>| lookup</code>).</li>
-                        <li>Document actions and create adaptive response (block/quarantine) if required.</li>
+                        <li><strong>Alert Triage:</strong> Review notable events dashboard, examining key fields (source/destination IP, username, signature name, severity level)</li>
+                        <li><strong>Scope Determination:</strong> Use <code>| tstats</code> command for fast aggregation across time, index, and sourcetype to understand event volume</li>
+                        <li><strong>Evidence Collection:</strong> Execute targeted queries to extract relevant events, building a timeline of attacker activity</li>
+                        <li><strong>Threat Intelligence Enrichment:</strong> Apply lookups (<code>| lookup threat_intel ip AS src_ip</code>) to contextualize IOCs</li>
+                        <li><strong>Response Actions:</strong> Document findings, create adaptive responses (automated blocking/quarantine), and generate reports for stakeholders</li>
                     </ol>
                 </div>
 
-                <h4>1. Failed Login Attempts</h4>
+                <h3>Authentication Security Analysis</h3>
+
+                <h4>1. Failed Login Attempts (Brute Force Detection)</h4>
+                <p><strong>Threat Context:</strong> Brute force attacks attempt to guess credentials through repeated login attempts. This pattern is characteristic of the "Exploitation" phase in the Cyber Kill Chain.</p>
                 <div class="description">
-                    Detect potential brute force attacks by identifying failed authentication attempts:
+                    <strong>Detection Logic:</strong> Aggregate Windows Security Event ID 4625 (failed logon) by source IP and username, filtering for accounts exceeding a threshold.
                 </div>
                 <div class="query-box">
                     <code>index=security sourcetype=WinEventLog:Security EventCode=4625
@@ -371,10 +459,19 @@
 | where count > 5
 | sort -count</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>EventCode=4625:</strong> Windows logs failed authentication attempts with this ID</li>
+                    <li><strong>stats count by src_ip, user:</strong> Aggregates by source and target, revealing attack patterns</li>
+                    <li><strong>where count > 5:</strong> Threshold should be tuned based on baseline (consider legitimate typos)</li>
+                </ul>
+                <p><strong>False Positive Considerations:</strong> Legitimate users forgetting passwords, misconfigured services, time synchronization issues. Adjust threshold based on organizational behavior.</p>
+                <p><strong>Evasion Techniques:</strong> Attackers may use slow brute force (low-and-slow), distributed sources (botnets), or credential stuffing with valid username/password pairs.</p>
 
                 <h4>2. Successful Logins After Failed Attempts</h4>
+                <p><strong>Threat Context:</strong> A successful login (EventCode 4624) immediately following multiple failures strongly indicates credential compromise or successful brute force.</p>
                 <div class="description">
-                    Identify compromised accounts by correlating failed and successful logins:
+                    <strong>Detection Logic:</strong> Use transaction command to correlate temporally related authentication events for the same user within a 30-minute window.
                 </div>
                 <div class="query-box">
                     <code>index=security (EventCode=4625 OR EventCode=4624)
@@ -382,20 +479,38 @@
 | search EventCode=4625 EventCode=4624
 | stats count by user, src_ip</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>transaction user maxspan=30m:</strong> Groups events for the same user within 30 minutes into transactions</li>
+                    <li><strong>search EventCode=4625 EventCode=4624:</strong> Filters transactions containing BOTH failed and successful logins</li>
+                    <li><strong>Temporal window:</strong> 30 minutes is default; adjust based on typical attack speed vs. legitimate retry patterns</li>
+                </ul>
+                <p><strong>Alternative Approach:</strong> Consider using <code>| streamstats</code> or <code>| eventstats</code> for real-time detection rather than batch processing.</p>
+                <p><strong>Investigation Next Steps:</strong> Examine source IP geolocation, compare against user's typical login locations, check for subsequent lateral movement or privilege escalation.</p>
 
                 <h4>3. Privilege Escalation Detection</h4>
+                <p><strong>Threat Context:</strong> Privilege escalation is a critical phase where attackers elevate their access rights. Windows Event ID 4672 logs whenever special privileges are assigned to a new logon.</p>
                 <div class="description">
-                    Monitor for privilege escalation activities:
+                    <strong>Detection Logic:</strong> Monitor privilege assignment events, focusing on unusual frequency or logon types (especially Type 3: Network, Type 10: RemoteInteractive).
                 </div>
                 <div class="query-box">
                     <code>index=security EventCode=4672
 | stats count by user, Logon_Type
 | where count > 10</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>EventCode=4672:</strong> Special privileges assigned to new logon (SeSecurityPrivilege, SeBackupPrivilege, SeDebugPrivilege)</li>
+                    <li><strong>Logon_Type field:</strong> Reveals how privilege was obtained (2=Interactive, 3=Network, 4=Batch, 5=Service, 10=RemoteInteractive)</li>
+                    <li><strong>Baseline awareness:</strong> Administrator accounts will trigger this frequently; focus on user accounts or service accounts</li>
+                </ul>
+                <p><strong>Enhanced Detection:</strong> Cross-reference with Event ID 4673 (privileged service called) and 4674 (privileged operation attempted) for complete privilege abuse timeline.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1078 (Valid Accounts), T1068 (Exploitation for Privilege Escalation)</p>
 
                 <h4>4. Data Exfiltration Detection</h4>
+                <p><strong>Threat Context:</strong> Data exfiltration represents the final objective phase where attackers transmit stolen data to external infrastructure. Large outbound transfers, especially to unusual destinations, warrant investigation.</p>
                 <div class="description">
-                    Identify large data transfers to external IPs:
+                    <strong>Detection Logic:</strong> Analyze firewall or proxy logs for high-volume outbound connections to non-RFC1918 addresses, aggregating by source, destination, and user.
                 </div>
                 <div class="query-box">
                     <code>index=network sourcetype=firewall action=allowed
@@ -404,10 +519,25 @@
 | stats sum(bytes_mb) as total_mb by src_ip, dest_ip, user
 | sort -total_mb</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>eval bytes_mb:</strong> Converts raw byte counts to megabytes for human readability</li>
+                    <li><strong>NOT (dest_ip="10.*" OR dest_ip="192.168.*"):</strong> Excludes internal RFC1918 addresses (also consider 172.16.0.0/12)</li>
+                    <li><strong>Threshold of 100MB:</strong> Should be adjusted based on organization's normal file transfer patterns</li>
+                </ul>
+                <p><strong>Advanced Considerations:</strong></p>
+                <ul>
+                    <li>Attackers may use DNS tunneling, ICMP tunneling, or steganography to evade detection</li>
+                    <li>Consider protocol analysis: large HTTPS uploads, unusual port usage</li>
+                    <li>Temporal patterns: transfers during off-hours are more suspicious</li>
+                    <li>Baseline each user/system's typical outbound data volume</li>
+                </ul>
+                <p><strong>Complementary Queries:</strong> Correlate with DLP (Data Loss Prevention) alerts, examine file access logs (EventCode 4663), check for archive creation (.zip, .7z, .rar) before transfer.</p>
 
                 <h4>5. Malware Detection via Process Creation</h4>
+                <p><strong>Threat Context:</strong> Attackers frequently use PowerShell and Command Prompt for fileless malware, living-off-the-land techniques, and remote code execution. Event ID 4688 logs process creation when command-line auditing is enabled.</p>
                 <div class="description">
-                    Detect suspicious process executions:
+                    <strong>Detection Logic:</strong> Search for encoded PowerShell commands, web download functions, or execution operators that suggest malicious script execution.
                 </div>
                 <div class="query-box">
                     <code>index=windows EventCode=4688
@@ -415,10 +545,26 @@
 | search command_line="*-enc*" OR command_line="*downloadstring*" OR command_line="*invoke-expression*"
 | stats count by host, user, process_name, command_line</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>-enc or -EncodedCommand:</strong> Base64-encoded PowerShell payload (common obfuscation technique)</li>
+                    <li><strong>downloadstring:</strong> .NET method to download remote content (commonly used in malware droppers)</li>
+                    <li><strong>invoke-expression (IEX):</strong> Executes strings as PowerShell code (indicator of dynamic code execution)</li>
+                </ul>
+                <p><strong>Additional Malicious Patterns to Monitor:</strong></p>
+                <ul>
+                    <li><code>-nop -w hidden</code>: No profile, hidden window (stealth execution)</li>
+                    <li><code>Start-BitsTransfer</code>: Background Intelligent Transfer Service (legitimate tool abused for download)</li>
+                    <li><code>Invoke-WebRequest</code> or <code>curl</code>: Web request functions</li>
+                    <li><code>mimikatz</code>, <code>sekurlsa</code>: Credential dumping tools</li>
+                </ul>
+                <p><strong>False Positive Mitigation:</strong> Whitelist known administrative scripts (hash-based or path-based), exclude system accounts performing legitimate automation.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1059.001 (PowerShell), T1027 (Obfuscated Files or Information), T1105 (Ingress Tool Transfer)</p>
 
-                <h4>6. Network Anomaly Detection</h4>
+                <h4>6. Network Anomaly Detection (Port Scanning)</h4>
+                <p><strong>Threat Context:</strong> Port scanning is reconnaissance activity where attackers probe systems for open ports/services. High unique port counts from a single source indicate scanning tools (Nmap, Masscan).</p>
                 <div class="description">
-                    Find unusual network connections:
+                    <strong>Detection Logic:</strong> Use distinct count (dc) to find sources contacting an unusually high number of unique destination ports.
                 </div>
                 <div class="query-box">
                     <code>index=network
@@ -426,10 +572,24 @@
 | where unique_ports > 100
 | sort -unique_ports</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>dc(dest_port):</strong> Distinct count function identifies unique ports accessed</li>
+                    <li><strong>values(dest_port):</strong> Lists all accessed ports for forensic analysis</li>
+                    <li><strong>Threshold of 100 ports:</strong> Legitimate systems rarely contact >100 ports; adjust based on network profile</li>
+                </ul>
+                <p><strong>Scan Types and Detection:</strong></p>
+                <ul>
+                    <li><strong>Horizontal scan:</strong> Many hosts, few ports (add dest_ip distinct count)</li>
+                    <li><strong>Vertical scan:</strong> Few hosts, many ports (current query)</li>
+                    <li><strong>Slow scan:</strong> May evade detection; consider longer time windows</li>
+                </ul>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1046 (Network Service Scanning)</p>
 
-                <h4>7. Web Application Attacks</h4>
+                <h4>7. Web Application Attacks (SQLi & XSS Detection)</h4>
+                <p><strong>Threat Context:</strong> Web applications are frequent attack vectors. SQL Injection (SQLi) manipulates database queries, while Cross-Site Scripting (XSS) injects malicious JavaScript into web pages.</p>
                 <div class="description">
-                    Detect SQL injection and XSS attempts:
+                    <strong>Detection Logic:</strong> Pattern match URI parameters for common SQLi and XSS syntax, correlating with HTTP response codes.
                 </div>
                 <div class="query-box">
                     <code>index=web sourcetype=access_combined
@@ -437,19 +597,51 @@
 | stats count by src_ip, uri, status
 | sort -count</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>union*select:</strong> SQL UNION-based injection attempt</li>
+                    <li><strong>script:</strong> Potential XSS payload (e.g., &lt;script&gt;alert()&lt;/script&gt;)</li>
+                    <li><strong>exec, drop*table:</strong> SQL command injection patterns</li>
+                    <li><strong>Status code correlation:</strong> 200 (success) may indicate vulnerability, 403/500 suggests blocking</li>
+                </ul>
+                <p><strong>Enhanced Detection Patterns:</strong></p>
+                <ul>
+                    <li>Add: <code>OR uri="*' OR '1'='1*"</code> (authentication bypass)</li>
+                    <li>Add: <code>OR uri="*../..%2F*"</code> (directory traversal)</li>
+                    <li>Add: <code>OR uri="*cmd=*"</code> (OS command injection)</li>
+                    <li>Consider URL-decoded analysis: <code>| eval uri_decoded=urldecode(uri)</code></li>
+                </ul>
+                <p><strong>False Positives:</strong> Legitimate application features, security scanners, penetration tests. Whitelist authorized security testing.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1190 (Exploit Public-Facing Application)</p>
 
-                <h4>8. Time-Based Analysis</h4>
+                <h4>8. Time-Based Analysis (Temporal Pattern Detection)</h4>
+                <p><strong>Threat Context:</strong> Visualizing event distribution over time reveals attack patterns, identifies peak attack periods, and helps establish baselines for anomaly detection.</p>
                 <div class="description">
-                    Create timechart for pattern analysis:
+                    <strong>Detection Logic:</strong> Create time-series visualization of failed login attempts, segmented by user.
                 </div>
                 <div class="query-box">
                     <code>index=security EventCode=4625
 | timechart span=1h count by user</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>timechart:</strong> Automatically bins events by time and creates statistical summary</li>
+                    <li><strong>span=1h:</strong> One-hour buckets; adjust based on analysis needs (5m for real-time, 1d for trends)</li>
+                    <li><strong>count by user:</strong> Creates separate time series for each user (limit 10 by default)</li>
+                </ul>
+                <p><strong>Analytical Insights:</strong></p>
+                <ul>
+                    <li><strong>Spikes:</strong> Sudden increases suggest automated attacks</li>
+                    <li><strong>Periodic patterns:</strong> May indicate scheduled tasks or persistent threats</li>
+                    <li><strong>Off-hours activity:</strong> Events outside business hours warrant investigation</li>
+                    <li><strong>Comparison:</strong> Use <code>timechart ... by user limit=0</code> to aggregate all users</li>
+                </ul>
+                <p><strong>Advanced Visualization:</strong> Combine with <code>| predict</code> for machine learning-based anomaly detection or <code>| baseline</code> for statistical deviation analysis.</p>
 
-                <h4>9. User Behavior Analytics</h4>
+                <h4>9. User Behavior Analytics (Impossible Travel Detection)</h4>
+                <p><strong>Threat Context:</strong> Compromised credentials are often used from multiple geographic locations. Users appearing from multiple IPs simultaneously or from geographically distant locations in short time periods indicate account compromise.</p>
                 <div class="description">
-                    Identify unusual user activity patterns:
+                    <strong>Detection Logic:</strong> Identify users authenticating from an anomalous number of distinct source IPs within the analysis timeframe.
                 </div>
                 <div class="query-box">
                     <code>index=security EventCode=4624
@@ -457,10 +649,26 @@
 | where unique_ips > 5
 | sort -unique_ips</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>dc(src_ip):</strong> Distinct count of source IPs per user</li>
+                    <li><strong>values(src_ip):</strong> Lists all IPs for manual review</li>
+                    <li><strong>Threshold of 5:</strong> Depends on user role (executives travel, remote workers VPN); tune per user/department</li>
+                </ul>
+                <p><strong>Enhanced Detection with Geolocation:</strong></p>
+                <div class="query-box">
+                    <code>index=security EventCode=4624
+| iplocation src_ip
+| stats dc(Country) as countries, values(Country) as country_list by user
+| where countries > 2</code>
+                </div>
+                <p><strong>Impossible Travel Detection:</strong> Calculate geographic distance and time delta between consecutive logins to detect physically impossible travel scenarios.</p>
+                <p><strong>MITRE ATT&CK Mapping:</strong> T1078 (Valid Accounts), T1133 (External Remote Services)</p>
 
                 <h4>10. Threat Intelligence Integration</h4>
+                <p><strong>Threat Context:</strong> External threat intelligence feeds provide context about known malicious infrastructure (C2 servers, malware distribution sites, scanning hosts). Integrating these feeds enriches security events with actionable threat data.</p>
                 <div class="description">
-                    Check IPs against threat intel feeds:
+                    <strong>Detection Logic:</strong> Use Splunk lookups to match network destinations against threat intelligence databases, filtering for confirmed threats.
                 </div>
                 <div class="query-box">
                     <code>index=network
@@ -468,15 +676,35 @@
 | where isnotnull(threat_level)
 | stats count by src_ip, dest_ip, threat_level, category</code>
                 </div>
+                <p><strong>Query Analysis:</strong></p>
+                <ul>
+                    <li><strong>lookup threat_intel_ips:</strong> References CSV lookup table containing known bad IPs</li>
+                    <li><strong>OUTPUT threat_level, category:</strong> Enriches events with threat severity and classification</li>
+                    <li><strong>isnotnull(threat_level):</strong> Filters only events matching threat intelligence</li>
+                </ul>
+                <p><strong>Threat Intelligence Sources:</strong></p>
+                <ul>
+                    <li><strong>Commercial feeds:</strong> Recorded Future, CrowdStrike, Anomali (high fidelity, subscription-based)</li>
+                    <li><strong>Open source:</strong> AlienVault OTX, AbuseIPDB, EmergingThreats (free but may have higher false positives)</li>
+                    <li><strong>Government feeds:</strong> CISA, FBI InfraGard (sector-specific intelligence)</li>
+                </ul>
+                <p><strong>Lookup Table Maintenance:</strong> Implement automated updates (daily/hourly) via scripts or Splunk apps. Monitor feed freshness and accuracy.</p>
+                <p><strong>Bidirectional Analysis:</strong> Also check source IPs (<code>lookup ... ip as src_ip</code>) to detect compromised internal hosts.</p>
 
                 <div class="tip">
-                    <strong>💡 Splunk Tips:</strong>
+                    <strong>💡 Splunk Performance Optimization:</strong>
                     <ul>
-                        <li>Use <code>| head 100</code> to limit results for faster testing</li>
-                        <li>Save frequently used searches as reports or alerts</li>
-                        <li>Use <code>| fields</code> to select only necessary fields for better performance</li>
-                        <li>Leverage subsearches for complex correlations</li>
+                        <li><strong>Testing:</strong> Use <code>| head 100</code> to limit results during query development</li>
+                        <li><strong>Field selection:</strong> Use <code>| fields src_ip, dest_ip, user</code> to return only necessary fields</li>
+                        <li><strong>Fast mode:</strong> Enable in search bar for preliminary analysis (disables field discovery)</li>
+                        <li><strong>tstats:</strong> Use <code>| tstats</code> instead of stats for accelerated data models (10-1000x faster)</li>
+                        <li><strong>Summary indexing:</strong> Pre-compute frequently used aggregations</li>
+                        <li><strong>Subsearches:</strong> Use sparingly; often <code>join</code> or <code>lookup</code> is more efficient</li>
                     </ul>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Operational Considerations:</strong> Always validate queries in a test environment before deploying as scheduled searches or alerts. Monitor search resource usage (CPU, memory) and set appropriate scheduling priorities. Document query purpose, data sources, and expected results for knowledge transfer.
                 </div>
             </div>
 

@@ -5359,36 +5359,51 @@ Attacker Network: 192.168.100.0/24
     </div>
 
     <script>
+        // Cache DOM elements for better performance
+        let navLinks;
+        let sections;
+        let sidebar;
+
         // Scroll Spy - Highlight active section in navigation
         function updateActiveNavigation() {
-            const sections = document.querySelectorAll('.section[id]');
-            const navLinks = document.querySelectorAll('.nav-btn');
-            
             let currentSection = '';
             const scrollPosition = window.scrollY + 100; // Offset for better UX
+            const documentHeight = document.documentElement.scrollHeight;
+            const windowHeight = window.innerHeight;
             
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
+            // Check if at bottom of page
+            if (window.scrollY + windowHeight >= documentHeight - 10) {
+                currentSection = sections[sections.length - 1].getAttribute('id');
+            }
+            // Check if at top of page
+            else if (window.scrollY < 100) {
+                currentSection = sections[0].getAttribute('id');
+            }
+            // Find current section based on scroll position
+            else {
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+            }
             
+            // Update active states and ARIA attributes
             navLinks.forEach(link => {
                 link.classList.remove('active');
+                link.removeAttribute('aria-current');
                 if (link.getAttribute('href') === '#' + currentSection) {
                     link.classList.add('active');
+                    link.setAttribute('aria-current', 'location');
                 }
             });
         }
 
         // Mobile menu auto-close on link click
         function setupMobileMenuClose() {
-            const navLinks = document.querySelectorAll('.nav-btn');
-            const sidebar = document.querySelector('.sidebar');
-            
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     // On mobile, close the menu after clicking a link
@@ -5399,25 +5414,14 @@ Attacker Network: 192.168.100.0/24
             });
         }
 
-        // Smooth scroll with offset for sections under header
-        function setupSmoothScroll() {
-            const navLinks = document.querySelectorAll('.nav-btn');
-            
+        // Update URL hash without scrolling
+        function setupNavigationClick() {
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
                     if (targetId && targetId.startsWith('#')) {
-                        const targetSection = document.querySelector(targetId);
-                        if (targetSection) {
-                            e.preventDefault();
-                            const offsetTop = targetSection.offsetTop - 20; // Small offset from top
-                            window.scrollTo({
-                                top: offsetTop,
-                                behavior: 'smooth'
-                            });
-                            // Update URL without jumping
-                            history.pushState(null, null, targetId);
-                        }
+                        // Update URL hash (smooth scroll is handled by CSS)
+                        history.pushState(null, null, targetId);
                     }
                 });
             });
@@ -5425,26 +5429,27 @@ Attacker Network: 192.168.100.0/24
 
         // Initialize all functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Cache DOM elements
+            navLinks = document.querySelectorAll('.nav-btn');
+            sections = document.querySelectorAll('.section[id]');
+            sidebar = document.querySelector('.sidebar');
+            
+            // Setup functionality
             updateActiveNavigation();
             setupMobileMenuClose();
-            setupSmoothScroll();
+            setupNavigationClick();
             
-            // Update active navigation on scroll
-            let scrollTimeout;
+            // Update active navigation on scroll with throttling
+            let isScrolling = false;
             window.addEventListener('scroll', function() {
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
+                if (!isScrolling) {
+                    window.requestAnimationFrame(function() {
+                        updateActiveNavigation();
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
                 }
-                scrollTimeout = setTimeout(updateActiveNavigation, 50); // Throttle for performance
             });
-            
-            // Set initial active state based on URL hash
-            if (window.location.hash) {
-                const targetLink = document.querySelector(`.nav-btn[href="${window.location.hash}"]`);
-                if (targetLink) {
-                    targetLink.classList.add('active');
-                }
-            }
         });
     </script>
 </body>

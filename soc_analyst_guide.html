@@ -5359,40 +5359,62 @@ Attacker Network: 192.168.100.0/24
     </div>
 
     <script>
+        // Constants
+        const SCROLL_OFFSET = 100; // Offset to trigger section highlighting before exact top
+        const BOTTOM_THRESHOLD = 10; // Pixels from bottom to consider "at bottom"
+        const MOBILE_BREAKPOINT = 768; // Matches CSS @media breakpoint
+        
         // Cache DOM elements for better performance
-        let navLinks;
-        let sections;
-        let sidebar;
+        const state = {
+            navLinks: null,
+            sections: null,
+            sidebar: null
+        };
 
         // Scroll Spy - Highlight active section in navigation
         function updateActiveNavigation() {
             let currentSection = '';
-            const scrollPosition = window.scrollY + 100; // Offset for better UX
+            const scrollPosition = window.scrollY + SCROLL_OFFSET;
             const documentHeight = document.documentElement.scrollHeight;
             const windowHeight = window.innerHeight;
             
             // Check if at bottom of page
-            if (window.scrollY + windowHeight >= documentHeight - 10) {
-                currentSection = sections[sections.length - 1].getAttribute('id');
+            if (window.scrollY + windowHeight >= documentHeight - BOTTOM_THRESHOLD) {
+                currentSection = state.sections[state.sections.length - 1].getAttribute('id');
             }
             // Check if at top of page
-            else if (window.scrollY < 100) {
-                currentSection = sections[0].getAttribute('id');
+            else if (window.scrollY < SCROLL_OFFSET) {
+                currentSection = state.sections[0].getAttribute('id');
             }
             // Find current section based on scroll position
             else {
-                sections.forEach(section => {
+                state.sections.forEach(section => {
                     const sectionTop = section.offsetTop;
                     const sectionHeight = section.offsetHeight;
                     
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    if (scrollPosition >= sectionTop && scrollPosition <= sectionTop + sectionHeight) {
                         currentSection = section.getAttribute('id');
                     }
                 });
+                
+                // Fallback: if no section matched, find the closest section above
+                if (!currentSection) {
+                    let closestSection = state.sections[0];
+                    let closestDistance = Math.abs(scrollPosition - closestSection.offsetTop);
+                    
+                    state.sections.forEach(section => {
+                        const distance = Math.abs(scrollPosition - section.offsetTop);
+                        if (distance < closestDistance && section.offsetTop <= scrollPosition) {
+                            closestSection = section;
+                            closestDistance = distance;
+                        }
+                    });
+                    currentSection = closestSection.getAttribute('id');
+                }
             }
             
             // Update active states and ARIA attributes
-            navLinks.forEach(link => {
+            state.navLinks.forEach(link => {
                 link.classList.remove('active');
                 link.removeAttribute('aria-current');
                 if (link.getAttribute('href') === '#' + currentSection) {
@@ -5404,24 +5426,29 @@ Attacker Network: 192.168.100.0/24
 
         // Mobile menu auto-close on link click
         function setupMobileMenuClose() {
-            navLinks.forEach(link => {
+            state.navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     // On mobile, close the menu after clicking a link
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.remove('open');
+                    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+                        state.sidebar.classList.remove('open');
                     }
                 });
             });
         }
 
-        // Update URL hash without scrolling
+        // Update URL hash (smooth scrolling handled by CSS)
         function setupNavigationClick() {
-            navLinks.forEach(link => {
+            state.navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
                     if (targetId && targetId.startsWith('#')) {
-                        // Update URL hash (smooth scroll is handled by CSS)
-                        history.pushState(null, null, targetId);
+                        // Update URL hash (CSS smooth-scroll handles the scrolling)
+                        e.preventDefault();
+                        const targetSection = document.querySelector(targetId);
+                        if (targetSection) {
+                            targetSection.scrollIntoView({ behavior: 'smooth' });
+                            history.pushState(null, null, targetId);
+                        }
                     }
                 });
             });
@@ -5430,9 +5457,9 @@ Attacker Network: 192.168.100.0/24
         // Initialize all functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Cache DOM elements
-            navLinks = document.querySelectorAll('.nav-btn');
-            sections = document.querySelectorAll('.section[id]');
-            sidebar = document.querySelector('.sidebar');
+            state.navLinks = document.querySelectorAll('.nav-btn');
+            state.sections = document.querySelectorAll('.section[id]');
+            state.sidebar = document.querySelector('.sidebar');
             
             // Setup functionality
             updateActiveNavigation();

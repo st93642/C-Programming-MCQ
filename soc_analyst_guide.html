@@ -5,7 +5,7 @@
 <!--  By: st93642@students.tsi.lv                          TT    SSSSSSS II -->
 <!--                                                       TT         SS II -->
 <!--  Created: Jan 26 2026 21:06 st93642                   TT    SSSSSSS II -->
-<!--  Updated: Jan 27 2026 21:06 st93642                                    -->
+<!--  Updated: Jan 29 2026 10:22 st93642                                    -->
 <!--                                                                        -->
 <!--   Transport and Telecommunication Institute - Riga, Latvia             -->
 <!--                       https://tsi.lv                                   -->
@@ -37,6 +37,10 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -123,12 +127,35 @@
             text-decoration: none;
             display: block;
             text-align: left;
+            position: relative;
         }
 
         .nav-btn:hover {
             background-color: var(--secondary-color);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.active {
+            background-color: var(--success-color);
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.4);
+        }
+
+        .nav-btn.active::before {
+            content: '▶';
+            position: absolute;
+            left: 5px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
         }
 
         .content {
@@ -5330,5 +5357,95 @@ Attacker Network: 192.168.100.0/24
             <p>Created by: st93642@students.tsi.lv | <a href="https://tsi.lv" style="color: #3498db;">https://tsi.lv</a></p>
         </div>
     </div>
+
+    <script>
+        // Scroll Spy - Highlight active section in navigation
+        function updateActiveNavigation() {
+            const sections = document.querySelectorAll('.section[id]');
+            const navLinks = document.querySelectorAll('.nav-btn');
+            
+            let currentSection = '';
+            const scrollPosition = window.scrollY + 100; // Offset for better UX
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Mobile menu auto-close on link click
+        function setupMobileMenuClose() {
+            const navLinks = document.querySelectorAll('.nav-btn');
+            const sidebar = document.querySelector('.sidebar');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // On mobile, close the menu after clicking a link
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('open');
+                    }
+                });
+            });
+        }
+
+        // Smooth scroll with offset for sections under header
+        function setupSmoothScroll() {
+            const navLinks = document.querySelectorAll('.nav-btn');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        const targetSection = document.querySelector(targetId);
+                        if (targetSection) {
+                            e.preventDefault();
+                            const offsetTop = targetSection.offsetTop - 20; // Small offset from top
+                            window.scrollTo({
+                                top: offsetTop,
+                                behavior: 'smooth'
+                            });
+                            // Update URL without jumping
+                            history.pushState(null, null, targetId);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Initialize all functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            updateActiveNavigation();
+            setupMobileMenuClose();
+            setupSmoothScroll();
+            
+            // Update active navigation on scroll
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                scrollTimeout = setTimeout(updateActiveNavigation, 50); // Throttle for performance
+            });
+            
+            // Set initial active state based on URL hash
+            if (window.location.hash) {
+                const targetLink = document.querySelector(`.nav-btn[href="${window.location.hash}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -315,11 +315,18 @@
             <div class="sidebar">
                 <div class="navigation">
                     <a href="#intro" class="nav-btn">Introduction</a>
+                    <a href="#career-path" class="nav-btn">SOC Career Path</a>
+                    <a href="#soc-roles" class="nav-btn">SOC Roles Deep Dive</a>
                     <a href="#splunk" class="nav-btn">Splunk Queries</a>
                     <a href="#elastic" class="nav-btn">Elastic Queries</a>
                     <a href="#sentinel" class="nav-btn">Microsoft Sentinel</a>
                     <a href="#linux" class="nav-btn">Linux Log Analysis</a>
+                    <a href="#detection-engineering" class="nav-btn">Detection Engineering</a>
                     <a href="#intrusion-detection" class="nav-btn">Intrusion Detection</a>
+                    <a href="#incident-response" class="nav-btn">Incident Response</a>
+                    <a href="#threat-hunting" class="nav-btn">Threat Hunting</a>
+                    <a href="#tools-techniques" class="nav-btn">Tools & Techniques</a>
+                    <a href="#career-development" class="nav-btn">Career Development</a>
                     <a href="#best-practices" class="nav-btn">Best Practices</a>
                 </div>
             </div>
@@ -394,6 +401,339 @@
                 
                 <div class="tip">
                     <strong>💡 Learning Tip:</strong> For maximum benefit, practice these queries in a controlled lab environment before deploying in production. Consider using datasets like Security Onion, BOTS (Boss of the SOC), or custom test data to develop proficiency without impacting live security monitoring.
+                </div>
+            </div>
+
+            <!-- SOC Career Path Section -->
+            <div id="career-path" class="section">
+                <h2>🎯 SOC Analyst Career Path</h2>
+                
+                <h3>The SOC Career Outlook</h3>
+                <p>The cybersecurity field continues to experience unprecedented growth, with the SOC analyst role serving as a critical entry point into the security profession. According to industry projections, cybersecurity jobs are expected to grow significantly faster than most other occupations, with hundreds of thousands of positions remaining unfilled annually.</p>
+                
+                <h3>SOC Career Trajectory</h3>
+                <p>A typical career progression in Security Operations follows this path:</p>
+                
+                <h4>Entry Level: SOC Analyst (Tier 1)</h4>
+                <ul>
+                    <li><strong>Primary Responsibilities:</strong> Alert triage, initial incident investigation, basic log analysis, documentation</li>
+                    <li><strong>Required Skills:</strong> Basic networking knowledge, log analysis fundamentals, SIEM query basics</li>
+                    <li><strong>Typical Salary Range:</strong> $50,000 - $75,000 (varies by location and organization)</li>
+                    <li><strong>Time in Role:</strong> 1-2 years before promotion consideration</li>
+                    <li><strong>Key Success Factors:</strong> Attention to detail, documentation quality, ability to follow playbooks, asking good questions</li>
+                </ul>
+                
+                <h4>Mid Level: Senior SOC Analyst (Tier 2)</h4>
+                <ul>
+                    <li><strong>Primary Responsibilities:</strong> Complex incident investigation, playbook development, mentoring Tier 1 analysts, escalation handling</li>
+                    <li><strong>Required Skills:</strong> Advanced log correlation, understanding of attack frameworks (MITRE ATT&CK), threat intelligence analysis</li>
+                    <li><strong>Typical Salary Range:</strong> $75,000 - $100,000</li>
+                    <li><strong>Time in Role:</strong> 2-4 years before advancing to specialized roles</li>
+                    <li><strong>Key Success Factors:</strong> Deep technical knowledge, independent problem solving, effective communication with stakeholders</li>
+                </ul>
+                
+                <h4>Advanced Specializations</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Focus Area</th>
+                                <th>Salary Range</th>
+                                <th>Key Skills</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Incident Responder (Tier 3)</strong></td>
+                                <td>Active threat containment and remediation</td>
+                                <td>$100,000 - $140,000</td>
+                                <td>Forensics, malware analysis, emergency response coordination</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Threat Hunter</strong></td>
+                                <td>Proactive threat discovery</td>
+                                <td>$100,000 - $145,000</td>
+                                <td>Hypothesis development, advanced analytics, threat intelligence</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SOC Engineer</strong></td>
+                                <td>SIEM/security tool optimization</td>
+                                <td>$95,000 - $135,000</td>
+                                <td>Scripting (Python, PowerShell), detection engineering, architecture design</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SOC Manager</strong></td>
+                                <td>Team leadership and operations</td>
+                                <td>$110,000 - $160,000</td>
+                                <td>People management, metrics reporting, budget management, vendor relations</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Detection Engineer</strong></td>
+                                <td>Custom detection logic creation</td>
+                                <td>$105,000 - $150,000</td>
+                                <td>Advanced SIEM queries, SOAR automation, false positive reduction</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Essential Certifications for SOC Analysts</h3>
+                <h4>Entry-Level Certifications</h4>
+                <ul>
+                    <li><strong>CompTIA Security+:</strong> Foundation-level security knowledge, highly recognized entry certification</li>
+                    <li><strong>CompTIA CySA+ (Cybersecurity Analyst):</strong> Focuses specifically on security analytics and threat detection</li>
+                    <li><strong>GIAC Security Essentials (GSEC):</strong> Broad security knowledge covering hands-on defensive techniques</li>
+                    <li><strong>Splunk Core Certified User:</strong> Platform-specific knowledge for Splunk SIEM</li>
+                </ul>
+                
+                <h4>Advanced Certifications</h4>
+                <ul>
+                    <li><strong>GIAC Certified Intrusion Analyst (GCIA):</strong> Deep dive into network traffic analysis and intrusion detection</li>
+                    <li><strong>GIAC Certified Incident Handler (GCIH):</strong> Comprehensive incident response methodology</li>
+                    <li><strong>Certified Information Systems Security Professional (CISSP):</strong> Industry gold standard for senior security professionals</li>
+                    <li><strong>GIAC Certified Forensic Analyst (GCFA):</strong> Digital forensics and advanced incident response</li>
+                    <li><strong>Offensive Security Certified Professional (OSCP):</strong> Valuable for understanding attacker mindset</li>
+                    <li><strong>Certified Information Security Manager (CISM):</strong> For those moving into management roles</li>
+                </ul>
+                
+                <h4>Cloud and Specialized Certifications</h4>
+                <ul>
+                    <li><strong>AWS Certified Security - Specialty:</strong> Cloud security for AWS environments</li>
+                    <li><strong>Microsoft Certified: Azure Security Engineer Associate:</strong> Azure-focused security</li>
+                    <li><strong>CrowdStrike Certified Falcon Administrator (CCFA):</strong> EDR platform expertise</li>
+                    <li><strong>Splunk Enterprise Security Certified Admin:</strong> Advanced SIEM administration</li>
+                </ul>
+                
+                <h3>Building Your SOC Career: Practical Steps</h3>
+                
+                <h4>1. Establish a Strong Foundation</h4>
+                <ul>
+                    <li><strong>Learn Networking Fundamentals:</strong> Understand TCP/IP, OSI model, common protocols (HTTP/HTTPS, DNS, SMB, RDP)</li>
+                    <li><strong>Master Operating Systems:</strong> Gain proficiency in Windows (Event Logs, PowerShell), Linux (syslog, bash scripting), and basic macOS</li>
+                    <li><strong>Understand Security Concepts:</strong> CIA triad, authentication vs authorization, encryption basics, common attack vectors</li>
+                    <li><strong>Get Hands-On:</strong> Build a home lab using VirtualBox/VMware, deploy Security Onion or Splunk, practice with vulnerable VMs</li>
+                </ul>
+                
+                <h4>2. Develop Technical Proficiency</h4>
+                <ul>
+                    <li><strong>SIEM Mastery:</strong> Learn SPL (Splunk), KQL (Azure Sentinel), or Lucene/DSL (Elastic). Practice query writing daily</li>
+                    <li><strong>Scripting Skills:</strong> Python for automation, PowerShell for Windows administration, Bash for Linux operations</li>
+                    <li><strong>Log Analysis:</strong> Learn to parse and interpret logs from firewalls, web servers, endpoints, and cloud services</li>
+                    <li><strong>Threat Intelligence:</strong> Understand IOCs (IPs, domains, hashes), MITRE ATT&CK framework, threat actor TTPs</li>
+                </ul>
+                
+                <h4>3. Gain Practical Experience</h4>
+                <ul>
+                    <li><strong>CTF Competitions:</strong> Participate in Boss of the SOC (BOTS), CyberDefenders, TryHackMe, HackTheBox</li>
+                    <li><strong>Home Lab Projects:</strong> Set up Active Directory, simulate attacks with Kali Linux, practice detection and response</li>
+                    <li><strong>Internships:</strong> Seek SOC internships, even unpaid opportunities provide invaluable real-world experience</li>
+                    <li><strong>Open Source Contribution:</strong> Contribute to Sigma rules repository, Security Onion community, MISP threat intelligence</li>
+                </ul>
+                
+                <h4>4. Professional Networking</h4>
+                <ul>
+                    <li><strong>LinkedIn Presence:</strong> Maintain an active profile showcasing projects, certifications, and learnings</li>
+                    <li><strong>Attend Conferences:</strong> BSides events (low cost), SANS conferences, RSA, Black Hat (or follow virtually)</li>
+                    <li><strong>Join Communities:</strong> Reddit (r/cybersecurity, r/AskNetsec), Discord servers, local cybersecurity meetups</li>
+                    <li><strong>Mentorship:</strong> Find mentors through LinkedIn, professional organizations, or alumni networks</li>
+                </ul>
+                
+                <h4>5. Resume and Interview Preparation</h4>
+                <ul>
+                    <li><strong>Resume Optimization:</strong> Use Applicant Tracking System (ATS)-friendly format, include keywords from job descriptions</li>
+                    <li><strong>Quantify Achievements:</strong> "Analyzed 500+ security alerts weekly" vs "Performed alert triage"</li>
+                    <li><strong>Showcase Projects:</strong> GitHub portfolio, personal security blog, documented lab projects</li>
+                    <li><strong>Technical Interview Prep:</strong> Practice explaining SIEM queries, incident response scenarios, threat analysis</li>
+                    <li><strong>Behavioral Questions:</strong> Prepare STAR method responses (Situation, Task, Action, Result)</li>
+                </ul>
+                
+                <h3>Alternative Entry Paths into SOC</h3>
+                <ul>
+                    <li><strong>IT Support/Help Desk:</strong> Transition from IT support by obtaining Security+ and demonstrating security interest</li>
+                    <li><strong>Network Administration:</strong> Leverage networking knowledge to move into security monitoring</li>
+                    <li><strong>Military/Government:</strong> Military cybersecurity roles (25D, 1B4X1) provide excellent training and clearance</li>
+                    <li><strong>Career Pivot:</strong> Professionals from any field can transition through bootcamps, self-study, and certifications</li>
+                    <li><strong>Academic Path:</strong> Degree in cybersecurity, computer science, or related field with security focus</li>
+                </ul>
+                
+                <div class="important">
+                    <strong>⚠️ Reality Check:</strong> Breaking into SOC analysis is competitive but achievable. Most entry-level positions require 0-2 years of experience and 1-2 certifications (Security+, CySA+). Focus on demonstrable skills through labs, CTFs, and projects rather than collecting certifications without practical application. Persistence is key—expect to apply to 50-100+ positions.
+                </div>
+                
+                <div class="tip">
+                    <strong>💡 Career Tip:</strong> The SOC operates 24/7/365. Be prepared for shift work, including nights, weekends, and holidays, especially in entry-level roles. Many organizations offer shift differential pay. After 1-2 years, opportunities for day shift or remote work typically increase.
+                </div>
+            </div>
+
+            <!-- SOC Roles Deep Dive Section -->
+            <div id="soc-roles" class="section">
+                <h2>👥 SOC Roles: Comprehensive Analysis</h2>
+                
+                <h3>SOC Analyst (Tier 1) - The First Line of Defense</h3>
+                
+                <h4>Core Responsibilities</h4>
+                <ul>
+                    <li><strong>Alert Triage:</strong> Review security alerts from SIEM, IDS/IPS, EDR, and other security tools</li>
+                    <li><strong>Initial Investigation:</strong> Determine if alerts represent true security incidents or false positives</li>
+                    <li><strong>Documentation:</strong> Create detailed incident tickets with evidence, timeline, and initial findings</li>
+                    <li><strong>Escalation:</strong> Identify incidents requiring Tier 2/3 investigation and escalate appropriately</li>
+                    <li><strong>Communication:</strong> Notify stakeholders of confirmed incidents per established procedures</li>
+                    <li><strong>Playbook Execution:</strong> Follow standard operating procedures (SOPs) for common incident types</li>
+                </ul>
+                
+                <h4>Daily Workflow</h4>
+                <ol>
+                    <li><strong>Shift Handoff (15-30 min):</strong> Review handoff notes from previous shift, understand ongoing incidents, review any new alerts or priorities</li>
+                    <li><strong>Queue Review (continuous):</strong> Monitor alert queue in SIEM/ticketing system, prioritize by severity and age</li>
+                    <li><strong>Alert Investigation (4-6 hours):</strong> Investigate each alert using established playbooks, document findings in ticketing system</li>
+                    <li><strong>Status Updates (hourly for critical):</strong> Update tickets with investigation progress, communicate with Tier 2 on escalated incidents</li>
+                    <li><strong>End of Shift Handoff (15-30 min):</strong> Brief incoming shift on status of all open incidents, highlight urgent items</li>
+                    <li><strong>Administrative Tasks (1-2 hours):</strong> Training, tool familiarization, process improvement suggestions</li>
+                </ol>
+                
+                <h4>Essential Skills and Knowledge</h4>
+                <ul>
+                    <li><strong>Technical:</strong> Basic networking (TCP/IP, DNS, HTTP), Windows/Linux fundamentals, log interpretation, SIEM query basics</li>
+                    <li><strong>Analytical:</strong> Pattern recognition, attention to detail, logical reasoning, ability to follow complex procedures</li>
+                    <li><strong>Soft Skills:</strong> Written communication, time management, stress management, collaborative mindset</li>
+                    <li><strong>Tools:</strong> SIEM platforms (Splunk, Elastic, Sentinel), ticketing systems (ServiceNow, Jira), basic scripting (helpful but not required)</li>
+                </ul>
+                
+                <h4>Common Challenges</h4>
+                <ul>
+                    <li><strong>Alert Fatigue:</strong> High volume of false positives can lead to desensitization</li>
+                    <li><strong>Knowledge Gaps:</strong> Steep learning curve with unfamiliar technologies and attack vectors</li>
+                    <li><strong>Shift Work:</strong> Adjusting to night shifts, weekends, and holidays</li>
+                    <li><strong>Pressure:</strong> Time-sensitive investigations during active incidents</li>
+                </ul>
+                
+                <h3>Senior SOC Analyst (Tier 2) - The Deep Investigator</h3>
+                
+                <h4>Core Responsibilities</h4>
+                <ul>
+                    <li><strong>Advanced Investigation:</strong> Deep-dive analysis of escalated incidents, correlation across multiple data sources</li>
+                    <li><strong>Threat Hunting:</strong> Proactive searches for indicators of compromise (IOCs) and advanced persistent threats (APTs)</li>
+                    <li><strong>Detection Engineering:</strong> Create and tune SIEM correlation rules, reduce false positives</li>
+                    <li><strong>Mentorship:</strong> Guide Tier 1 analysts, review their work, provide training and feedback</li>
+                    <li><strong>Playbook Development:</strong> Document investigation procedures, create runbooks for new threat types</li>
+                    <li><strong>Tool Evaluation:</strong> Test new security tools, provide recommendations to management</li>
+                </ul>
+                
+                <h4>Advanced Skills Required</h4>
+                <ul>
+                    <li><strong>Log Correlation:</strong> Ability to pivot across multiple log sources (firewall, proxy, EDR, authentication logs)</li>
+                    <li><strong>Attack Framework Mastery:</strong> Deep understanding of MITRE ATT&CK, Cyber Kill Chain</li>
+                    <li><strong>Scripting:</strong> Python, PowerShell for automation and advanced data analysis</li>
+                    <li><strong>Threat Intelligence:</strong> Consuming and applying threat intelligence feeds, understanding TTPs</li>
+                    <li><strong>Forensics Basics:</strong> Memory analysis, disk forensics, network packet analysis</li>
+                </ul>
+                
+                <h3>SOC Manager - Leading the Defense</h3>
+                
+                <h4>Core Responsibilities</h4>
+                <ul>
+                    <li><strong>Team Leadership:</strong> Manage team of 5-20+ analysts, conduct performance reviews, career development</li>
+                    <li><strong>Operational Excellence:</strong> Ensure 24/7 coverage, manage schedules, approve PTO, handle escalations</li>
+                    <li><strong>Metrics and Reporting:</strong> Track KPIs (MTTD, MTTR, alert volume), present metrics to leadership</li>
+                    <li><strong>Budget Management:</strong> Manage SOC budget, justify tool purchases, vendor contract negotiations</li>
+                    <li><strong>Process Improvement:</strong> Identify inefficiencies, implement continuous improvement initiatives</li>
+                    <li><strong>Stakeholder Management:</strong> Interface with IT, Legal, HR, Executive Leadership on security matters</li>
+                    <li><strong>Incident Coordination:</strong> Manage major incidents, coordinate response across multiple teams</li>
+                </ul>
+                
+                <h4>Key Success Factors</h4>
+                <ul>
+                    <li><strong>Soft Skills:</strong> Excellent communication, conflict resolution, empathy, diplomatic negotiation</li>
+                    <li><strong>Business Acumen:</strong> Understanding of business operations, risk management, compliance requirements</li>
+                    <li><strong>Technical Credibility:</strong> Maintained through hands-on involvement in complex incidents</li>
+                    <li><strong>Leadership Style:</strong> Servant leadership approach, removing obstacles for team success</li>
+                </ul>
+                
+                <h3>SOC Engineer - The Builder and Optimizer</h3>
+                
+                <h4>Core Responsibilities</h4>
+                <ul>
+                    <li><strong>SIEM Administration:</strong> Manage SIEM infrastructure, ensure high availability, perform upgrades</li>
+                    <li><strong>Integration Development:</strong> Onboard new data sources, develop parsers and normalization rules</li>
+                    <li><strong>Detection Logic:</strong> Create advanced correlation rules, behavioral analytics, anomaly detection</li>
+                    <li><strong>Automation:</strong> Develop SOAR playbooks, automate repetitive tasks, create custom integrations</li>
+                    <li><strong>Performance Tuning:</strong> Optimize query performance, manage data retention, troubleshoot ingestion issues</li>
+                    <li><strong>Tool Integration:</strong> Integrate security tools (EDR, firewall, proxy, threat intelligence) with SIEM</li>
+                </ul>
+                
+                <h4>Technical Skills Required</h4>
+                <ul>
+                    <li><strong>Programming:</strong> Python, PowerShell, Bash for automation and tool development</li>
+                    <li><strong>SIEM Deep Expertise:</strong> Advanced SPL, KQL, or Lucene; understanding of underlying architecture</li>
+                    <li><strong>API Integration:</strong> REST APIs, JSON parsing, authentication methods (OAuth, API keys)</li>
+                    <li><strong>Infrastructure:</strong> Linux system administration, networking, virtualization, cloud platforms</li>
+                    <li><strong>Security Knowledge:</strong> Understanding of security principles to create effective detections</li>
+                </ul>
+                
+                <h3>Incident Responder (Tier 3) - The Crisis Manager</h3>
+                
+                <h4>Core Responsibilities</h4>
+                <ul>
+                    <li><strong>Active Containment:</strong> Isolate compromised systems, block malicious IPs/domains, disable compromised accounts</li>
+                    <li><strong>Forensic Analysis:</strong> Memory forensics, disk analysis, malware reverse engineering</li>
+                    <li><strong>Eradication:</strong> Remove malware, close security gaps exploited by attacker</li>
+                    <li><strong>Recovery:</strong> Restore services, validate system integrity, implement additional controls</li>
+                    <li><strong>Post-Incident Analysis:</strong> Root cause analysis, lessons learned, remediation recommendations</li>
+                    <li><strong>Reporting:</strong> Executive briefs, detailed technical reports, regulatory notifications if required</li>
+                </ul>
+                
+                <h4>Incident Response Life Cycle</h4>
+                <ol>
+                    <li><strong>Preparation:</strong> Maintain IR toolkit, updated playbooks, contact lists, legal/PR relationships</li>
+                    <li><strong>Identification:</strong> Confirm security incident, assess scope and severity, activate IR team</li>
+                    <li><strong>Containment:</strong> Short-term (isolate systems) and long-term (system imaging, credential rotation)</li>
+                    <li><strong>Eradication:</strong> Remove threat actor presence, close vulnerabilities, strengthen defenses</li>
+                    <li><strong>Recovery:</strong> Restore systems to production, enhanced monitoring, validation period</li>
+                    <li><strong>Lessons Learned:</strong> Post-incident review, update playbooks, share threat intelligence</li>
+                </ol>
+                
+                <h4>Critical Incident Response Skills</h4>
+                <ul>
+                    <li><strong>Pressure Performance:</strong> Clear thinking during high-stress situations, decisive action</li>
+                    <li><strong>Communication:</strong> Conveying technical details to non-technical stakeholders, managing expectations</li>
+                    <li><strong>Forensics:</strong> FTK, EnCase, Volatility, Wireshark, memory dump analysis</li>
+                    <li><strong>Malware Analysis:</strong> Static and dynamic analysis, sandboxing, reverse engineering basics</li>
+                    <li><strong>Legal Awareness:</strong> Evidence handling, chain of custody, legal hold procedures</li>
+                </ul>
+                
+                <h3>Threat Hunter - The Proactive Defender</h3>
+                
+                <h4>Core Responsibilities</h4>
+                <ul>
+                    <li><strong>Hypothesis Development:</strong> Create hunting hypotheses based on threat intelligence, emerging threats</li>
+                    <li><strong>Proactive Search:</strong> Search for IOCs, TTPs, and anomalous behavior not caught by automated detections</li>
+                    <li><strong>New Detection Creation:</strong> Convert successful hunts into automated SIEM detections</li>
+                    <li><strong>Threat Intelligence Analysis:</strong> Consume and analyze threat intelligence reports, apply to environment</li>
+                    <li><strong>Advanced Analytics:</strong> Behavioral analysis, statistical anomaly detection, machine learning applications</li>
+                </ul>
+                
+                <h4>Threat Hunting Methodologies</h4>
+                <ul>
+                    <li><strong>Intelligence-Driven:</strong> Start with specific IOC or TTP from threat intelligence</li>
+                    <li><strong>Hypothesis-Driven:</strong> Develop theory based on known attack patterns, search for evidence</li>
+                    <li><strong>Situational Awareness:</strong> Baseline normal behavior, hunt for deviations and anomalies</li>
+                </ul>
+                
+                <h4>The Pyramid of Pain</h4>
+                <p>Understanding what hurts adversaries most when detected:</p>
+                <ol>
+                    <li><strong>Hash Values (Trivial):</strong> Easily changed by modifying one byte of malware</li>
+                    <li><strong>IP Addresses (Easy):</strong> Attackers can quickly change infrastructure</li>
+                    <li><strong>Domain Names (Simple):</strong> Require some effort but still easily changed</li>
+                    <li><strong>Network Artifacts (Annoying):</strong> HTTP user agents, C2 patterns require more effort to change</li>
+                    <li><strong>Host Artifacts (Challenging):</strong> Registry keys, file paths, service names require tool modification</li>
+                    <li><strong>Tools (Tough):</strong> Forcing tool replacement requires significant attacker effort</li>
+                    <li><strong>TTPs (Devastating):</strong> Detecting techniques forces attackers to change entire methodology</li>
+                </ol>
+                
+                <div class="important">
+                    <strong>⚠️ Critical Understanding:</strong> Each SOC role requires different skill sets. Don't expect to master all areas immediately. Most professionals specialize in 1-2 areas while maintaining working knowledge of others. Choose a path aligned with your interests: If you enjoy puzzles and deep investigation, pursue analysis/IR. If you prefer building and automation, pursue engineering. If you like strategic thinking, consider management.
                 </div>
             </div>
 
@@ -2666,9 +3006,1187 @@ dig malicious-domain.com ANY +noall +answer</code>
                 </div>
             </div>
 
+            <!-- Detection Engineering Section -->
+            <div id="detection-engineering" class="section">
+                <h2>🔧 Detection Engineering: Building Effective Security Controls</h2>
+                
+                <h3>What is Detection Engineering?</h3>
+                <p>Detection engineering is the discipline of designing, implementing, and maintaining security detection logic that identifies malicious activity while minimizing false positives. It bridges the gap between security theory and operational reality, converting threat intelligence and attack patterns into actionable alerts.</p>
+                
+                <h3>The Detection Engineering Lifecycle</h3>
+                
+                <h4>Phase 1: Research & Requirements</h4>
+                <ul>
+                    <li><strong>Threat Intelligence Gathering:</strong> Subscribe to threat feeds (MISP, AlienVault OTX, SANS ISC), monitor vendor advisories, track CVEs</li>
+                    <li><strong>Attack Research:</strong> Study MITRE ATT&CK techniques relevant to your environment, analyze recent breaches in your industry</li>
+                    <li><strong>Data Source Identification:</strong> Determine which logs contain relevant signals (Windows Security Event Log, firewall, proxy, EDR)</li>
+                    <li><strong>Detection Gap Analysis:</strong> Use ATT&CK Navigator to visualize coverage; prioritize high-risk, low-coverage techniques</li>
+                </ul>
+                
+                <h4>Phase 2: Detection Logic Development</h4>
+                <p>Develop detection query that identifies the adversary behavior while accounting for legitimate use cases:</p>
+                <div class="query-box">
+                    <code># Example: Detecting Mimikatz Credential Dumping
+# Splunk SPL
+index=windows EventCode=10 
+TargetImage="*\\lsass.exe" 
+| search CallTrace="*UNKNOWN*" OR GrantedAccess="0x1010" OR GrantedAccess="0x1410"
+| stats count by ComputerName, SourceImage, TargetImage, GrantedAccess
+| where count > 1
+
+# Detection Logic Explanation:
+# - EventCode=10: Sysmon process access event
+# - TargetImage=lsass.exe: Targeting credential store
+# - CallTrace=UNKNOWN: Unsigned/injected code accessing LSASS
+# - GrantedAccess: Specific memory permissions used by credential dumpers</code>
+                </div>
+                
+                <h4>Phase 3: Testing & Validation</h4>
+                <ul>
+                    <li><strong>Historical Data Testing:</strong> Run query against last 30-90 days of logs to identify baseline false positive rate</li>
+                    <li><strong>Attack Simulation:</strong> Use tools (Atomic Red Team, Red Canary) to verify detection fires on actual attack</li>
+                    <li><strong>False Positive Analysis:</strong> Investigate each alert; categorize causes (legitimate admin tools, service accounts, business processes)</li>
+                    <li><strong>Performance Testing:</strong> Measure query execution time; optimize if exceeds platform timeout (Splunk: 10 min, Sentinel: 10 min)</li>
+                </ul>
+                
+                <h4>Phase 4: Tuning & Optimization</h4>
+                <div class="query-box">
+                    <code># Refined Detection with Exclusions
+index=windows EventCode=10 
+TargetImage="*\\lsass.exe" 
+| search CallTrace="*UNKNOWN*" OR GrantedAccess="0x1010" OR GrantedAccess="0x1410"
+# Exclude known legitimate processes
+| search NOT SourceImage="C:\\Windows\\System32\\wbem\\wmiprvse.exe"
+| search NOT SourceImage="C:\\Program Files\\Microsoft Monitoring Agent\\*"
+| search NOT SourceImage="C:\\Program Files\\CrowdStrike\\*"
+# Exclude service accounts
+| search NOT user="NT AUTHORITY\\SYSTEM"
+| stats count by ComputerName, SourceImage, user, TargetImage, GrantedAccess
+| where count > 1</code>
+                </div>
+                
+                <h4>Phase 5: Deployment & Monitoring</h4>
+                <ul>
+                    <li><strong>Staging Deployment:</strong> Deploy in test mode (audit only) for 1-2 weeks to validate tuning</li>
+                    <li><strong>Documentation:</strong> Document detection purpose, MITRE ATT&CK mapping, expected false positives, escalation procedures</li>
+                    <li><strong>Alert Enrichment:</strong> Add context fields (user risk score, asset criticality, historical behavior)</li>
+                    <li><strong>Response Automation:</strong> Create SOAR playbooks for enrichment (VirusTotal lookup, user context) and containment (disable account, isolate host)</li>
+                </ul>
+                
+                <h4>Phase 6: Continuous Improvement</h4>
+                <ul>
+                    <li><strong>Monthly Metrics Review:</strong> Track alert volume, true positive rate, MTTR (Mean Time to Respond)</li>
+                    <li><strong>Quarterly Tuning:</strong> Analyze false positives; update exclusions; adjust thresholds based on environmental changes</li>
+                    <li><strong>Annual Validation:</strong> Re-test detection against current attack tools; verify data sources still available</li>
+                    <li><strong>Threat Landscape Updates:</strong> Adapt detections as attacker TTPs evolve</li>
+                </ul>
+                
+                <h3>Detection Logic Patterns</h3>
+                
+                <h4>Threshold-Based Detection</h4>
+                <p>Triggers when activity exceeds normal baseline:</p>
+                <div class="query-box">
+                    <code># Failed Login Threshold (Brute Force)
+index=security EventCode=4625
+| stats count by src_ip, user
+| where count > 10
+| eval severity="High"</code>
+                </div>
+                <p><strong>Best For:</strong> Brute force, data exfiltration, scanning activity<br><strong>Tuning:</strong> Adjust threshold based on environment (dev servers may have legitimate failures)</p>
+                
+                <h4>Sequence-Based Detection</h4>
+                <p>Detects specific sequence of events indicating attack chain:</p>
+                <div class="query-box">
+                    <code># Successful Login After Multiple Failures
+index=security (EventCode=4625 OR EventCode=4624)
+| transaction user maxspan=30m
+| search EventCode=4625 EventCode=4624
+| stats count by user, src_ip, ComputerName</code>
+                </div>
+                <p><strong>Best For:</strong> Multi-stage attacks, account takeover, privilege escalation<br><strong>Tuning:</strong> Adjust time window based on typical user behavior</p>
+                
+                <h4>Anomaly-Based Detection</h4>
+                <p>Identifies deviations from established baseline:</p>
+                <div class="query-box">
+                    <code># Unusual Login Location (Impossible Travel)
+index=security EventCode=4624
+| iplocation src_ip
+| stats values(Country) as countries by user
+| eval country_count=mvcount(countries)
+| where country_count > 1 AND Country!="United States"</code>
+                </div>
+                <p><strong>Best For:</strong> Account compromise, insider threats, data exfiltration<br><strong>Tuning:</strong> Requires baseline period (30+ days); adjust for remote workforce</p>
+                
+                <h4>Correlation-Based Detection</h4>
+                <p>Combines multiple data sources to detect complex attacks:</p>
+                <div class="query-box">
+                    <code># Lateral Movement Detection
+index=windows EventCode=4624 LogonType=3
+| join user [search index=network action=allowed dest_port=445]
+| join src_ip [search index=edr process_name="psexec.exe"]
+| stats count by user, src_ip, dest_ip, process_name
+| where count > 3</code>
+                </div>
+                <p><strong>Best For:</strong> Advanced persistent threats, multi-vector attacks<br><strong>Tuning:</strong> Computationally expensive; use sparingly</p>
+                
+                <h3>Detection Engineering Best Practices</h3>
+                
+                <h4>The Pyramid of Pain in Detection Context</h4>
+                <p>Prioritize detections that force attackers to change costly elements:</p>
+                <ol>
+                    <li><strong>TTPs (Most Effective):</strong> Detect behaviors (credential dumping, lateral movement) rather than specific tools</li>
+                    <li><strong>Tools:</strong> Detect common attack tools (Mimikatz, Cobalt Strike), but expect evasion</li>
+                    <li><strong>Network/Host Artifacts:</strong> Registry keys, HTTP headers, user agents - require more attacker effort to change</li>
+                    <li><strong>Domain Names:</strong> C2 domains are moderately easy to change</li>
+                    <li><strong>IP Addresses:</strong> Easily changed by attackers</li>
+                    <li><strong>Hash Values (Least Effective):</strong> Trivially changed; use only for high-confidence IOCs</li>
+                </ol>
+                
+                <h4>MITRE D3FEND Framework</h4>
+                <p>Knowledge base of defensive cybersecurity techniques mapped to ATT&CK:</p>
+                <ul>
+                    <li><strong>Model:</strong> Understand system architecture and attack surface</li>
+                    <li><strong>Harden:</strong> Implement preventive controls (least privilege, segmentation)</li>
+                    <li><strong>Detect:</strong> Monitor for indicators of compromise and adversary behavior</li>
+                    <li><strong>Isolate:</strong> Contain threats through network segmentation and quarantine</li>
+                    <li><strong>Deceive:</strong> Deploy deception technology (honeypots, decoy credentials)</li>
+                    <li><strong>Evict:</strong> Remove attacker presence through remediation</li>
+                </ul>
+                
+                <h4>Common Detection Pitfalls</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pitfall</th>
+                                <th>Impact</th>
+                                <th>Solution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Overly Broad Query</td>
+                                <td>Excessive false positives, alert fatigue</td>
+                                <td>Add exclusions for known good; increase threshold</td>
+                            </tr>
+                            <tr>
+                                <td>Overly Narrow Query</td>
+                                <td>Misses attack variations (false negatives)</td>
+                                <td>Use wildcards, regex; detect behavior not tool</td>
+                            </tr>
+                            <tr>
+                                <td>Fragile Data Dependencies</td>
+                                <td>Detection breaks when log source changes</td>
+                                <td>Use multiple data sources; monitor data health</td>
+                            </tr>
+                            <tr>
+                                <td>No Baseline Understanding</td>
+                                <td>Unable to distinguish normal from malicious</td>
+                                <td>Run queries over 30+ days; analyze patterns</td>
+                            </tr>
+                            <tr>
+                                <td>Ignoring Attack Evolution</td>
+                                <td>Detection becomes obsolete as tactics change</td>
+                                <td>Regular testing with updated attack tools</td>
+                            </tr>
+                            <tr>
+                                <td>Lack of Documentation</td>
+                                <td>Analysts don't understand detection purpose</td>
+                                <td>Document detection logic, expected alerts, response</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Detection as Code</h3>
+                <p>Modern SOC engineering treats detection rules as code, applying software development best practices:</p>
+                <ul>
+                    <li><strong>Version Control:</strong> Store detection rules in Git; track changes, enable rollback</li>
+                    <li><strong>Code Review:</strong> Peer review detection logic before deployment</li>
+                    <li><strong>Testing Framework:</strong> Automated testing with known-good and known-bad datasets</li>
+                    <li><strong>CI/CD Pipeline:</strong> Automate deployment to SIEM after passing tests</li>
+                    <li><strong>Sigma Rules:</strong> Write detections in platform-agnostic Sigma format; convert to Splunk/Elastic/Sentinel</li>
+                </ul>
+                
+                <div class="query-box">
+                    <code># Example Sigma Rule
+title: Mimikatz Use
+id: 0f06a3a5-6a09-413f-8743-e6cf35561297
+status: stable
+description: Detects use of Mimikatz credential dumper
+references:
+    - https://attack.mitre.org/software/S0002/
+author: SOC Team
+date: 2026/01/29
+logsource:
+    product: windows
+    service: sysmon
+detection:
+    selection:
+        EventID: 10
+        TargetImage|endswith: '\lsass.exe'
+    filter:
+        SourceImage:
+            - 'C:\Windows\System32\wbem\wmiprvse.exe'
+            - 'C:\Program Files\Microsoft Monitoring Agent\*'
+    condition: selection and not filter
+falsepositives:
+    - Legitimate security tools
+level: high
+tags:
+    - attack.credential_access
+    - attack.t1003.001</code>
+                </div>
+                
+                <div class="tip">
+                    <strong>💡 Detection Engineering Career Tip:</strong> Detection engineers are highly sought after with salaries ranging $100k-$150k. Develop skills in: SIEM query languages (SPL, KQL), scripting (Python, PowerShell), threat intelligence analysis, and attack simulation tools (Atomic Red Team, Caldera). Contribute to open-source projects like Sigma rules repository to build your portfolio.
+                </div>
+            </div>
+
+            <!-- Incident Response Section -->
+            <div id="incident-response" class="section">
+                <h2>🚨 Incident Response: Comprehensive Methodology</h2>
+                
+                <h3>The Incident Response Lifecycle (NIST 800-61)</h3>
+                <p>Incident response is a structured approach to managing security breaches, minimizing damage, and recovering normal operations.</p>
+                
+                <h3>Phase 1: Preparation</h3>
+                
+                <h4>Pre-Incident Activities</h4>
+                <ul>
+                    <li><strong>Incident Response Plan:</strong> Document roles, responsibilities, escalation paths, communication procedures</li>
+                    <li><strong>Contact Lists:</strong> Maintain updated list of IR team, management, legal, PR, vendors, law enforcement</li>
+                    <li><strong>IR Toolkit:</strong> Assemble forensic tools (FTK, Volatility, Wireshark), clean OS images, write blockers</li>
+                    <li><strong>Training:</strong> Conduct tabletop exercises quarterly; simulate ransomware, data breach, DDoS scenarios</li>
+                    <li><strong>Legal Preparation:</strong> Engage external counsel; understand reporting requirements (GDPR 72hr, state breach notification laws)</li>
+                    <li><strong>Baseline Documentation:</strong> Network diagrams, asset inventory, critical business processes, data classification</li>
+                </ul>
+                
+                <h4>Detection Capabilities</h4>
+                <ul>
+                    <li><strong>SIEM Deployment:</strong> Centralized logging from all critical systems (success and failures)</li>
+                    <li><strong>EDR/XDR:</strong> Endpoint visibility for process execution, file operations, network connections</li>
+                    <li><strong>Network Monitoring:</strong> IDS/IPS, NetFlow, full packet capture for critical segments</li>
+                    <li><strong>Threat Intelligence:</strong> IOC feeds integrated with SIEM; threat hunting program</li>
+                </ul>
+                
+                <h3>Phase 2: Detection & Analysis</h3>
+                
+                <h4>Initial Detection</h4>
+                <p>Incidents typically detected through:</p>
+                <ul>
+                    <li><strong>SIEM Alerts:</strong> Automated detection rules trigger high-severity alerts</li>
+                    <li><strong>User Reports:</strong> Employees report suspicious emails, performance issues, unexpected behavior</li>
+                    <li><strong>Threat Hunting:</strong> Proactive searches discover evidence of compromise</li>
+                    <li><strong>Third-Party Notification:</strong> Vendor, partner, law enforcement, or researcher reports breach</li>
+                </ul>
+                
+                <h4>Incident Confirmation</h4>
+                <p>Validate that alert represents genuine security incident:</p>
+                <ol>
+                    <li><strong>Initial Triage:</strong> Review alert context; determine if behavior is malicious or benign</li>
+                    <li><strong>Evidence Collection:</strong> Gather initial artifacts (logs, screenshots, packet captures)</li>
+                    <li><strong>Severity Assessment:</strong> Use incident severity matrix to classify (Critical, High, Medium, Low)</li>
+                    <li><strong>Scope Determination:</strong> Identify affected systems, users, data; estimate compromise timeframe</li>
+                </ol>
+                
+                <h4>Incident Severity Matrix</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Criteria</th>
+                                <th>Response Time</th>
+                                <th>Escalation</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Critical (P0)</strong></td>
+                                <td>Active breach, data loss in progress, business-critical system compromised</td>
+                                <td>Immediate (< 15 min)</td>
+                                <td>CISO, Executive Leadership, Legal, PR</td>
+                                <td>Ransomware encryption, active data exfiltration, payment system breach</td>
+                            </tr>
+                            <tr>
+                                <td><strong>High (P1)</strong></td>
+                                <td>Confirmed compromise, sensitive data access, privilege escalation</td>
+                                <td>< 1 hour</td>
+                                <td>IR Team, CISO, Business Unit Lead</td>
+                                <td>Malware infection, account takeover, successful exploitation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Medium (P2)</strong></td>
+                                <td>Suspicious activity requiring investigation, policy violations</td>
+                                <td>< 4 hours</td>
+                                <td>SOC Manager, Asset Owner</td>
+                                <td>Brute force attempts, malicious email received, vulnerability scan</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Low (P3)</strong></td>
+                                <td>Minor security events, informational alerts</td>
+                                <td>< 24 hours</td>
+                                <td>Tier 1 Analyst handles</td>
+                                <td>Single failed login, expired certificate, non-critical policy violation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4>Deep Analysis</h4>
+                <p>Conduct thorough investigation to understand full scope:</p>
+                <ul>
+                    <li><strong>Timeline Construction:</strong> Build chronological event sequence from initial access to detection</li>
+                    <li><strong>Lateral Movement Analysis:</strong> Identify all systems accessed by attacker using authentication logs, network flows</li>
+                    <li><strong>Data Impact Assessment:</strong> Determine what data was accessed, modified, or exfiltrated</li>
+                    <li><strong>Attacker Attribution:</strong> Analyze TTPs, malware artifacts, infrastructure to identify threat actor (if possible)</li>
+                    <li><strong>Root Cause Analysis:</strong> Identify vulnerability or weakness exploited (unpatched system, phishing, stolen credentials)</li>
+                </ul>
+                
+                <h3>Phase 3: Containment</h3>
+                
+                <h4>Short-Term Containment</h4>
+                <p>Immediate actions to limit damage while maintaining evidence:</p>
+                <ul>
+                    <li><strong>Network Isolation:</strong> Disconnect compromised systems from network (physical cable removal if necessary)</li>
+                    <li><strong>Account Disablement:</strong> Disable compromised user accounts, revoke tokens, reset passwords</li>
+                    <li><strong>Firewall Rules:</strong> Block C2 IP addresses/domains at perimeter and internal firewalls</li>
+                    <li><strong>EDR Isolation:</strong> Use EDR platform to isolate hosts while maintaining forensic access</li>
+                    <li><strong>Email Quarantine:</strong> Purge malicious emails from all inboxes if phishing campaign</li>
+                </ul>
+                
+                <div class="important">
+                    <strong>⚠️ Containment Trade-offs:</strong>
+                    <ul>
+                        <li><strong>Evidence Preservation:</strong> Don't shut down systems immediately - running processes and memory contain critical evidence</li>
+                        <li><strong>Business Continuity:</strong> Balance containment with operational needs; coordinate with business stakeholders</li>
+                        <li><strong>Attacker Awareness:</strong> Aggressive containment may alert sophisticated attackers before full scope identified</li>
+                        <li><strong>Legal Considerations:</strong> Consult legal counsel before containment actions that might impact evidence admissibility</li>
+                    </ul>
+                </div>
+                
+                <h4>Long-Term Containment</h4>
+                <p>Sustained actions while eradication is prepared:</p>
+                <ul>
+                    <li><strong>System Imaging:</strong> Create forensic images of compromised systems before remediation</li>
+                    <li><strong>Segmentation:</strong> Place affected segments in quarantine VLAN with restricted access</li>
+                    <li><strong>Credential Rotation:</strong> Force password reset for all potentially compromised accounts</li>
+                    <li><strong>Enhanced Monitoring:</strong> Deploy additional sensors/logging around affected areas</li>
+                    <li><strong>Backup Verification:</strong> Verify integrity and cleanliness of backups before potential restoration</li>
+                </ul>
+                
+                <h3>Phase 4: Eradication</h3>
+                
+                <h4>Threat Removal</h4>
+                <ul>
+                    <li><strong>Malware Removal:</strong> Delete malicious files, registry keys, scheduled tasks identified during analysis</li>
+                    <li><strong>Account Cleanup:</strong> Remove unauthorized accounts, permissions, backdoor SSH keys</li>
+                    <li><strong>Vulnerability Remediation:</strong> Patch exploited vulnerabilities, apply security configurations</li>
+                    <li><strong>Persistence Mechanism Removal:</strong> Eliminate scheduled tasks, services, registry run keys, DLL hijacking</li>
+                    <li><strong>Rootkit Detection:</strong> Use rootkit scanners (GMER, Rootkit Revealer) for stealthy persistence</li>
+                </ul>
+                
+                <h4>Validation</h4>
+                <ul>
+                    <li><strong>Clean System Verification:</strong> Scan with multiple AV engines, compare against known-good baseline</li>
+                    <li><strong>IOC Hunting:</strong> Search across environment for same IOCs to identify other compromised systems</li>
+                    <li><strong>Log Review:</strong> Verify no malicious activity since containment began</li>
+                </ul>
+                
+                <h3>Phase 5: Recovery</h3>
+                
+                <h4>System Restoration</h4>
+                <ul>
+                    <li><strong>Decision: Rebuild vs Remediate:</strong> 
+                        <ul>
+                            <li><strong>Rebuild (Recommended):</strong> Reimage systems from clean gold images; highest assurance of cleanliness</li>
+                            <li><strong>Remediate:</strong> Remove malware in-place; faster but risk of persistent compromise</li>
+                        </ul>
+                    </li>
+                    <li><strong>Restore from Backup:</strong> If rebuilding, restore data from last known clean backup (pre-incident)</li>
+                    <li><strong>System Hardening:</strong> Apply security baselines, remove unnecessary services, implement least privilege</li>
+                    <li><strong>Monitoring Enhancement:</strong> Deploy additional detection coverage, create incident-specific alerts</li>
+                </ul>
+                
+                <h4>Phased Return to Production</h4>
+                <ol>
+                    <li><strong>Pilot Phase (Week 1):</strong> Return limited systems with intense monitoring</li>
+                    <li><strong>Validation Phase (Week 2):</strong> Confirm no reinfection; expand system count</li>
+                    <li><strong>Full Production (Week 3+):</strong> All systems restored; maintain enhanced monitoring for 30 days</li>
+                </ol>
+                
+                <h3>Phase 6: Post-Incident Activity</h3>
+                
+                <h4>Lessons Learned Meeting</h4>
+                <p>Conducted within 2 weeks of incident closure:</p>
+                <ul>
+                    <li><strong>Participants:</strong> IR team, affected business units, management, external consultants (if used)</li>
+                    <li><strong>Agenda:</strong>
+                        <ul>
+                            <li>What happened? (timeline review)</li>
+                            <li>What went well? (identify effective practices)</li>
+                            <li>What needs improvement? (gaps in detection, response, communication)</li>
+                            <li>Action items with owners and due dates</li>
+                        </ul>
+                    </li>
+                    <li><strong>No-Blame Culture:</strong> Focus on process improvement, not individual fault</li>
+                </ul>
+                
+                <h4>Documentation Deliverables</h4>
+                <ul>
+                    <li><strong>Executive Summary:</strong> High-level incident overview, business impact, remediation status (1-2 pages)</li>
+                    <li><strong>Technical Report:</strong> Detailed timeline, IOCs, attack vectors, forensic findings (10-50 pages)</li>
+                    <li><strong>Regulatory Notifications:</strong> Breach notifications if required (GDPR, CCPA, HIPAA, PCI-DSS)</li>
+                    <li><strong>Insurance Claims:</strong> Documentation for cyber insurance claim if applicable</li>
+                    <li><strong>Threat Intelligence Sharing:</strong> Share sanitized IOCs with ISACs, threat intelligence platforms</li>
+                </ul>
+                
+                <h4>Process Improvements</h4>
+                <ul>
+                    <li><strong>Detection Gaps:</strong> Create new SIEM rules to detect similar attacks</li>
+                    <li><strong>Playbook Updates:</strong> Document incident-specific procedures for future reference</li>
+                    <li><strong>Technology Investment:</strong> Justify budget for security tools that would have prevented/detected incident</li>
+                    <li><strong>Training:</strong> Conduct organization-wide security awareness if social engineering was involved</li>
+                    <li><strong>Policy Updates:</strong> Revise security policies addressing identified weaknesses</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Incident Response Career Tip:</strong> Incident responders earn $100k-$140k with experience. Differentiate yourself by: obtaining GCIH or GCFA certifications, practicing with hands-on incident simulation labs, learning forensics tools (FTK, EnCase, Volatility), and understanding legal aspects of incident handling. Maintain a "war stories" document of incidents handled for interview discussions.
+                </div>
+            </div>
+
+            <!-- Threat Hunting Section -->
+            <div id="threat-hunting" class="section">
+                <h2>🎯 Threat Hunting: Proactive Defense</h2>
+                
+                <h3>What is Threat Hunting?</h3>
+                <p>Threat hunting is the proactive search for cyber threats that evade existing security solutions. Unlike reactive alert-driven analysis, hunting assumes breach and seeks evidence of compromise through hypothesis-driven investigation.</p>
+                
+                <h3>The Threat Hunting Loop</h3>
+                <ol>
+                    <li><strong>Hypothesis Generation:</strong> Develop theory about potential threat based on intelligence, observations, or risk assessment</li>
+                    <li><strong>Investigation:</strong> Search for evidence using SIEM queries, EDR telemetry, network traffic analysis</li>
+                    <li><strong>Pattern Discovery:</strong> Identify suspicious patterns, anomalies, or indicators</li>
+                    <li><strong>Response:</strong> If threat confirmed, escalate to incident response; if benign, document findings</li>
+                    <li><strong>Detection Engineering:</strong> Convert successful hunt to automated detection rule</li>
+                </ol>
+                
+                <h3>Threat Hunting Methodologies</h3>
+                
+                <h4>1. Intelligence-Driven Hunting</h4>
+                <p>Start with specific IOC or TTP from threat intelligence:</p>
+                <div class="query-box">
+                    <code># Example: Hunt for specific malware hash reported in threat intel
+index=edr EventType=FileCreation
+| search MD5="a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6"
+| stats count by ComputerName, FilePath, User
+| sort -count
+
+# Pivot to related indicators
+| search ComputerName="INFECTED-HOST"
+| stats values(Process), values(NetworkConnection) by ComputerName</code>
+                </div>
+                <p><strong>Advantages:</strong> High-confidence leads, clear success criteria<br><strong>Limitations:</strong> Only finds known threats, requires quality intelligence</p>
+                
+                <h4>2. Hypothesis-Driven Hunting</h4>
+                <p>Develop theory based on attacker behavior or emerging threats:</p>
+                <div class="query-box">
+                    <code># Hypothesis: Attackers using Living-off-the-Land Binaries (LOLBins) for persistence
+# Hunt for unusual scheduled tasks created by suspicious processes
+index=windows EventCode=4698  # Task created
+| rex field=Task_Name "(?<task_name>.*)"
+| search Command IN ("*powershell*", "*cmd.exe*", "*wscript*", "*cscript*", "*regsvr32*")
+| eval suspicious_score=0
+| eval suspicious_score=if(like(Command,"%bypass%"),suspicious_score+2,suspicious_score)
+| eval suspicious_score=if(like(Command,"%encoded%"),suspicious_score+2,suspicious_score)
+| eval suspicious_score=if(like(Author,"%SYSTEM%"),suspicious_score-1,suspicious_score)
+| where suspicious_score > 2
+| table _time, ComputerName, Task_Name, Command, Author, suspicious_score
+| sort -suspicious_score</code>
+                </div>
+                <p><strong>Advantages:</strong> Discovers novel threats, adaptable to environment<br><strong>Limitations:</strong> Requires deep expertise, time-intensive</p>
+                
+                <h4>3. Situational Awareness Hunting (Baseline Deviation)</h4>
+                <p>Establish normal behavior baseline; hunt for anomalies:</p>
+                <div class="query-box">
+                    <code># Hunt for users logging in from unusual locations
+index=security EventCode=4624
+| iplocation src_ip
+| stats dc(Country) as country_count, values(Country) as countries by user
+| where country_count > 1
+| join user [search index=security EventCode=4624 earliest=-30d | iplocation src_ip | stats values(Country) as baseline_countries by user]
+| eval new_countries=mvfilter(NOT match(countries, baseline_countries))
+| where isnotnull(new_countries)
+| table user, countries, new_countries, country_count</code>
+                </div>
+                <p><strong>Advantages:</strong> Finds insider threats and account compromise<br><strong>Limitations:</strong> Requires accurate baseline, high false positive potential</p>
+                
+                <h3>Threat Hunting Maturity Model</h3>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Capability</th>
+                                <th>Characteristics</th>
+                                <th>Effort Required</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>HM0 - Initial</strong></td>
+                                <td>No hunting program; purely reactive</td>
+                                <td>Rely on alerts; no proactive searches</td>
+                                <td>N/A</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HM1 - Minimal</strong></td>
+                                <td>Ad-hoc hunting based on intelligence</td>
+                                <td>Hunt after major industry breach; IOC searches</td>
+                                <td>< 5% of SOC time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HM2 - Procedural</strong></td>
+                                <td>Regular hunting following defined procedures</td>
+                                <td>Monthly/quarterly hunts; documented methodology</td>
+                                <td>10-20% of SOC time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HM3 - Innovative</strong></td>
+                                <td>Data-driven hunting with analytics</td>
+                                <td>Behavioral analysis; machine learning-assisted; dedicated hunters</td>
+                                <td>20-40% dedicated team time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HM4 - Leading</strong></td>
+                                <td>Automated hunting with human oversight</td>
+                                <td>AI-driven hypothesis generation; autonomous investigation</td>
+                                <td>Continuous, automated</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Essential Threat Hunting Tools</h3>
+                
+                <h4>Data Sources</h4>
+                <ul>
+                    <li><strong>EDR Telemetry:</strong> Process execution, file operations, registry modifications, network connections</li>
+                    <li><strong>Network Data:</strong> NetFlow, full packet capture (PCAP), DNS logs, proxy logs</li>
+                    <li><strong>Authentication Logs:</strong> Windows Security Event Log, VPN, cloud service sign-ins</li>
+                    <li><strong>Cloud Logs:</strong> AWS CloudTrail, Azure Activity Logs, Google Cloud Audit Logs</li>
+                </ul>
+                
+                <h4>Analysis Tools</h4>
+                <ul>
+                    <li><strong>SIEM Platforms:</strong> Splunk, Elastic, Azure Sentinel for large-scale log analysis</li>
+                    <li><strong>EDR Platforms:</strong> CrowdStrike, Microsoft Defender, Carbon Black for endpoint visibility</li>
+                    <li><strong>Network Analysis:</strong> Wireshark, Zeek, NetworkMiner for traffic inspection</li>
+                    <li><strong>Threat Intelligence Platforms:</strong> MISP, OpenCTI, ThreatConnect for IOC management</li>
+                    <li><strong>Visualization:</strong> Kibana, Grafana for pattern identification</li>
+                </ul>
+                
+                <h3>Practical Hunting Scenarios</h3>
+                
+                <h4>Hunt 1: Credential Dumping Activity</h4>
+                <p><strong>Hypothesis:</strong> Attackers are using Mimikatz or similar tools to dump credentials</p>
+                <div class="query-box">
+                    <code># Hunt for LSASS access patterns
+index=windows EventCode=10 TargetImage="*\\lsass.exe"
+| stats count, values(SourceImage) as processes by ComputerName
+| where count > 5
+| search NOT processes="C:\\Windows\\System32\\*"</code>
+                </div>
+                <p><strong>Indicators:</strong> Unsigned processes accessing LSASS, memory dumping tools, suspicious CallTrace</p>
+                
+                <h4>Hunt 2: Command and Control Communication</h4>
+                <p><strong>Hypothesis:</strong> Malware is beaconing to C2 infrastructure</p>
+                <div class="query-box">
+                    <code># Hunt for beaconing behavior (regular time intervals)
+index=proxy
+| bin _time span=1m
+| stats count by _time, src_ip, dest_ip, dest_port
+| eventstats stdev(count) as count_stdev, avg(count) as count_avg by src_ip, dest_ip
+| where count_stdev < 2 AND count_avg > 2
+| stats count as beacon_count by src_ip, dest_ip, dest_port
+| where beacon_count > 60</code>
+                </div>
+                <p><strong>Indicators:</strong> Consistent intervals (every 60s, 5min), small data transfers, unusual ports</p>
+                
+                <h4>Hunt 3: Lateral Movement</h4>
+                <p><strong>Hypothesis:</strong> Compromised account being used for lateral movement</p>
+                <div class="query-box">
+                    <code># Hunt for rapid authentication across multiple systems
+index=security EventCode=4624 LogonType=3
+| bucket _time span=5m
+| stats dc(ComputerName) as host_count, values(ComputerName) as hosts by _time, user
+| where host_count > 5
+| table _time, user, host_count, hosts</code>
+                </div>
+                <p><strong>Indicators:</strong> Same account logging into many systems, admin shares access (C$, ADMIN$), remote execution</p>
+                
+                <div class="tip">
+                    <strong>💡 Threat Hunting Career Tip:</strong> Threat hunters are among the highest-paid SOC roles ($100k-$145k) due to required expertise. Build hunting skills by: studying ATT&CK techniques deeply, practicing with open datasets (BOTS, Mordor), learning advanced analytics (statistics, machine learning basics), and documenting your hunt hypotheses and findings in a blog or GitHub repository.
+                </div>
+            </div>
+
+            <!-- Tools and Techniques Section -->
+            <div id="tools-techniques" class="section">
+                <h2>🛠️ Essential Tools and Techniques</h2>
+                
+                <h3>Blue Team Essential Tools</h3>
+                
+                <h4>SIEM Platforms</h4>
+                <ul>
+                    <li><strong>Splunk Enterprise Security:</strong> Industry-leading SIEM with extensive app ecosystem; uses SPL query language</li>
+                    <li><strong>Elastic Stack (ELK):</strong> Open-source alternative; uses Lucene query syntax and KQL</li>
+                    <li><strong>Microsoft Sentinel:</strong> Cloud-native SIEM; uses Kusto Query Language (KQL); tight Azure integration</li>
+                    <li><strong>IBM QRadar:</strong> Enterprise SIEM with strong correlation engine; AQL query language</li>
+                </ul>
+                
+                <h4>Endpoint Detection and Response (EDR)</h4>
+                <ul>
+                    <li><strong>CrowdStrike Falcon:</strong> Cloud-delivered EDR with strong threat intelligence; Real-Time Response (RTR) capabilities</li>
+                    <li><strong>Microsoft Defender for Endpoint:</strong> Native Windows integration; advanced hunting with KQL</li>
+                    <li><strong>Carbon Black:</strong> VMware-owned EDR; strong behavioral detection and prevention</li>
+                    <li><strong>SentinelOne:</strong> AI-driven autonomous response; strong MacOS/Linux support</li>
+                </ul>
+                
+                <h4>Network Security Monitoring</h4>
+                <ul>
+                    <li><strong>Security Onion:</strong> Free Linux distribution with Suricata IDS, Zeek, Elasticsearch</li>
+                    <li><strong>Wireshark:</strong> Industry-standard packet analyzer; essential for deep packet inspection</li>
+                    <li><strong>Zeek (Bro):</strong> Network analysis framework; generates high-level logs from traffic</li>
+                    <li><strong>Suricata:</strong> Open-source IDS/IPS; supports Snort rules plus advanced features</li>
+                </ul>
+                
+                <h4>Forensics and Malware Analysis</h4>
+                <ul>
+                    <li><strong>FTK (Forensic Toolkit):</strong> Comprehensive disk forensics; file carving, registry analysis</li>
+                    <li><strong>Volatility:</strong> Advanced memory forensics framework; analyze memory dumps</li>
+                    <li><strong>Autopsy:</strong> Open-source digital forensics platform; GUI for The Sleuth Kit</li>
+                    <li><strong>YARA:</strong> Pattern matching for malware; create signatures based on binary/textual patterns</li>
+                    <li><strong>Cuckoo Sandbox:</strong> Automated malware analysis; executes samples in isolated environment</li>
+                </ul>
+                
+                <h4>Threat Intelligence Platforms</h4>
+                <ul>
+                    <li><strong>MISP (Malware Information Sharing Platform):</strong> Open-source threat intel platform</li>
+                    <li><strong>AlienVault OTX:</strong> Free threat intelligence community</li>
+                    <li><strong>VirusTotal:</strong> Multi-engine file/URL scanning; extensive file reputation database</li>
+                    <li><strong>abuse.ch:</strong> Free threat intel feeds (URLhaus, MalwareBazaar, ThreatFox)</li>
+                </ul>
+                
+                <h3>Red Team Tools (Know Your Adversary)</h3>
+                
+                <h4>Reconnaissance</h4>
+                <ul>
+                    <li><strong>Nmap:</strong> Network scanner; port discovery, service enumeration, OS fingerprinting</li>
+                    <li><strong>Shodan:</strong> Search engine for Internet-connected devices; find exposed services</li>
+                    <li><strong>theHarvester:</strong> OSINT gathering; email addresses, subdomains, IPs from public sources</li>
+                    <li><strong>Amass:</strong> In-depth DNS enumeration and network mapping</li>
+                </ul>
+                
+                <h4>Exploitation</h4>
+                <ul>
+                    <li><strong>Metasploit:</strong> Comprehensive exploitation framework; thousands of exploits and payloads</li>
+                    <li><strong>Cobalt Strike:</strong> Commercial post-exploitation tool; popular with red teams and threat actors</li>
+                    <li><strong>Burp Suite:</strong> Web application security testing; intercept and modify HTTP requests</li>
+                    <li><strong>SQLMap:</strong> Automated SQL injection and database takeover tool</li>
+                </ul>
+                
+                <h4>Post-Exploitation</h4>
+                <ul>
+                    <li><strong>Mimikatz:</strong> Credential dumping from Windows memory; golden ticket attacks</li>
+                    <li><strong>BloodHound:</strong> Active Directory attack path analysis; visualizes privilege escalation paths</li>
+                    <li><strong>CrackMapExec:</strong> Swiss army knife for pentesting Windows networks</li>
+                    <li><strong>Impacket:</strong> Python classes for working with network protocols; SMB, Kerberos exploitation</li>
+                </ul>
+                
+                <h3>CTF and Training Platforms</h3>
+                
+                <h4>Blue Team Training</h4>
+                <ul>
+                    <li><strong>Boss of the SOC (BOTS):</strong> Splunk-based CTF datasets simulating real breaches</li>
+                    <li><strong>CyberDefenders:</strong> Blue team CTF challenges; analyze artifacts, hunt threats</li>
+                    <li><strong>LetsDefend:</strong> SOC analyst training with realistic incident scenarios</li>
+                    <li><strong>Blue Team Labs Online:</strong> Hands-on defensive security challenges</li>
+                </ul>
+                
+                <h4>General Security Skills</h4>
+                <ul>
+                    <li><strong>TryHackMe:</strong> Beginner-friendly; guided learning paths for security fundamentals</li>
+                    <li><strong>HackTheBox:</strong> Advanced penetration testing challenges; active machines and retired walkthroughs</li>
+                    <li><strong>PicoCTF:</strong> Beginner CTF from Carnegie Mellon; great for learning basics</li>
+                    <li><strong>OverTheWire:</strong> War games teaching security concepts through challenges</li>
+                </ul>
+                
+                <h3>Home Lab Setup Guide</h3>
+                
+                <h4>Virtualization Platform</h4>
+                <ul>
+                    <li><strong>VMware Workstation Pro:</strong> Powerful features; snapshots, cloning, network simulation ($200 license)</li>
+                    <li><strong>VirtualBox:</strong> Free alternative; sufficient for most labs</li>
+                    <li><strong>Proxmox:</strong> Enterprise-grade; install on dedicated hardware; manage VMs through web interface</li>
+                </ul>
+                
+                <h4>Essential Lab VMs</h4>
+                <ul>
+                    <li><strong>Windows Domain Controller:</strong> Windows Server 2019/2022; Active Directory setup</li>
+                    <li><strong>Windows 10/11 Workstations:</strong> 2-3 domain-joined endpoints for testing</li>
+                    <li><strong>Linux Server:</strong> Ubuntu Server; practice log analysis, SSH hardening</li>
+                    <li><strong>Security Onion:</strong> NIDS/SIEM platform for detection practice</li>
+                    <li><strong>Kali Linux:</strong> Attacker machine for simulating attacks</li>
+                    <li><strong>Metasploitable/DVWA:</strong> Intentionally vulnerable machines for testing</li>
+                </ul>
+                
+                <h4>Lab Network Architecture</h4>
+                <div class="query-box">
+                    <code># Recommended Network Segmentation
+Management Network: 192.168.1.0/24
+  - Your host machine
+  - Access to all networks
+  
+Corporate Network: 10.0.0.0/24
+  - Domain Controller: 10.0.0.10
+  - Windows Workstations: 10.0.0.20-30
+  - Linux Server: 10.0.0.40
+  
+Security Tools Network: 10.1.0.0/24
+  - Security Onion: 10.1.0.10
+  - Splunk: 10.1.0.20
+  - SIEM receives logs from Corporate Network
+  
+Attacker Network: 192.168.100.0/24
+  - Kali Linux: 192.168.100.10
+  - Isolated except for attacks into Corporate Network</code>
+                </div>
+                
+                <h4>Lab Exercises</h4>
+                <ol>
+                    <li><strong>Week 1-2:</strong> Setup infrastructure; configure logging to Security Onion or Splunk</li>
+                    <li><strong>Week 3-4:</strong> Practice SIEM queries; create detection rules for common attacks</li>
+                    <li><strong>Week 5-6:</strong> Simulate attacks from Kali; detect and respond in SIEM</li>
+                    <li><strong>Week 7-8:</strong> Practice incident response; contain and remediate simulated breaches</li>
+                    <li><strong>Week 9-10:</strong> Threat hunting exercises; search for compromises without alerts</li>
+                    <li><strong>Week 11-12:</strong> Automation; create SOAR playbooks for common response actions</li>
+                </ol>
+                
+                <div class="tip">
+                    <strong>💡 Lab Building Tip:</strong> Start small - don't try to build everything at once. Begin with 1 Windows DC, 1 workstation, Security Onion, and Kali. Add complexity as you gain comfort. Document your builds - you'll need to rebuild systems frequently. Use snapshots liberally before making changes.
+                </div>
+            </div>
+
+            <!-- Career Development Section -->
+            <div id="career-development" class="section">
+                <h2>📈 Professional Career Development</h2>
+                
+                <h3>Continuous Learning and Skill Development</h3>
+                
+                <h4>Technical Skills Prioritization</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Skill Category</th>
+                                <th>Essential Skills</th>
+                                <th>Learning Resources</th>
+                                <th>Time Investment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Networking</strong></td>
+                                <td>TCP/IP, DNS, HTTP/HTTPS, routing, firewalls</td>
+                                <td>CompTIA Network+, Cisco CCNA, Professor Messer videos</td>
+                                <td>3-6 months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Operating Systems</strong></td>
+                                <td>Windows (Event Logs, PowerShell), Linux (syslog, bash)</td>
+                                <td>Windows Server Admin course, Linux Academy, OverTheWire</td>
+                                <td>3-6 months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SIEM Platforms</strong></td>
+                                <td>SPL (Splunk), KQL (Sentinel), Lucene (Elastic)</td>
+                                <td>Splunk Fundamentals, Microsoft Learn, Elastic training</td>
+                                <td>2-4 months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Scripting</strong></td>
+                                <td>Python, PowerShell, Bash</td>
+                                <td>Automate the Boring Stuff, PowerShell in a Month of Lunches</td>
+                                <td>3-6 months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Threat Intelligence</strong></td>
+                                <td>MITRE ATT&CK, threat actor TTPs, IOC analysis</td>
+                                <td>ATT&CK training, threat intel feeds, security blogs</td>
+                                <td>Ongoing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Incident Response</strong></td>
+                                <td>Containment, forensics, malware analysis</td>
+                                <td>SANS FOR508, GCIH certification, IR playbooks</td>
+                                <td>6-12 months</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Building Your Professional Brand</h3>
+                
+                <h4>Online Presence</h4>
+                <ul>
+                    <li><strong>LinkedIn Optimization:</strong>
+                        <ul>
+                            <li>Professional headshot and banner</li>
+                            <li>Detailed work experience with quantified achievements</li>
+                            <li>Skills endorsed by colleagues and managers</li>
+                            <li>Regular posts sharing security insights (weekly target)</li>
+                            <li>Engage with security community content</li>
+                        </ul>
+                    </li>
+                    <li><strong>GitHub Portfolio:</strong>
+                        <ul>
+                            <li>SIEM detection rules you've created (Sigma format)</li>
+                            <li>Automation scripts (Python, PowerShell)</li>
+                            <li>CTF writeups and solutions</li>
+                            <li>Home lab documentation</li>
+                            <li>Contribute to open-source security projects</li>
+                        </ul>
+                    </li>
+                    <li><strong>Personal Website/Blog:</strong>
+                        <ul>
+                            <li>Technical blog posts (monthly target)</li>
+                            <li>Writeups of interesting investigations (sanitized)</li>
+                            <li>Tutorial content for aspiring analysts</li>
+                            <li>Portfolio of projects and certifications</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>Community Engagement</h4>
+                <ul>
+                    <li><strong>Conferences:</strong> Attend BSides, SANS, RSA, Black Hat (or watch talks online)</li>
+                    <li><strong>Local Meetups:</strong> Join OWASP chapter, security meetup groups, industry-specific ISACs</li>
+                    <li><strong>Online Communities:</strong> Active participation in Reddit (r/cybersecurity), Discord servers, Twitter infosec community</li>
+                    <li><strong>Mentorship:</strong> Both seek mentors (more experienced professionals) and mentor others (newer analysts)</li>
+                </ul>
+                
+                <h3>Job Search Strategies</h3>
+                
+                <h4>Resume Optimization for SOC Roles</h4>
+                <ul>
+                    <li><strong>Format:</strong> ATS-friendly (avoid tables, graphics); clean, professional design</li>
+                    <li><strong>Keywords:</strong> Extract keywords from job description; incorporate naturally throughout resume</li>
+                    <li><strong>Experience Section:</strong>
+                        <ul>
+                            <li>Use action verbs (Analyzed, Detected, Investigated, Automated, Implemented)</li>
+                            <li>Quantify achievements (Reduced MTTR by 30%, Analyzed 500+ alerts weekly, Automated 15+ manual processes)</li>
+                            <li>Include relevant tools (Splunk, CrowdStrike, Wireshark, Python)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Projects Section:</strong> Include home lab projects, CTF achievements, open-source contributions</li>
+                    <li><strong>Certifications:</strong> List prominently; include expected completion dates for in-progress certs</li>
+                </ul>
+                
+                <h4>Interview Preparation</h4>
+                
+                <p><strong>Technical Questions:</strong></p>
+                <ul>
+                    <li>"Walk me through your incident response process for a ransomware infection"</li>
+                    <li>"How would you detect lateral movement in a Windows environment?"</li>
+                    <li>"Explain the difference between IDS and IPS"</li>
+                    <li>"What SIEM queries would you write to detect brute force attacks?"</li>
+                    <li>"How do you prioritize alerts when multiple high-severity incidents occur simultaneously?"</li>
+                </ul>
+                
+                <p><strong>Behavioral Questions (STAR Method):</strong></p>
+                <ul>
+                    <li>"Tell me about a time you identified a security threat that others missed"</li>
+                    <li>"Describe a situation where you had to work under pressure during an active incident"</li>
+                    <li>"Give an example of how you handled a disagreement with a team member"</li>
+                    <li>"Tell me about a time you made a mistake and how you handled it"</li>
+                </ul>
+                
+                <p><strong>Questions to Ask Interviewer:</strong></p>
+                <ul>
+                    <li>"What does a typical day look like for someone in this role?"</li>
+                    <li>"What SIEM and security tools does your SOC use?"</li>
+                    <li>"How does the team handle on-call rotations and shift work?"</li>
+                    <li>"What opportunities exist for professional development and training?"</li>
+                    <li>"Can you describe a recent interesting incident the team handled?"</li>
+                    <li>"What are the biggest challenges facing the SOC currently?"</li>
+                </ul>
+                
+                <h3>Workplace Excellence</h3>
+                
+                <h4>First 90 Days in New SOC Role</h4>
+                <ol>
+                    <li><strong>Days 1-30 (Learning):</strong>
+                        <ul>
+                            <li>Shadow experienced analysts; observe alert triage process</li>
+                            <li>Study internal documentation, playbooks, escalation procedures</li>
+                            <li>Learn SIEM platform specifics; practice query writing</li>
+                            <li>Understand team dynamics, communication channels, reporting structure</li>
+                        </ul>
+                    </li>
+                    <li><strong>Days 31-60 (Contributing):</strong>
+                        <ul>
+                            <li>Handle alerts independently with supervision</li>
+                            <li>Ask questions; clarify uncertainties; document learnings</li>
+                            <li>Identify process improvement opportunities</li>
+                            <li>Build relationships with team members across shifts</li>
+                        </ul>
+                    </li>
+                    <li><strong>Days 61-90 (Excelling):</strong>
+                        <ul>
+                            <li>Fully independent alert handling</li>
+                            <li>Propose detection rule improvements</li>
+                            <li>Volunteer for projects (automation, detection engineering)</li>
+                            <li>Begin mentoring newer team members</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h4>Standing Out for Promotion</h4>
+                <ul>
+                    <li><strong>Documentation Excellence:</strong> Maintain high-quality ticket documentation; create runbooks</li>
+                    <li><strong>Continuous Learning:</strong> Pursue certifications; share learnings with team</li>
+                    <li><strong>Initiative:</strong> Volunteer for challenging incidents; propose automation projects</li>
+                    <li><strong>Collaboration:</strong> Help colleagues; participate in lessons learned; mentor new hires</li>
+                    <li><strong>Metrics Awareness:</strong> Understand and improve personal metrics (MTTR, ticket quality, escalation rate)</li>
+                </ul>
+                
+                <h3>Handling Burnout and Work-Life Balance</h3>
+                
+                <h4>Recognizing Burnout Signs</h4>
+                <ul>
+                    <li>Decreased motivation and enthusiasm for work</li>
+                    <li>Cynicism about alerts and security incidents</li>
+                    <li>Physical symptoms (headaches, insomnia, fatigue)</li>
+                    <li>Reduced performance and increased errors</li>
+                    <li>Social withdrawal from team and isolation</li>
+                </ul>
+                
+                <h4>Burnout Prevention Strategies</h4>
+                <ul>
+                    <li><strong>Clear Boundaries:</strong> Don't check work communications during off hours (unless on-call)</li>
+                    <li><strong>Use PTO:</strong> Take vacations; disconnect completely during time off</li>
+                    <li><strong>Shift Rotation:</strong> Request day shift after extended night shift periods</li>
+                    <li><strong>Physical Health:</strong> Exercise, sleep hygiene, healthy eating during night shifts</li>
+                    <li><strong>Professional Support:</strong> Talk to manager about workload; use employee assistance programs</li>
+                    <li><strong>Outside Interests:</strong> Maintain hobbies and relationships outside of cybersecurity</li>
+                </ul>
+                
+                <div class="important">
+                    <strong>⚠️ Career Reality Check:</strong> SOC work can be stressful and repetitive. Not everyone enjoys it long-term. Consider SOC as a stepping stone (2-3 years) to specialized roles (detection engineering, threat hunting, incident response, management) rather than a 20-year career path. It's okay to pivot if SOC operations aren't fulfilling.
+                </div>
+                
+                <div class="tip">
+                    <strong>💡 Career Progression Tip:</strong> Most successful SOC professionals follow this path: Tier 1 Analyst (1-2 years) → Tier 2 Analyst (2-3 years) → Specialization (Detection Engineer, Threat Hunter, Incident Responder, or SOC Manager). Total time to senior role: 4-6 years with continuous learning and certification acquisition. Fastest progression occurs when you demonstrate initiative, document well, and solve problems proactively.
+                </div>
+            </div>
+
             <!-- Best Practices Section -->
             <div id="best-practices" class="section">
                 <h2>✅ Best Practices and Investigation Frameworks</h2>
+                
+                <h3>Governance, Risk, and Compliance (GRC) in the SOC</h3>
+                <p>SOC operations exist at the intersection of technical security and regulatory compliance. Understanding GRC requirements is essential for SOC analysts, particularly when handling incidents involving regulated data.</p>
+                
+                <h4>Why GRC Matters to SOC Analysts</h4>
+                <ul>
+                    <li><strong>Incident Classification:</strong> Regulatory requirements determine incident severity, notification timelines, and reporting obligations</li>
+                    <li><strong>Evidence Handling:</strong> Legal and regulatory standards dictate proper evidence collection, chain of custody, and retention</li>
+                    <li><strong>Log Retention:</strong> Compliance frameworks specify minimum log retention periods (90 days to 7 years depending on regulation)</li>
+                    <li><strong>Breach Notification:</strong> Understanding when and how to report breaches to regulators, customers, and affected individuals</li>
+                    <li><strong>Audit Support:</strong> SIEM logs serve as primary evidence during compliance audits</li>
+                </ul>
+                
+                <h4>Major Compliance Frameworks</h4>
+                
+                <h5>1. PCI DSS (Payment Card Industry Data Security Standard)</h5>
+                <p><strong>Scope:</strong> Organizations that store, process, or transmit credit card information</p>
+                <ul>
+                    <li><strong>Requirement 10:</strong> Track and monitor all access to network resources and cardholder data
+                        <ul>
+                            <li>10.1: Implement audit trails</li>
+                            <li>10.2: Log all user activities, exceptions, and security events</li>
+                            <li>10.3: Record minimum: user ID, event type, timestamp, success/failure, origination, identity of affected data</li>
+                            <li>10.5.1: Limit log viewing to authorized personnel</li>
+                            <li>10.6: Review logs daily for anomalies</li>
+                            <li>10.7: Retain audit trail history at least 1 year, with minimum of 3 months immediately available</li>
+                        </ul>
+                    </li>
+                    <li><strong>Requirement 11:</strong> Test security systems and processes regularly
+                        <ul>
+                            <li>11.5: Deploy intrusion detection/prevention systems</li>
+                            <li>11.6: Deploy file integrity monitoring</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>SOC Impact:</strong> Must monitor payment processing systems with heightened scrutiny; incidents involving cardholder data trigger breach notification requirements (notify acquiring bank within 72 hours)</p>
+                
+                <h5>2. HIPAA (Health Insurance Portability and Accountability Act)</h5>
+                <p><strong>Scope:</strong> Healthcare providers, health plans, healthcare clearinghouses, and business associates handling Protected Health Information (PHI)</p>
+                <ul>
+                    <li><strong>Security Rule §164.312(b):</strong> Implement hardware, software, and procedural mechanisms that record and examine activity in information systems containing ePHI</li>
+                    <li><strong>Audit Controls:</strong> Mechanisms to record and examine access and activity in systems containing ePHI</li>
+                    <li><strong>Breach Notification Rule:</strong> 
+                        <ul>
+                            <li>Notify affected individuals within 60 days</li>
+                            <li>Notify HHS (Department of Health and Human Services): immediately if affecting 500+ individuals; annually for smaller breaches</li>
+                            <li>Notify media if breach affects 500+ residents of a state/jurisdiction</li>
+                        </ul>
+                    </li>
+                    <li><strong>Log Retention:</strong> Minimum 6 years from date of creation or last effective date</li>
+                </ul>
+                <p><strong>SOC Impact:</strong> PHI breaches require complex notification process; forensic evidence must determine if PHI was accessed/exfiltrated; encryption and access logs critical for breach determination</p>
+                
+                <h5>3. SOX (Sarbanes-Oxley Act)</h5>
+                <p><strong>Scope:</strong> All publicly traded companies in the United States</p>
+                <ul>
+                    <li><strong>Section 302:</strong> Corporate responsibility for financial reports; CEOs/CFOs certify accuracy of financial statements</li>
+                    <li><strong>Section 404:</strong> Management assessment of internal controls; requires IT controls audit for systems supporting financial reporting</li>
+                    <li><strong>Section 802:</strong> Criminal penalties for altering documents; mandates record retention for 7 years</li>
+                </ul>
+                <p><strong>SOC Requirements:</strong></p>
+                <ul>
+                    <li>Monitor access to financial systems (ERP, accounting software, databases)</li>
+                    <li>Detect unauthorized changes to financial data</li>
+                    <li>Maintain audit logs for financial systems for 7 years</li>
+                    <li>Alert on privilege escalation or administrative changes to financial applications</li>
+                </ul>
+                
+                <h5>4. GDPR (General Data Protection Regulation)</h5>
+                <p><strong>Scope:</strong> Organizations processing personal data of EU residents, regardless of organization location</p>
+                <ul>
+                    <li><strong>Article 33:</strong> Breach notification to supervisory authority within 72 hours of becoming aware</li>
+                    <li><strong>Article 34:</strong> Notify affected individuals "without undue delay" if breach poses high risk to rights and freedoms</li>
+                    <li><strong>Article 32:</strong> Implement appropriate technical and organizational measures (encryption, access controls, monitoring)</li>
+                    <li><strong>Fines:</strong> Up to €20 million or 4% of global annual revenue (whichever is higher) for non-compliance</li>
+                </ul>
+                <p><strong>SOC Impact:</strong> 72-hour notification clock starts when organization "becomes aware" of breach; SOC detection timestamp may determine compliance; detailed forensic report required</p>
+                
+                <h5>5. FISMA (Federal Information Security Management Act)</h5>
+                <p><strong>Scope:</strong> U.S. federal agencies and contractors handling federal information systems</p>
+                <ul>
+                    <li><strong>NIST 800-53 Controls:</strong> Comprehensive set of security and privacy controls
+                        <ul>
+                            <li>AU-2: Audit Events (what to log)</li>
+                            <li>AU-3: Content of Audit Records (what details to capture)</li>
+                            <li>AU-6: Audit Review, Analysis, and Reporting (SIEM function)</li>
+                            <li>IR-4: Incident Handling (incident response procedures)</li>
+                            <li>IR-6: Incident Reporting (reporting to US-CERT within 1 hour for major incidents)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Continuous Monitoring:</strong> Ongoing assessment of security controls; SIEM provides evidence of control effectiveness</li>
+                </ul>
+                
+                <h4>SOC Compliance Responsibilities</h4>
+                
+                <h5>Pre-Incident Compliance Activities</h5>
+                <ul>
+                    <li><strong>Log Collection Validation:</strong> Verify all required systems sending logs to SIEM per compliance requirements</li>
+                    <li><strong>Retention Policy Enforcement:</strong> Ensure log retention meets most stringent applicable regulation (typically 7 years for SOX)</li>
+                    <li><strong>Access Control Monitoring:</strong> Alert on privileged access to systems containing regulated data</li>
+                    <li><strong>Detection Rule Mapping:</strong> Map detection rules to compliance requirements (PCI DSS 11.5, HIPAA §164.312(b))</li>
+                    <li><strong>Regular Audit Support:</strong> Provide SIEM logs and reports to auditors; demonstrate alert review and incident response</li>
+                </ul>
+                
+                <h5>Incident Response Compliance Considerations</h5>
+                <ul>
+                    <li><strong>Data Classification:</strong> Immediately determine if incident involves regulated data (PII, PHI, PCI, financial)</li>
+                    <li><strong>Notification Triggers:</strong> Understand when breach notification is required:
+                        <ul>
+                            <li>Was regulated data accessed? (not just "potentially accessible")</li>
+                            <li>Was data exfiltrated or copied?</li>
+                            <li>Is data encrypted? (may exempt from notification)</li>
+                            <li>How many records affected? (determines notification scope)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Legal Coordination:</strong> Engage legal counsel immediately for potential breaches; attorney-client privilege may protect communications</li>
+                    <li><strong>Evidence Preservation:</strong> Forensic evidence must meet legal standards:
+                        <ul>
+                            <li>Chain of custody documentation</li>
+                            <li>Write-blocked forensic imaging</li>
+                            <li>Hash verification of evidence integrity</li>
+                            <li>Timestamped audit trail of who accessed evidence</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h5>Post-Incident Compliance Requirements</h5>
+                <ul>
+                    <li><strong>Regulatory Notifications:</strong> File required breach notifications with specific regulatory bodies:
+                        <ul>
+                            <li>PCI DSS: Acquiring bank, card brands</li>
+                            <li>HIPAA: HHS Office for Civil Rights</li>
+                            <li>GDPR: Relevant EU Data Protection Authority</li>
+                            <li>State Laws: Attorneys General, affected residents</li>
+                        </ul>
+                    </li>
+                    <li><strong>Detailed Reporting:</strong> Regulatory reports must include:
+                        <ul>
+                            <li>Nature of breach (attack vector, compromised data types)</li>
+                            <li>Approximate number of records affected</li>
+                            <li>Date of breach and date discovered</li>
+                            <li>Remediation steps taken</li>
+                            <li>Contact information for affected individuals to inquire</li>
+                        </ul>
+                    </li>
+                    <li><strong>Audit Trail:</strong> Maintain complete investigation documentation for potential regulatory examination</li>
+                </ul>
+                
+                <h4>Common Compliance Pitfalls</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pitfall</th>
+                                <th>Impact</th>
+                                <th>Prevention</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Insufficient Log Retention</strong></td>
+                                <td>Cannot investigate historical incidents; audit failures; regulatory fines</td>
+                                <td>Implement automated lifecycle management; archive to cold storage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Delayed Breach Notification</strong></td>
+                                <td>Regulatory penalties (GDPR 72-hour deadline); reputational damage</td>
+                                <td>Clear escalation procedures; legal pre-engaged; notification templates ready</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Inadequate Evidence Preservation</strong></td>
+                                <td>Evidence inadmissible in legal proceedings; cannot determine breach scope</td>
+                                <td>Forensic imaging before remediation; chain of custody procedures; write-blockers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Missing Log Sources</strong></td>
+                                <td>Cannot prove/disprove data access; breach notification uncertainty</td>
+                                <td>Regular log source validation; automated health checks; compliance mapping</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Poor Incident Documentation</strong></td>
+                                <td>Regulatory questions unanswered; inconsistent reporting; audit failures</td>
+                                <td>Standardized incident templates; real-time documentation; post-incident review</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="important">
+                    <strong>⚠️ Legal Privilege Consideration:</strong> Early legal engagement can protect incident response communications under attorney-client privilege. Consult legal counsel before declaring an incident a "breach" in written communications. Use "security incident under investigation" language until legal assessment complete. Never speculate about breach scope in writing without legal review.
+                </div>
                 
                 <h3>Academic and Industry Frameworks</h3>
                 <p>Effective SOC operations rely on structured frameworks that provide standardized methodologies for incident handling, security controls, and continuous improvement.</p>

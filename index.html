@@ -48,50 +48,113 @@
 
         .container {
           min-height: 100vh;
-        }
-
-        .main-content {
-          width: min(1200px, 100%);
+          display: flex;
+          gap: 24px;
+          align-items: flex-start;
+          width: min(1600px, 100%);
           margin: 0 auto;
           padding: 20px;
         }
 
-        .question-nav-panel {
-          margin-bottom: 20px;
-          background-color: var(--dark-color);
-          border-radius: 10px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+        .sidebar {
+          position: sticky;
+          top: 20px;
+          width: min(320px, 28vw);
+          max-height: calc(100vh - 40px);
           overflow: hidden;
+          flex-shrink: 0;
+          background-color: var(--dark-color);
+          border-radius: 16px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+          transition: width 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .question-nav-panel summary {
+        .sidebar summary {
           list-style: none;
+          display: flex;
+          align-items: center;
+          gap: 12px;
           cursor: pointer;
-          padding: 16px 20px;
+          padding: 18px;
           color: var(--text-light);
           font-weight: bold;
-          font-size: 1rem;
           user-select: none;
         }
 
-        .question-nav-panel summary::-webkit-details-marker {
+        .sidebar summary::-webkit-details-marker {
           display: none;
         }
 
-        .question-nav-panel summary::after {
-          content: '+';
-          float: right;
-          font-size: 1.2rem;
-          line-height: 1;
+        .sidebar summary::after {
+          content: 'Hide';
+          margin-left: auto;
+          font-size: 0.85rem;
+          font-weight: normal;
+          opacity: 0.75;
         }
 
-        .question-nav-panel[open] summary::after {
-          content: '-';
+        .sidebar-toggle-icon {
+          width: 32px;
+          height: 32px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+          background-color: rgba(255, 255, 255, 0.12);
+          font-size: 1rem;
+          flex-shrink: 0;
         }
 
-        .question-nav-panel .question-nav {
+        .sidebar-title-group {
+          min-width: 0;
+        }
+
+        .sidebar-title {
+          display: block;
+          font-size: 1rem;
+          line-height: 1.2;
+        }
+
+        .sidebar-caption {
+          display: block;
+          font-size: 0.82rem;
+          font-weight: normal;
+          opacity: 0.72;
+          margin-top: 2px;
+        }
+
+        .sidebar:not([open]) {
+          width: 82px;
+        }
+
+        .sidebar:not([open]) summary {
+          justify-content: center;
+          padding: 18px 12px;
+        }
+
+        .sidebar:not([open]) .sidebar-title-group,
+        .sidebar:not([open]) summary::after {
+          display: none;
+        }
+
+        .sidebar-body {
           border-top: 1px solid rgba(255, 255, 255, 0.12);
           background-color: #233141;
+          padding: 14px;
+          overflow-y: auto;
+          max-height: calc(100vh - 96px);
+        }
+
+        .sidebar-hint {
+          color: rgba(255, 255, 255, 0.75);
+          font-size: 0.92rem;
+          margin-bottom: 12px;
+        }
+
+        .main-content {
+          flex: 1;
+          min-width: 0;
+          max-width: 1200px;
         }
 
         header {
@@ -130,7 +193,12 @@
             font-weight: bold;
             margin-bottom: 20px;
             color: var(--dark-color);
-            white-space: pre-wrap;
+          line-height: 1.7;
+        }
+
+        .question-copy {
+          display: block;
+          margin-bottom: 12px;
         }
 
         .options {
@@ -147,7 +215,7 @@
             transition: all 0.3s;
             position: relative;
             display: flex;
-            align-items: center;
+          align-items: flex-start;
         }
 
         .option:hover {
@@ -166,6 +234,15 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
+          margin-top: 2px;
+        }
+
+        .option-label {
+          flex: 1;
+        }
+
+        .option-label pre {
+          margin: 8px 0 0;
         }
 
         .short-answer-input {
@@ -219,14 +296,44 @@
 
         .question-nav {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 8px;
-            padding: 10px;
         }
 
         @media (max-width: 900px) {
-          .main-content {
+          .container {
+            display: block;
             padding: 16px;
+          }
+
+          .sidebar,
+          .sidebar:not([open]) {
+            position: static;
+            width: 100%;
+            max-height: none;
+            margin-bottom: 16px;
+          }
+
+          .sidebar:not([open]) summary {
+            justify-content: flex-start;
+            padding: 16px 18px;
+          }
+
+          .sidebar:not([open]) .sidebar-title-group {
+            display: block;
+          }
+
+          .sidebar:not([open]) summary::after {
+            display: block;
+            content: 'Show';
+          }
+
+          .sidebar-body {
+            max-height: 40vh;
+          }
+
+          .main-content {
+            max-width: none;
           }
 
           .question-nav {
@@ -260,6 +367,10 @@
         }
 
         @media (max-width: 600px) {
+          .container {
+            padding: 12px;
+          }
+
           body {
             font-size: 15px;
           }
@@ -268,7 +379,7 @@
             padding: 22px 16px;
           }
 
-          .question-nav-panel summary {
+          .sidebar summary {
             padding: 14px 16px;
           }
 
@@ -283,7 +394,6 @@
           .question-nav {
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 6px;
-            padding: 6px 0 0;
           }
 
           .question-nav button {
@@ -417,11 +527,18 @@
 
         .dark-mode .sidebar {
             background-color: #1a1a1a;
-            border-right: 1px solid #333;
+          border: 1px solid #333;
         }
         
-        .dark-mode .sidebar h3 {
-            color: #f0f0f0;
+        .dark-mode .sidebar-body {
+          background-color: #222;
+          border-top-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .dark-mode .sidebar-caption,
+        .dark-mode .sidebar-hint,
+        .dark-mode .sidebar summary::after {
+          color: rgba(240, 240, 240, 0.75);
         }
 
         .dark-mode .quiz-container,
@@ -471,6 +588,11 @@
             font-weight: normal;
         }
 
+          .question pre + .category-badge {
+            margin-left: 0;
+            margin-top: 12px;
+          }
+
         .timer {
             text-align: center;
             margin-bottom: 20px;
@@ -510,6 +632,10 @@
         pre code {
             background: transparent;
             padding: 0;
+        }
+
+        .result-question pre {
+          margin-top: 10px;
         }
         
         .check-answer-btn {
@@ -580,12 +706,20 @@
 </head>
 <body>
     <div class="container">
-        <div class="main-content">
-      <details class="question-nav-panel">
-        <summary>Question Navigation</summary>
+    <details class="sidebar" id="question-sidebar" open>
+      <summary>
+        <span class="sidebar-toggle-icon">#</span>
+        <span class="sidebar-title-group">
+          <span class="sidebar-title">Question Navigation</span>
+          <span class="sidebar-caption">Jump anywhere in the quiz</span>
+        </span>
+      </summary>
+      <div class="sidebar-body">
+        <p class="sidebar-hint">Use the numbered buttons to move directly to any question.</p>
         <div class="question-nav" id="question-nav"></div>
-      </details>
-
+      </div>
+    </details>
+        <div class="main-content">
             <header>
                 <h1>C++ Interview Questions Quiz</h1>
                 <p>Master C++ with 1000+ Interview Questions</p>
@@ -14123,6 +14257,7 @@
             quizData.forEach((_, idx) => {
                 const btn = document.createElement('button');
                 btn.textContent = idx + 1;
+              btn.setAttribute('aria-label', 'Go to question ' + (idx + 1));
                 btn.onclick = () => goToQuestion(idx);
                 questionNav.appendChild(btn);
             });
@@ -14134,6 +14269,11 @@
                     if (idx === currentQuestion) btn.classList.add('active');
                     else if (userAnswers[idx] !== null && userAnswers[idx] !== "") btn.classList.add('answered');
                 });
+
+              const activeButton = questionNav.children[currentQuestion];
+              if (activeButton) {
+                activeButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+              }
             }
 
             function renderQuestion() {
@@ -14190,7 +14330,8 @@
                         
                         optDiv.appendChild(input);
                         const label = document.createElement('span');
-                        label.textContent = opt;
+                        label.className = 'option-label';
+                        label.innerHTML = formatOptionText(opt);
                         optDiv.appendChild(label);
                         optionsDiv.appendChild(optDiv);
                     });
@@ -14269,47 +14410,209 @@
                 checkBtn.classList.add('checked');
             }
 
-            function formatQuestionText(text) {
-                // Preserve code formatting - detect code blocks in questions
-                const hasCode = text.match(/cout|cin|#include|int |char |float |double |arr\[|[{};]|->|\*p|<<|>>/);
-                
-                if (hasCode) {
-                    // Check if multiple code statements
-                    const hasSemicolons = (text.match(/;/g) || []).length > 1;
-                    const hasNewlines = text.includes('\n');
-                    
-                    // Split code from regular text by looking for code patterns
-                    const codePattern = /((?:int|char|float|double|void|class|struct|#include|using namespace|std::)[^?!.]*?;(?:\s*(?:int|char|float|double|void|class|struct|cout|cin)[^?!.]*?;)*)/gi;
-                    
-                    if (hasSemicolons) {
-                        // Multiple statements: format as code block
-                        text = text.replace(codePattern, (match) => {
-                            // Insert line breaks after semicolons for readability
-                            let formatted = match.replace(/;\s*/g, ';<br>');
-                            return '<pre><code>' + formatted + '</code></pre>';
-                        });
-                    } else {
-                        // Single statement: use inline code
-                        text = text.replace(codePattern, '<code>$1</code>');
-                    }
-                    
-                    // Also handle standalone code expressions without semicolons
-                    text = text.replace(/\b(cout\s*<<[^<]*(?:<<[^<]*)*|cin\s*>>[^>]*(?:>>[^>]*)*)/gi, '<code>$1</code>');
-                    
-                    // Handle array/pointer syntax
-                    text = text.replace(/(\w+\s*\[\s*\d*\s*\]\s*=\s*\{[^}]+\})/g, '<code>$1</code>');
-                    
-                    // Replace newlines with breaks
-                    text = text.replace(/\n/g, '<br>');
-                    
-                    // Clean up double-wrapped tags
-                    text = text.replace(/<code>\s*<code>/g, '<code>');
-                    text = text.replace(/<\/code>\s*<\/code>/g, '</code>');
-                    text = text.replace(/<pre><code>\s*<pre><code>/g, '<pre><code>');
-                    text = text.replace(/<\/code><\/pre>\s*<\/code><\/pre>/g, '</code></pre>');
+            function escapeHtml(value) {
+              return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+            }
+
+            function looksLikeCodeSnippet(text) {
+              const candidate = String(text || '').trim();
+              if (!candidate) return false;
+
+              let score = 0;
+              if ((candidate.match(/;/g) || []).length >= 1) score += 2;
+              if (candidate.includes('\n')) score += 1;
+
+              [
+                /\b(?:int|char|float|double|bool|void|const|long|short|unsigned|signed|for|while|if|else|switch|case|return|cout|cin|printf|scanf|class|struct|template|namespace|using|std::|new|delete)\b/,
+                /[{}]/,
+                /<<|>>/,
+                /\b[A-Za-z_]\w*\s*\([^)]*\)/,
+                /\[[^\]]*\]/,
+                /->/,
+                /#[a-z]+/i
+              ].forEach((pattern) => {
+                if (pattern.test(candidate)) score += 1;
+              });
+
+              return score >= 3;
+            }
+
+            function splitQuestionText(text) {
+              const normalized = String(text || '').replace(/\r\n/g, '\n').trim();
+              if (!normalized) return { lead: '', code: '' };
+
+              const lines = normalized.split('\n');
+              const codeStart = lines.findIndex((line) => looksLikeCodeSnippet(line));
+              if (codeStart > 0) {
+                const lead = lines.slice(0, codeStart).join('\n').trim();
+                const code = lines.slice(codeStart).join('\n').trim();
+                if (code) return { lead, code };
+              }
+
+              const colonIndex = normalized.indexOf(':');
+              if (colonIndex !== -1) {
+                const lead = normalized.slice(0, colonIndex + 1).trim();
+                const code = normalized.slice(colonIndex + 1).trim();
+                if (looksLikeCodeSnippet(code)) {
+                  return { lead, code };
                 }
-                
-                return text;
+              }
+
+              if (looksLikeCodeSnippet(normalized)) {
+                return { lead: '', code: normalized };
+              }
+
+              return { lead: normalized, code: '' };
+            }
+
+            function formatInlineQuestionText(text) {
+              const escaped = escapeHtml(text).replace(/\n/g, '<br>');
+              const inlineCodePattern = /(#include\s*&lt;[^&]+&gt;|\b(?:[A-Za-z_]\w*::)+[A-Za-z_]\w+\b|\b[A-Za-z_]\w*\s*\([^()\n]*\)|\b[A-Za-z_]\w*\s*\[[^\]]+\]|\b(?:const\s+)?(?:unsigned\s+|signed\s+)?(?:long\s+long\s+|long\s+|short\s+)?(?:int|char|float|double|bool|void)\s*(?:[*&]\s*)?[A-Za-z_]\w*\b)/g;
+              return escaped.replace(inlineCodePattern, '<code>$1</code>');
+            }
+
+            function formatCodeBlock(text) {
+              const source = String(text || '')
+                .replace(/\r\n/g, '\n')
+                .split('\n')
+                .map((line) => line.trim())
+                .filter(Boolean)
+                .join(' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+              let formatted = '';
+              let braceDepth = 0;
+              let parenDepth = 0;
+              let inString = false;
+              let quoteChar = '';
+              let escapeNext = false;
+              let pendingIndent = false;
+
+              function trimTrailingSpaces() {
+                formatted = formatted.replace(/[ \t]+$/g, '');
+              }
+
+              function appendIndent() {
+                if (pendingIndent) {
+                  formatted += '    '.repeat(Math.max(braceDepth, 0));
+                  pendingIndent = false;
+                }
+              }
+
+              for (let i = 0; i < source.length; i++) {
+                const char = source[i];
+                const nextChar = source[i + 1];
+
+                if (pendingIndent && (char === ' ' || char === '\t')) {
+                  continue;
+                }
+
+                if (inString) {
+                  appendIndent();
+                  formatted += char;
+                  if (escapeNext) {
+                    escapeNext = false;
+                  } else if (char === '\\') {
+                    escapeNext = true;
+                  } else if (char === quoteChar) {
+                    inString = false;
+                    quoteChar = '';
+                  }
+                  continue;
+                }
+
+                if (char === '"' || char === "'") {
+                  appendIndent();
+                  formatted += char;
+                  inString = true;
+                  quoteChar = char;
+                  continue;
+                }
+
+                if (char === '(') {
+                  appendIndent();
+                  parenDepth++;
+                  formatted += char;
+                  continue;
+                }
+
+                if (char === ')') {
+                  appendIndent();
+                  parenDepth = Math.max(0, parenDepth - 1);
+                  formatted += char;
+                  continue;
+                }
+
+                if (char === '}') {
+                  braceDepth = Math.max(0, braceDepth - 1);
+                  trimTrailingSpaces();
+                  if (!formatted.endsWith('\n') && formatted.length > 0) {
+                    formatted += '\n';
+                  }
+                  formatted += '    '.repeat(braceDepth) + '}';
+
+                  const remaining = source.slice(i + 1).trimStart();
+                  if (remaining && !remaining.startsWith(';')) {
+                    formatted += '\n';
+                    pendingIndent = true;
+                  }
+                  continue;
+                }
+
+                appendIndent();
+                formatted += char;
+
+                if (char === '{') {
+                  braceDepth++;
+                  if (nextChar) {
+                    formatted += '\n';
+                    pendingIndent = true;
+                  }
+                  continue;
+                }
+
+                if (char === ';' && parenDepth === 0) {
+                  const remaining = source.slice(i + 1).trimStart();
+                  if (remaining && !remaining.startsWith('}')) {
+                    formatted += '\n';
+                    pendingIndent = true;
+                  }
+                }
+              }
+
+              return escapeHtml(formatted.replace(/\n{3,}/g, '\n\n').trim());
+            }
+
+            function formatQuestionText(text) {
+              const segments = splitQuestionText(text);
+              if (segments.code) {
+                const lead = segments.lead ? `<span class="question-copy">${formatInlineQuestionText(segments.lead)}</span>` : '';
+                return `${lead}<pre><code>${formatCodeBlock(segments.code)}</code></pre>`;
+              }
+
+              return formatInlineQuestionText(segments.lead);
+            }
+
+            function formatOptionText(text) {
+              const value = String(text || '').trim();
+              if (!value) return '';
+
+              const semicolonCount = (value.match(/;/g) || []).length;
+              if (looksLikeCodeSnippet(value) && (semicolonCount > 1 || /[{}]/.test(value))) {
+                return `<pre><code>${formatCodeBlock(value)}</code></pre>`;
+              }
+
+              if (looksLikeCodeSnippet(value)) {
+                return `<code>${escapeHtml(value)}</code>`;
+              }
+
+              return formatInlineQuestionText(value);
             }
 
             function selectOption(idx) {
@@ -14360,7 +14663,7 @@
 
                     resultsHTML += `
                         <div class="result-item ${isCorrect ? 'correct' : 'incorrect'}">
-                            <div class="result-question">Question ${idx + 1}: ${q.question}</div>
+                        <div class="result-question">Question ${idx + 1}: ${formatQuestionText(q.question)}</div>
                             <div class="result-answer">
                                 Your answer: <span class="${isCorrect ? 'result-correct' : 'result-incorrect'}">
                                     ${formatUserAnswer(userAns, q)} ${isCorrect ? '✓' : '✗'}
@@ -14382,10 +14685,10 @@
             function formatUserAnswer(ans, q) {
                 if (ans === null || ans === undefined || ans === "") return "No answer";
                 if (q.type === 'multiple') {
-                    return Array.isArray(ans) ? ans.map(i => q.options[i]).join(', ') : ans;
+                return Array.isArray(ans) ? ans.map(i => escapeHtml(q.options[i] || i)).join(', ') : escapeHtml(ans);
                 }
-                if (q.type === 'shortanswer') return ans;
-                return q.options[ans] || ans;
+              if (q.type === 'shortanswer') return escapeHtml(ans);
+              return escapeHtml(q.options[ans] || ans);
             }
 
             // Timer

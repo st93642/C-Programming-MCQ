@@ -1,8 +1,0 @@
-
-.DS_Store
-*.pyc
-__pycache__/
-*.json
-*.js
-!index.html
-!Examination*.html

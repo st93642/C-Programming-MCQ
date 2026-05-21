@@ -5,7 +5,7 @@
 <!--  By: st93642@students.tsi.lv                          TT    SSSSSSS II -->
 <!--                                                       TT         SS II -->
 <!--  Created: Jan 25 2026 15:37 st93642                   TT    SSSSSSS II -->
-<!--  Updated: Jan 25 2026 15:37 st93642                                    -->
+<!--  Updated: May 21 2026 12:00 st93642                                    -->
 <!--                                                                        -->
 <!--   Transport and Telecommunication Institute - Riga, Latvia             -->
 <!--                       https://tsi.lv                                   -->
@@ -47,37 +47,51 @@
         }
 
         .container {
-            display: flex;
-            min-height: 100vh;
+          min-height: 100vh;
         }
-        
-        /* Fixed sidebar on the left */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            height: 100vh;
-            background-color: var(--dark-color);
-            overflow-y: auto;
-            padding: 20px 10px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        
-        .sidebar h3 {
-            color: var(--text-light);
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-        
-        /* Main content area with margin for sidebar */
+
         .main-content {
-            margin-left: 250px;
-            flex: 1;
-            padding: 20px;
-            max-width: 1200px;
+          width: min(1200px, 100%);
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+        .question-nav-panel {
+          margin-bottom: 20px;
+          background-color: var(--dark-color);
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+          overflow: hidden;
+        }
+
+        .question-nav-panel summary {
+          list-style: none;
+          cursor: pointer;
+          padding: 16px 20px;
+          color: var(--text-light);
+          font-weight: bold;
+          font-size: 1rem;
+          user-select: none;
+        }
+
+        .question-nav-panel summary::-webkit-details-marker {
+          display: none;
+        }
+
+        .question-nav-panel summary::after {
+          content: '+';
+          float: right;
+          font-size: 1.2rem;
+          line-height: 1;
+        }
+
+        .question-nav-panel[open] summary::after {
+          content: '-';
+        }
+
+        .question-nav-panel .question-nav {
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
+          background-color: #233141;
         }
 
         header {
@@ -208,6 +222,97 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             padding: 10px;
+        }
+
+        @media (max-width: 900px) {
+          .main-content {
+            padding: 16px;
+          }
+
+          .question-nav {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+          }
+
+          .quiz-container,
+          .results-container {
+            padding: 20px;
+          }
+
+          h1 {
+            font-size: 2rem;
+          }
+
+          .navigation {
+            flex-direction: column;
+            gap: 12px;
+            align-items: stretch;
+          }
+
+          .nav-buttons {
+            width: 100%;
+          }
+
+          .nav-buttons button,
+          #submit-btn {
+            flex: 1;
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 600px) {
+          body {
+            font-size: 15px;
+          }
+
+          header {
+            padding: 22px 16px;
+          }
+
+          .question-nav-panel summary {
+            padding: 14px 16px;
+          }
+
+          h1 {
+            font-size: 1.65rem;
+          }
+
+          .question {
+            font-size: 1.05rem;
+          }
+
+          .question-nav {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 6px;
+            padding: 6px 0 0;
+          }
+
+          .question-nav button {
+            min-width: 0;
+            padding: 9px 4px;
+            font-size: 0.8rem;
+          }
+
+          .quiz-container,
+          .results-container {
+            padding: 16px;
+            border-radius: 8px;
+          }
+
+          .option,
+          .short-answer-input {
+            padding: 12px;
+          }
+
+          .timer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+          }
+
+          .timer button {
+            margin-left: 0 !important;
+          }
         }
 
         .question-nav button {
@@ -475,14 +580,12 @@
 </head>
 <body>
     <div class="container">
-        <!-- Fixed Sidebar Navigation -->
-        <div class="sidebar">
-            <h3>Question Navigation</h3>
-            <div class="question-nav" id="question-nav"></div>
-        </div>
-        
-        <!-- Main Content Area -->
         <div class="main-content">
+      <details class="question-nav-panel">
+        <summary>Question Navigation</summary>
+        <div class="question-nav" id="question-nav"></div>
+      </details>
+
             <header>
                 <h1>C++ Interview Questions Quiz</h1>
                 <p>Master C++ with 1000+ Interview Questions</p>
@@ -523,7 +626,240 @@
     </div>
 
     <script>
-        const quizData = [
+      function sanitizeQuestionBank(items) {
+        const patchedShortAnswers = new Map([
+          [
+            'int arr[5]={100, 99, -5, 1, 10}; What is the value of arr[4]?',
+            {
+              question: 'int arr[5] = {100, 99, -5, 1, 10}; What is the value of arr[4]?',
+              options: [],
+              correct: '10',
+              type: 'shortanswer'
+            }
+          ],
+          [
+            'What will the value of the variable `a` be after the next fragment? ``` int a = 16; while (a % 4 != 3) a += a % 5; ```',
+            {
+              options: [],
+              correct: '19',
+              type: 'shortanswer'
+            }
+          ]
+        ]);
+
+        const patchedQuestions = new Map([
+          [
+            'What is the value of the variable `a` after the following fragment? ``` int a = 12, b = a / 5; if (a < 0) b += 1; a = b; ```',
+            {
+              correct: [3],
+              explanation: 'Integer division gives b = 12 / 5 = 2. The condition a < 0 is false, so b is unchanged and then assigned back to a. The final value of a is 2.'
+            }
+          ],
+          [
+            'Which of the following fragments would produce the sequence `2 7 12 17 22 27 ` for i values?',
+            {
+              correct: [3],
+              options: [
+                'i = 2; do { cout << i << " "; i += 5; } while (i <= 27);',
+                'i = 2; while (i < 27) { cout << i << " "; i += 5; }',
+                'for (i = 2; i <= 27; i += 5) cout << i << " ";',
+                'Both the first and third fragments produce the sequence exactly.'
+              ],
+              explanation: 'A do-while starting from 2 and incrementing by 5 while i <= 27 prints 2 7 12 17 22 27. A for-loop with the same initialization, condition, and increment prints the same sequence.'
+            }
+          ],
+          [
+            'Which of the following is true about lambda capture modes?',
+            {
+              options: [
+                '[=] captures used outer variables by value; [&] captures them by reference',
+                '[=] means the lambda must return a value',
+                '[&] means the lambda can only capture one variable',
+                'Capture modes are available only in C++20'
+              ],
+              explanation: 'In lambda expressions, [=] captures used automatic variables by value, while [&] captures them by reference. Individual variables can also be captured explicitly.'
+            }
+          ],
+          [
+            'What characters can be used in comments?',
+            {
+              options: [
+                'Punctuation characters, letters, digits, and other comment text characters',
+                'Non-ASCII Unicode characters only',
+                'Latin alphabet letters only',
+                'Comments cannot contain punctuation characters'
+              ],
+              correct: [0],
+              explanation: 'Comments can contain normal text, including punctuation, letters, and digits. They are ignored by the compiler until the comment closing marker is reached.'
+            }
+          ],
+          [
+            "What is the difference between 'delete' and 'delete[]'?",
+            {
+              options: [
+                'delete frees one object; delete[] frees an array allocated with new[]',
+                'delete[] is used only for stack arrays',
+                'delete and delete[] are interchangeable in C++',
+                'delete[] calls constructors instead of destructors'
+              ],
+              explanation: 'Use delete for memory allocated with new and delete[] for memory allocated with new[]. Mixing them causes undefined behavior.'
+            }
+          ],
+          [
+            "What is the difference between 'new' and 'new[]'?",
+            {
+              options: [
+                'new allocates one object; new[] allocates an array of objects',
+                'new[] allocates only primitive types',
+                'new always returns void* but new[] does not',
+                'There is no semantic difference between them'
+              ],
+              explanation: 'new creates a single object, while new[] creates an array. The matching deallocation must use delete or delete[] respectively.'
+            }
+          ],
+          [
+            'What is the output of: int arr[3] = {1,2,3}; printf("%d',
+            {
+              question: 'What is the output of: int arr[3] = {1,2,3}; printf("%d", arr[2]);',
+              options: ['1', '2', '3', 'Compiler error'],
+              correct: 2,
+              explanation: 'arr[2] is the third element of the array, so printf prints 3.'
+            }
+          ],
+          [
+            'What is the output of the following C code?\n#include <stdio.h>\nint main() {\n    int a = 5, b = 2;\n    printf("%d',
+            {
+              question: 'What is the output of the following C code?\n#include <stdio.h>\nint main() {\n    int a = 5, b = 2;\n    printf("%d", a / b);\n}',
+              options: ['2.5', '2', '3', 'Compiler error'],
+              correct: 1,
+              explanation: 'Both operands are integers, so integer division is used and the result is 2.'
+            }
+          ],
+          [
+            'What is the output of: printf("%d',
+            {
+              question: 'What is the output of: printf("%d", sizeof(int));',
+              options: ['2', '4', '8', 'Depends on system'],
+              correct: 3,
+              explanation: 'The size of int is implementation-defined, so it depends on the platform and compiler.'
+            }
+          ],
+          [
+            'What is the output of: int x = 10; printf("%d',
+            {
+              question: 'What is the output of: int x = 10; printf("%d", x++);',
+              options: ['10', '11', '9', 'Compiler error'],
+              correct: 0,
+              explanation: 'Post-increment returns the original value first, so printf prints 10 and then increments x.'
+            }
+          ],
+          [
+            'What is the output of: int x = 5; printf("%d',
+            {
+              question: 'What is the output of: int x = 5; printf("%d", ++x);',
+              options: ['5', '6', '4', 'Compiler error'],
+              correct: 1,
+              explanation: 'Pre-increment increments the value before it is used, so the printed value is 6.'
+            }
+          ],
+          [
+            'What is the output of: int x = 10; int y = 5; printf("%d',
+            {
+              question: 'What is the output of: int x = 10; int y = 5; printf("%d", x / y);',
+              options: ['2', '0', '1', 'Compiler error'],
+              correct: 0,
+              explanation: '10 divided by 5 is 2.'
+            }
+          ],
+          [
+            'What is the output of: int x = 3; printf("%d',
+            {
+              question: 'What is the output of: int x = 3; printf("%d", x << 1);',
+              options: ['6', '1', '2', 'Compiler error'],
+              correct: 0,
+              explanation: 'A left shift by one bit doubles the value, so 3 << 1 is 6.'
+            }
+          ],
+          [
+            'What is the output of: int x = 5; int y = 3; printf("%d',
+            {
+              question: 'What is the output of: int x = 5; int y = 3; printf("%d", x & y);',
+              options: ['1', '7', '0', 'Compiler error'],
+              correct: 0,
+              explanation: '5 is 0101 and 3 is 0011 in binary. Their bitwise AND is 0001, which is 1.'
+            }
+          ],
+          [
+            'What is the output of: int x = 10; int y = 0; printf("%d',
+            {
+              question: 'What is the output of: int x = 10; int y = 0; printf("%d", x || y);',
+              options: ['1', '0', '10', 'Compiler error'],
+              correct: 0,
+              explanation: 'x is non-zero, so x || y evaluates to true, which prints as 1 with %d.'
+            }
+          ],
+          [
+            'What is the output of: char str[] = "Hello"; printf("%d',
+            {
+              question: 'What is the output of: char str[] = "Hello"; printf("%d", (int)strlen(str));',
+              options: ['5', '6', '10', 'Depends on compiler'],
+              correct: 0,
+              explanation: 'strlen counts characters before the terminating null byte, so "Hello" has length 5.'
+            }
+          ],
+          [
+            'What is the output of: int x = 5; int y = 2; printf("%f',
+            {
+              question: 'What is the output of: int x = 5; int y = 2; printf("%.1f", (double)x / y);',
+              options: ['2.5', '2.0', '2', 'Compiler error'],
+              correct: 0,
+              explanation: 'Casting x to double forces floating-point division, so the printed result is 2.5.'
+            }
+          ]
+        ]);
+
+        const seenQuestions = new Set();
+
+        return items.reduce((accumulator, item) => {
+          const normalized = {
+            ...item,
+            question: item.question.trim(),
+            category: item.category.trim(),
+            explanation: item.explanation ? item.explanation.trim() : item.explanation
+          };
+
+          const shortAnswerPatch = patchedShortAnswers.get(normalized.question);
+          if (shortAnswerPatch) {
+            Object.assign(normalized, shortAnswerPatch);
+          }
+
+          const exactPatch = patchedQuestions.get(normalized.question);
+          if (exactPatch) {
+            Object.assign(normalized, exactPatch);
+          }
+
+          if (normalized.type === 'multiple' && !Array.isArray(normalized.correct)) {
+            normalized.correct = [normalized.correct];
+          }
+
+          if (normalized.type === 'shortanswer') {
+            normalized.options = [];
+            normalized.correct = String(normalized.correct).trim();
+          }
+
+          const duplicateKey = normalized.question.replace(/\s+/g, ' ').trim().toLowerCase();
+          if (seenQuestions.has(duplicateKey)) {
+            return accumulator;
+          }
+          seenQuestions.add(duplicateKey);
+
+          accumulator.push(normalized);
+          return accumulator;
+        }, []);
+      }
+
+      // Foundational language questions
+      const fundamentalsQuestions = [
   {
     "question": "What is the output of:\nint arr[5] = {1, 2};\ncout << arr[3];",
     "options": [
@@ -1219,7 +1555,11 @@
     "correct": 0,
     "category": "Basics",
     "type": "single"
-  },
+  }
+];
+
+        // C language and library questions
+        const cTrackQuestions = [
   {
     "question": "What is the output of: int arr[3] = {1,2,3}; printf(\"%d",
     "options": [
@@ -2059,7 +2399,11 @@
     "correct": 3,
     "category": "C vs C++",
     "type": "single"
-  },
+  }
+];
+
+        // Core C++ and language-mechanics questions
+        const cppCoreQuestions = [
   {
     "question": "What is the output of: int x = 5; cout << x++ << \" \" << ++x;",
     "options": [
@@ -4075,7 +4419,11 @@
     "correct": 0,
     "category": "Data Types",
     "type": "single"
-  },
+  }
+];
+
+        // Exam-style questions
+        const examQuestions = [
   {
     "question": "How to declare a static array of real numbers correctly?",
     "options": [
@@ -4375,7 +4723,11 @@
     ],
     "category": "Exam",
     "type": "multiple"
-  },
+  }
+];
+
+        // Advanced language, library, and runtime questions
+        const advancedQuestions = [
   {
     "question": "What is the output of:\ntry {\n  throw 42;\n} catch(int e) {\n  cout << e;\n}",
     "options": [
@@ -12579,6 +12931,1171 @@
     "type": "single"
   }
 ];
+
+        // Progr presentation-based questions
+        const progrCourseQuestions = [
+  {
+    "question": "Which character marks the end of a C string?",
+    "options": [
+      "'\\0'",
+      "'\\n'",
+      "' '",
+      "'\\t'"
+    ],
+    "correct": 0,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: char s[] = \"TSI\"; printf(\"%zu\", strlen(s));",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "Undefined"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: char s[] = \"abc\"; s[0] = 'A'; printf(\"%s\", s);",
+    "options": [
+      "abc",
+      "Abc",
+      "ABC",
+      "Compiler error"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "If scanf(\"%s\", s) reads input \"red blue\", what is stored in s?",
+    "options": [
+      "red",
+      "red blue",
+      "blue",
+      "Nothing"
+    ],
+    "correct": 0,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "When fgets(buffer, n, stdin) reads a short line, what usually happens to the newline?",
+    "options": [
+      "It is discarded automatically",
+      "It is stored if there is room",
+      "It is replaced by '\\0' before storing",
+      "It causes an error"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What does strcmp(a, b) return when strings are equal?",
+    "options": [
+      "-1",
+      "0",
+      "1",
+      "Length difference"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "Which statement about strcpy(dest, src) is correct?",
+    "options": [
+      "It copies src including the terminating '\\0'",
+      "It copies only letters and stops before '\\0'",
+      "It appends src to dest",
+      "It compares src and dest"
+    ],
+    "correct": 0,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "Before calling strcat(dest, src), what must be true?",
+    "options": [
+      "dest must point to const memory",
+      "dest must have enough free space for src and '\\0'",
+      "src and dest must have same length",
+      "src must be empty"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What does strchr(s, 'x') return?",
+    "options": [
+      "Index of first x",
+      "Pointer to first x or NULL",
+      "Length until x",
+      "Always last x"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: char s[] = \"abc\"; printf(\"%c\", s[strlen(s)-1]);",
+    "options": [
+      "a",
+      "b",
+      "c",
+      "\\0"
+    ],
+    "correct": 2,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: char s[10] = \"Hi\"; printf(\"%zu\", strlen(s));",
+    "options": [
+      "1",
+      "2",
+      "10",
+      "Undefined"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: char s[] = {'O','K','\\0'}; printf(\"%zu\", strlen(s));",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "Undefined"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "Which C header declares strlen, strcpy, strcat, strcmp?",
+    "options": [
+      "<stdio.h>",
+      "<string.h>",
+      "<stdlib.h>",
+      "<math.h>"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "Why is gets() considered unsafe?",
+    "options": [
+      "It cannot read spaces",
+      "It does not perform bounds checking",
+      "It always returns NULL",
+      "It always adds extra characters"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "For char s[] = \"abc\"; which index contains the terminating '\\0'?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "No terminator exists"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: char a[] = \"abc\", b[] = \"abd\"; printf(\"%d\", strcmp(a, b) < 0);",
+    "options": [
+      "0",
+      "1",
+      "-1",
+      "Compiler error"
+    ],
+    "correct": 1,
+    "category": "Progr C Strings",
+    "type": "single"
+  },
+  {
+    "question": "Which function reads a full line into std::string including spaces?",
+    "options": [
+      "cin >> s",
+      "getline(cin, s)",
+      "scanf(\"%s\", s)",
+      "gets(s)"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What does std::string::find return when a substring is not found?",
+    "options": [
+      "-1",
+      "0",
+      "std::string::npos",
+      "NULL"
+    ],
+    "correct": 2,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: string s = \"abc\"; s += \"de\"; cout << s;",
+    "options": [
+      "abc",
+      "de",
+      "abcde",
+      "abde"
+    ],
+    "correct": 2,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: string s = \"hello\"; cout << s.substr(1, 3);",
+    "options": [
+      "hel",
+      "ell",
+      "llo",
+      "hello"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: string s = \"abcdef\"; s.erase(2, 2); cout << s;",
+    "options": [
+      "abef",
+      "abcd",
+      "cdef",
+      "abcf"
+    ],
+    "correct": 0,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: string s = \"abc\"; s.insert(1, \"X\"); cout << s;",
+    "options": [
+      "Xabc",
+      "aXbc",
+      "abXc",
+      "abcX"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: string s = \"abcd\"; s.replace(1, 2, \"ZZ\"); cout << s;",
+    "options": [
+      "aZZd",
+      "ZZcd",
+      "abZZ",
+      "aZZcd"
+    ],
+    "correct": 0,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is a key difference of s.at(i) compared to s[i]?",
+    "options": [
+      "at() always returns char*",
+      "at() performs bounds checking",
+      "at() can only read, not write",
+      "No difference"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "When is std::string::empty() true?",
+    "options": [
+      "When capacity is 0",
+      "When size is 0",
+      "When first char is '\\0'",
+      "Never"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What does s.clear() do for std::string s?",
+    "options": [
+      "Deletes the variable",
+      "Sets size to 0",
+      "Sets capacity to 0 always",
+      "Converts s to const"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the result of s1.compare(s2) when s1 and s2 are equal?",
+    "options": [
+      "-1",
+      "0",
+      "1",
+      "Undefined"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What does s.push_back('!') do?",
+    "options": [
+      "Adds one character to the end",
+      "Adds one character to the beginning",
+      "Removes last character",
+      "Sorts the string"
+    ],
+    "correct": 0,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What does s.pop_back() do for a non-empty std::string?",
+    "options": [
+      "Removes first character",
+      "Removes last character",
+      "Clears the string",
+      "Reverses the string"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: string s = \"abc123\"; cout << s.find_first_of(\"0123456789\");",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "npos"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What does s.c_str() return?",
+    "options": [
+      "char* writable buffer",
+      "const char* C-style string view",
+      "int length",
+      "bool"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: string s = \"abc\"; s.resize(5, 'x'); cout << s;",
+    "options": [
+      "abc",
+      "abcxx",
+      "xxxxx",
+      "ab"
+    ],
+    "correct": 1,
+    "category": "Progr C++ String",
+    "type": "single"
+  },
+  {
+    "question": "Why are function prototypes useful?",
+    "options": [
+      "They declare a function interface before its definition",
+      "They allocate function memory",
+      "They force inlining",
+      "They run before main automatically"
+    ],
+    "correct": 0,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "In pass-by-value, what happens to the argument inside the function?",
+    "options": [
+      "Original variable is always modified",
+      "A copy is modified",
+      "Program crashes",
+      "It becomes global"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "In pass-by-reference, what can the function do?",
+    "options": [
+      "Modify the caller's variable",
+      "Only read values",
+      "Create static variables only",
+      "Never return"
+    ],
+    "correct": 0,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "What is the purpose of the return statement?",
+    "options": [
+      "Restart the function",
+      "Exit function and optionally return a value",
+      "Pause execution",
+      "Declare variable"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "A function declared with return type void:",
+    "options": [
+      "Must return int",
+      "Returns no value",
+      "Cannot have parameters",
+      "Cannot be called"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "Where can default function arguments be omitted from a call?",
+    "options": [
+      "Only from leftmost parameters",
+      "From rightmost parameters",
+      "From any random position",
+      "Default arguments are not allowed"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "A recursive function must have:",
+    "options": [
+      "At least two return statements",
+      "A base case to stop recursion",
+      "No parameters",
+      "A global variable"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "What defines function overloading in C++?",
+    "options": [
+      "Same name and same parameters",
+      "Same name, different parameter lists",
+      "Different name, same parameters",
+      "Same return type only"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: int f(int x){ x++; return x; } int a=5; cout << f(a) << \" \" << a;",
+    "options": [
+      "5 5",
+      "6 5",
+      "6 6",
+      "5 6"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: void inc(int& x){ x++; } int a=5; inc(a); cout << a;",
+    "options": [
+      "5",
+      "6",
+      "Compiler error",
+      "Undefined"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "Why use pointer parameters like int* p?",
+    "options": [
+      "To guarantee copy-on-write",
+      "To allow function to modify caller data via *p",
+      "To disable recursion",
+      "To avoid prototypes"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "For a large read-only std::string parameter, which is best?",
+    "options": [
+      "string",
+      "const string&",
+      "string*",
+      "volatile string"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "Local automatic variables inside a function usually live:",
+    "options": [
+      "For the whole program",
+      "Until function call ends",
+      "Until next compilation",
+      "Forever in heap"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "A static local variable in a function:",
+    "options": [
+      "Is recreated every call",
+      "Persists between calls",
+      "Cannot be initialized",
+      "Must be global"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "If a function is called before declaration and no prototype exists, usually you get:",
+    "options": [
+      "Automatic prototype generation",
+      "Compilation error",
+      "Runtime warning only",
+      "Linker fixes it"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: int add(int a, int b=2){ return a+b; } cout << add(3);",
+    "options": [
+      "3",
+      "5",
+      "6",
+      "Compiler error"
+    ],
+    "correct": 1,
+    "category": "Progr User Functions",
+    "type": "single"
+  },
+  {
+    "question": "What is the main purpose of typedef in C/C++?",
+    "options": [
+      "Create a variable",
+      "Create a type alias",
+      "Allocate memory",
+      "Define a function"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "Which modern C++ syntax creates a type alias?",
+    "options": [
+      "alias Score = int;",
+      "using Score = int;",
+      "typedef Score int;",
+      "type Score int;"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "By default, the first enumerator value in enum Color { Red, Green, Blue }; is:",
+    "options": [
+      "-1",
+      "0",
+      "1",
+      "Depends on compiler"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "What is true about enum class in C++?",
+    "options": [
+      "Enumerators are in global scope",
+      "It is strongly typed and scoped",
+      "It is same as #define",
+      "It cannot have explicit values"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "To print enum class value as integer, usually you need:",
+    "options": [
+      "No conversion",
+      "A cast, e.g. (int)value",
+      "Only std::cout",
+      "A pointer"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "Default member access in struct is:",
+    "options": [
+      "private",
+      "public",
+      "protected",
+      "internal"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "What is true for a union?",
+    "options": [
+      "Each member has separate storage",
+      "All members share the same storage",
+      "Members cannot be read",
+      "Union cannot contain int"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "The size of a union is typically:",
+    "options": [
+      "Sum of all member sizes",
+      "At least size of largest member",
+      "Always 1 byte",
+      "Always 8 bytes"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "At a time, a union can reliably store:",
+    "options": [
+      "All members at once",
+      "One active member value",
+      "Only floating types",
+      "Only pointers"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "Are nested structures allowed in C/C++?",
+    "options": [
+      "No",
+      "Yes",
+      "Only in C++20",
+      "Only with typedef"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "What is the purpose of an array of structures?",
+    "options": [
+      "Store only one record",
+      "Store multiple records of same layout",
+      "Prevent loops",
+      "Replace unions"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: struct P{int x; int y;}; P p{2,3}; cout << p.x + p.y;",
+    "options": [
+      "2",
+      "3",
+      "5",
+      "23"
+    ],
+    "correct": 2,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: enum Day { Mon=1, Tue, Wed }; cout << Wed;",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "Wed"
+    ],
+    "correct": 2,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "What is the output of: enum class Color { Red=10, Blue=20 }; cout << (int)Color::Blue;",
+    "options": [
+      "10",
+      "20",
+      "Blue",
+      "Compiler error"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "In a tagged union design, why keep an enum tag field?",
+    "options": [
+      "To increase file size",
+      "To identify which union member is currently valid",
+      "To disable switch-case",
+      "To avoid initialization"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "Can a struct in C++ contain member functions?",
+    "options": [
+      "No",
+      "Yes",
+      "Only static functions",
+      "Only constructors"
+    ],
+    "correct": 1,
+    "category": "Progr User Defined Types",
+    "type": "single"
+  },
+  {
+    "question": "What does fopen(path, \"r\") do?",
+    "options": [
+      "Opens existing file for reading",
+      "Creates new file for writing",
+      "Opens file for append only",
+      "Deletes file"
+    ],
+    "correct": 0,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "What does fopen(path, \"w\") do?",
+    "options": [
+      "Open read-only",
+      "Open write-only, truncating or creating file",
+      "Append only",
+      "Binary read"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "What does fopen(path, \"a\") do?",
+    "options": [
+      "Read from beginning",
+      "Append writes at end",
+      "Truncate file",
+      "Read/write from middle"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which function closes a C file stream?",
+    "options": [
+      "fend",
+      "fclose",
+      "closefile",
+      "fflush"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which function reads one character from FILE*?",
+    "options": [
+      "fputc",
+      "fgetc",
+      "fgets",
+      "getcput"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which function writes one character to FILE*?",
+    "options": [
+      "fputc",
+      "fgetc",
+      "fgets",
+      "fscanf"
+    ],
+    "correct": 0,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which function writes formatted text to a file in C?",
+    "options": [
+      "fprintf",
+      "fscanf",
+      "fwrite",
+      "puts"
+    ],
+    "correct": 0,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which function reads formatted input from a file in C?",
+    "options": [
+      "fprintf",
+      "fscanf",
+      "fread",
+      "fputs"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "When does feof(fp) become true?",
+    "options": [
+      "Immediately after opening file",
+      "After attempting to read past end-of-file",
+      "When file size is zero",
+      "When fclose is called"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which functions are commonly used for binary block I/O in C?",
+    "options": [
+      "fprintf and fscanf",
+      "fread and fwrite",
+      "fputs and fgets",
+      "getc and putc"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "What does rewind(fp) do?",
+    "options": [
+      "Closes file",
+      "Moves position to beginning of file",
+      "Moves to end",
+      "Deletes file contents"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "What does ftell(fp) return?",
+    "options": [
+      "File size in KB",
+      "Current file position",
+      "Number of open files",
+      "Last error code"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "What does fseek(fp, offset, origin) do?",
+    "options": [
+      "Flushes file stream",
+      "Moves file position indicator",
+      "Sorts file lines",
+      "Changes file permissions"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "After fopen, what should you check before reading/writing?",
+    "options": [
+      "Whether pointer is NULL",
+      "Whether file size is even",
+      "Whether path has extension",
+      "Whether feof is true"
+    ],
+    "correct": 0,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "What does mode \"w+\" mean in fopen?",
+    "options": [
+      "Read-only existing",
+      "Read/write, truncating or creating file",
+      "Append-only",
+      "Binary append"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which header defines FILE, fopen, fclose in C?",
+    "options": [
+      "<stdlib.h>",
+      "<stdio.h>",
+      "<fstream>",
+      "<string.h>"
+    ],
+    "correct": 1,
+    "category": "Progr C Files",
+    "type": "single"
+  },
+  {
+    "question": "Which C++ header provides ifstream/ofstream/fstream?",
+    "options": [
+      "<iostream>",
+      "<cstdio>",
+      "<fstream>",
+      "<filesystem>"
+    ],
+    "correct": 2,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which class is used mainly for writing to files in C++?",
+    "options": [
+      "ifstream",
+      "ofstream",
+      "istream",
+      "stringstream"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which class is used mainly for reading from files in C++?",
+    "options": [
+      "ifstream",
+      "ofstream",
+      "ostream",
+      "stringstream"
+    ],
+    "correct": 0,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which class can both read and write files in C++?",
+    "options": [
+      "ifstream",
+      "ofstream",
+      "fstream",
+      "istream"
+    ],
+    "correct": 2,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which open mode appends all writes to file end?",
+    "options": [
+      "ios::trunc",
+      "ios::app",
+      "ios::ate",
+      "ios::in"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which open mode truncates existing file content on open?",
+    "options": [
+      "ios::binary",
+      "ios::trunc",
+      "ios::app",
+      "ios::ate"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which mode is used for binary I/O in C++ streams?",
+    "options": [
+      "ios::text",
+      "ios::binary",
+      "ios::line",
+      "ios::rawline"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "What does getline(in, line) from an ifstream do?",
+    "options": [
+      "Reads one whitespace-separated token",
+      "Reads full line (without trailing newline char)",
+      "Reads one character",
+      "Reads binary block"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which loop is the recommended line-reading pattern?",
+    "options": [
+      "while(!in.eof()) { getline(in, line); }",
+      "while(getline(in, line)) { /* use line */ }",
+      "for(;;) getline(in, line);",
+      "if(getline(in, line)) getline(in, line);"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Why is while(!in.eof()) often wrong for reading?",
+    "options": [
+      "eof() becomes true before any read",
+      "eof() is set only after a failed read attempt",
+      "It cannot be used with ifstream",
+      "It skips every second line"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "Which pair is used for binary object I/O with C++ streams?",
+    "options": [
+      "<< and >>",
+      "write() and read()",
+      "getline() and put()",
+      "scan() and print()"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "What does seekg() control in a stream?",
+    "options": [
+      "Output/write position",
+      "Input/read position",
+      "Error flags only",
+      "File permissions"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "What does seekp() control in a stream?",
+    "options": [
+      "Input/read position",
+      "Output/write position",
+      "EOF flag",
+      "Locale"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "What does tellg() return?",
+    "options": [
+      "Current output position",
+      "Current input position",
+      "Total file size always",
+      "Line count"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "What does tellp() return?",
+    "options": [
+      "Current input position",
+      "Current output position",
+      "Current working directory",
+      "Thread id"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  },
+  {
+    "question": "What does ios::ate do when opening a file?",
+    "options": [
+      "Always truncates the file",
+      "Opens and positions at end initially",
+      "Prevents reading",
+      "Forces binary mode"
+    ],
+    "correct": 1,
+    "category": "Progr C++ Files",
+    "type": "single"
+  }
+];
+
+        const quizData = sanitizeQuestionBank([
+            ...fundamentalsQuestions,
+            ...cTrackQuestions,
+            ...cppCoreQuestions,
+            ...examQuestions,
+            ...advancedQuestions,
+            ...progrCourseQuestions,
+        ]);
 
         let currentQuestion = 0;
         let userAnswers = Array(quizData.length).fill(null);

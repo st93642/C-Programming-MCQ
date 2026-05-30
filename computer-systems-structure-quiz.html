@@ -1,0 +1,3531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Systems Structure MCQ Quiz</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            width: min(1600px, 100%);
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            width: min(320px, 28vw);
+            max-height: calc(100vh - 40px);
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: var(--dark-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+            transition: width 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .sidebar summary {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 18px;
+            color: var(--text-light);
+            font-weight: bold;
+            user-select: none;
+        }
+
+        .sidebar summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .sidebar summary::after {
+            content: 'Hide';
+            margin-left: auto;
+            font-size: 0.85rem;
+            font-weight: normal;
+            opacity: 0.75;
+        }
+
+        .sidebar-toggle-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.12);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title-group {
+            min-width: 0;
+        }
+
+        .sidebar-title {
+            display: block;
+            font-size: 1rem;
+            line-height: 1.2;
+        }
+
+        .sidebar-caption {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: normal;
+            opacity: 0.72;
+            margin-top: 2px;
+        }
+
+        .sidebar:not([open]) {
+            width: 82px;
+        }
+
+        .sidebar:not([open]) summary {
+            justify-content: center;
+            padding: 18px 12px;
+        }
+
+        .sidebar:not([open]) .sidebar-title-group,
+        .sidebar:not([open]) summary::after {
+            display: none;
+        }
+
+        .sidebar-body {
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            background-color: #233141;
+            padding: 14px;
+            overflow-y: auto;
+            max-height: calc(100vh - 96px);
+        }
+
+        .sidebar-hint {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.92rem;
+            margin-bottom: 12px;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            max-width: 1200px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .quiz-container {
+            background-color: var(--text-light);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            line-height: 1.7;
+        }
+
+        .question-copy {
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .options {
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background-color: var(--light-color);
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option:hover {
+            background-color: #ddd;
+            border-color: var(--primary-color);
+        }
+
+        .option.selected {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border-color: var(--secondary-color);
+        }
+
+        .option input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .option-label {
+            flex: 1;
+        }
+
+        .short-answer-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .question-nav {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .question-nav button {
+            width: 100%;
+            min-width: 45px;
+            padding: 10px 5px;
+            font-size: 0.85rem;
+            background-color: #34495e;
+            color: var(--text-light);
+            border: 1px solid #2c3e50;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .question-nav button:hover {
+            background-color: #4a5f7f;
+            transform: scale(1.05);
+        }
+
+        .question-nav button.active {
+            background-color: var(--success-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        .question-nav button.answered {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .results-container {
+            display: none;
+            background-color: var(--text-light);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .results-container.active {
+            display: block;
+        }
+
+        .score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--success-color);
+        }
+
+        .result-summary {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+        }
+
+        .result-item {
+            background-color: var(--text-light);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .result-item.correct {
+            border-left-color: var(--success-color);
+        }
+
+        .result-item.incorrect {
+            border-left-color: var(--danger-color);
+        }
+
+        .result-question {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .result-answer {
+            margin-left: 20px;
+            color: #666;
+        }
+
+        .result-correct {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .result-incorrect {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+
+        .dark-mode .sidebar {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+        }
+
+        .dark-mode .sidebar-body {
+            background-color: #222;
+            border-top-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .dark-mode .sidebar-caption,
+        .dark-mode .sidebar-hint,
+        .dark-mode .sidebar summary::after {
+            color: rgba(240, 240, 240, 0.75);
+        }
+
+        .dark-mode .quiz-container,
+        .dark-mode .results-container,
+        .dark-mode .result-item {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+        }
+
+        .dark-mode .question-nav button {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            border-color: #444;
+        }
+
+        .dark-mode .question-nav button:hover {
+            background-color: #3d3d3d;
+        }
+
+        .dark-mode .question {
+            color: #f0f0f0;
+        }
+
+        .dark-mode .option,
+        .dark-mode .short-answer-input {
+            background-color: #3a3a3a;
+            color: #f0f0f0;
+            border-color: #555;
+        }
+
+        .dark-mode .option:hover {
+            background-color: #454545;
+            border-color: #6a9fb5;
+        }
+
+        .dark-mode .result-summary {
+            background-color: #2d2d2d;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+
+        .timer {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .timer-display {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary-color);
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .dark-mode pre {
+            background: #1e1e1e;
+            color: #e8e8e8;
+            border-left-color: #6a9fb5;
+        }
+
+        code {
+            font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .dark-mode code {
+            background: #3a3a3a;
+            color: #f0f0f0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .check-answer-btn {
+            background-color: var(--success-color);
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+        }
+
+        .check-answer-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .check-answer-btn.checked {
+            background-color: #95a5a6;
+        }
+
+        .answer-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            animation: fadeIn 0.3s;
+            line-height: 1.8;
+        }
+
+        .answer-feedback.show {
+            display: block;
+        }
+
+        .answer-feedback.correct {
+            background-color: #d5f4e6;
+            border-left: 4px solid var(--success-color);
+            color: #27ae60;
+        }
+
+        .answer-feedback.incorrect {
+            background-color: #fadbd8;
+            border-left: 4px solid var(--danger-color);
+            color: #c0392b;
+        }
+
+        .answer-feedback strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .answer-feedback .explanation {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .dark-mode .answer-feedback.correct {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #a8e6cf;
+        }
+
+        .dark-mode .answer-feedback.incorrect {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #ffccbc;
+        }
+
+        .dark-mode .answer-feedback .explanation {
+            color: #bbb;
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                display: block;
+                padding: 16px;
+            }
+
+            .sidebar,
+            .sidebar:not([open]) {
+                position: static;
+                width: 100%;
+                max-height: none;
+                margin-bottom: 16px;
+            }
+
+            .sidebar:not([open]) summary {
+                justify-content: flex-start;
+                padding: 16px 18px;
+            }
+
+            .sidebar:not([open]) .sidebar-title-group {
+                display: block;
+            }
+
+            .sidebar:not([open]) summary::after {
+                display: block;
+                content: 'Show';
+            }
+
+            .sidebar-body {
+                max-height: 40vh;
+            }
+
+            .main-content {
+                max-width: none;
+            }
+
+            .question-nav {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+            }
+
+            .quiz-container,
+            .results-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            .nav-buttons {
+                width: 100%;
+            }
+
+            .nav-buttons button,
+            #submit-btn {
+                flex: 1;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px;
+            }
+
+            body {
+                font-size: 15px;
+            }
+
+            header {
+                padding: 22px 16px;
+            }
+
+            .sidebar summary {
+                padding: 14px 16px;
+            }
+
+            h1 {
+                font-size: 1.65rem;
+            }
+
+            .question {
+                font-size: 1.05rem;
+            }
+
+            .question-nav {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 6px;
+            }
+
+            .question-nav button {
+                min-width: 0;
+                padding: 9px 4px;
+                font-size: 0.8rem;
+            }
+
+            .quiz-container,
+            .results-container {
+                padding: 16px;
+                border-radius: 8px;
+            }
+
+            .option,
+            .short-answer-input {
+                padding: 12px;
+            }
+
+            .timer {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .timer button {
+                margin-left: 0 !important;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <details class="sidebar" id="question-sidebar" open>
+            <summary>
+                <span class="sidebar-toggle-icon">#</span>
+                <span class="sidebar-title-group">
+                    <span class="sidebar-title">Question Navigation</span>
+                    <span class="sidebar-caption">Jump anywhere in the quiz</span>
+                </span>
+            </summary>
+            <div class="sidebar-body">
+                <p class="sidebar-hint">Use the numbered buttons to move directly to any question.</p>
+                <div class="question-nav" id="question-nav"></div>
+            </div>
+        </details>
+
+        <div class="main-content">
+            <header>
+                <h1>Computer Systems Structure Quiz</h1>
+                <p>MCQ practice set covering core computer systems structure topics.</p>
+            </header>
+
+            <div class="quiz-container">
+                <div class="timer">
+                    Time: <span class="timer-display" id="timer">00:00</span>
+                    <button id="toggleTimer" style="padding: 5px 10px; margin-left: 10px;">Pause</button>
+                    <button id="darkModeToggle" style="padding: 5px 10px; margin-left: 10px;">Dark Mode</button>
+                </div>
+
+                <div class="progress">
+                    Question <span id="current-question-idx">1</span> of <span id="total-questions-count">0</span>
+                </div>
+
+                <div id="questions-container"></div>
+
+                <div class="navigation">
+                    <div class="nav-buttons">
+                        <button id="prev-btn" disabled>Previous</button>
+                        <button id="next-btn">Next</button>
+                    </div>
+                    <button id="submit-btn">Submit Quiz</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-container">
+                <div class="score" id="score"></div>
+                <div id="score-details" style="text-align: center; margin-bottom: 20px;"></div>
+                <div class="result-summary" id="result-summary"></div>
+                <div id="results-list"></div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button id="retake-btn">Retake Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "According to the course introduction, what is Part 1 of the course plan?",
+                options: [
+                    "Computer Logic and Circuitry",
+                    "Computer Intercommunication",
+                    "External Memory Systems",
+                    "Operating System Design"
+                ],
+                correct: 0,
+                category: "Course Intro",
+                type: "single",
+                explanation: "The introduction presentation lists Part 1 as Computer Logic and Circuitry, followed by instruction set and hardware programming, and then computer intercommunication."
+            },
+            {
+                question: "What kind of signals do computers work with directly?",
+                options: [
+                    "Only analog signals",
+                    "Only digital signals",
+                    "Only optical signals",
+                    "Only acoustic signals"
+                ],
+                correct: 1,
+                category: "Course Intro",
+                type: "single",
+                explanation: "The introduction slides state that computers work only with digital signals."
+            },
+            {
+                question: "Before analog information can be processed in a computer, what must happen to it?",
+                options: [
+                    "It must be amplified only",
+                    "It must be encrypted",
+                    "It must be digitized into discrete form",
+                    "It must be converted to decimal form"
+                ],
+                correct: 2,
+                category: "Course Intro",
+                type: "single",
+                explanation: "Both the introduction presentation and the first conspect explain that analog information must be transformed into a discrete form, that is, digitized."
+            },
+            {
+                question: "Which person is most strongly associated in the course materials with the stored-program computer concept?",
+                options: [
+                    "Blaise Pascal",
+                    "George Boole",
+                    "John von Neumann",
+                    "Herman Hollerith"
+                ],
+                correct: 2,
+                category: "Course Intro",
+                type: "single",
+                explanation: "The first handout attributes the stored-program computer concept to the ENIAC designers, most notably John von Neumann."
+            },
+            {
+                question: "In the von Neumann proposal summarized in the course material, which three main parts form the computer architecture?",
+                options: [
+                    "CPU, cache, and compiler",
+                    "CPU, memory, and a connecting device or data bus",
+                    "ALU, monitor, and keyboard",
+                    "Registers, disk, and operating system"
+                ],
+                correct: 1,
+                category: "Course Intro",
+                type: "single",
+                explanation: "The materials describe three main parts: CPU, memory, and a connecting device that can transmit a single data word at a time between them."
+            },
+            {
+                question: "Which architecture uses the same memory for both instructions and data?",
+                options: [
+                    "Von Neumann architecture",
+                    "Harvard architecture",
+                    "RISC architecture",
+                    "EPIC architecture"
+                ],
+                correct: 0,
+                category: "Course Intro",
+                type: "single",
+                explanation: "Von Neumann architecture stores instructions and data in the same memory, while Harvard architecture separates them."
+            },
+            {
+                question: "In a positional number system, what determines the value of a digit?",
+                options: [
+                    "Only the symbol itself",
+                    "Only the color used to write it",
+                    "Its absolute value and its position in the number",
+                    "The parity of the whole number only"
+                ],
+                correct: 2,
+                category: "Number Systems",
+                type: "single",
+                explanation: "The arithmetic handout defines a positional system as one in which a digit value depends on both its own value and its position."
+            },
+            {
+                question: "What is the radix or base of a positional number system?",
+                options: [
+                    "The number of digits placed to the left of the point",
+                    "The count of different digits available in the system",
+                    "The number of bits in a processor word",
+                    "The number of arithmetic operations supported"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "The radix is defined as the number of various digits used in the positional system."
+            },
+            {
+                question: "What is a bit?",
+                options: [
+                    "A decimal digit",
+                    "A binary digit",
+                    "A hexadecimal nibble",
+                    "A memory block"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "The handout states that a binary digit is called a bit."
+            },
+            {
+                question: "How many binary bits correspond to one octal digit?",
+                options: [
+                    "2",
+                    "3",
+                    "4",
+                    "8"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "Since 8 = 2^3, each octal digit maps to a three-bit binary group."
+            },
+            {
+                question: "How many binary bits correspond to one hexadecimal digit?",
+                options: [
+                    "2",
+                    "3",
+                    "4",
+                    "16"
+                ],
+                correct: 2,
+                category: "Number Systems",
+                type: "single",
+                explanation: "Since 16 = 2^4, each hexadecimal digit maps to a four-bit binary group."
+            },
+            {
+                question: "Which limitation of the Roman numeral system is explicitly mentioned in the materials?",
+                options: [
+                    "It has too many symbols for computers",
+                    "It lacks a symbol for zero and convenient fractions",
+                    "It uses only lowercase letters",
+                    "It cannot represent positive numbers"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "The course notes state that the Roman system lacks a zero symbol and ordinary or decimal fractions, which makes it unsuitable for digital computing."
+            },
+            {
+                question: "Boolean variables in the course logic notes can take values only from which set?",
+                options: [
+                    "{-1, 0, 1}",
+                    "{0, 1}",
+                    "{A, B}",
+                    "{true, false, maybe}"
+                ],
+                correct: 1,
+                category: "Boolean Logic",
+                type: "single",
+                explanation: "The logic handout defines Boolean functions over arguments that may take values only from the set {0, 1}."
+            },
+            {
+                question: "How many rows does a truth table for n Boolean variables have?",
+                options: [
+                    "n",
+                    "n^2",
+                    "2n",
+                    "2^n"
+                ],
+                correct: 3,
+                category: "Boolean Logic",
+                type: "single",
+                explanation: "The handout states that all n-bit binary combinations are listed, so a truth table has 2^n rows."
+            },
+            {
+                question: "What is the output of the NOT function when its input is 0?",
+                options: [
+                    "0",
+                    "1",
+                    "Undefined",
+                    "Depends on the gate"
+                ],
+                correct: 1,
+                category: "Boolean Logic",
+                type: "single",
+                explanation: "The NOT or inversion function complements the input, so 0 becomes 1."
+            },
+            {
+                question: "When does the AND function produce 1?",
+                options: [
+                    "When at least one input is 1",
+                    "When both inputs are 0",
+                    "Only when both inputs are 1",
+                    "Whenever the inputs are different"
+                ],
+                correct: 2,
+                category: "Boolean Logic",
+                type: "single",
+                explanation: "The truth table in the notes shows conjunction equals 1 only for input pair 1 and 1."
+            },
+            {
+                question: "When does XOR produce 1?",
+                options: [
+                    "Only when both inputs are 1",
+                    "When the inputs are different",
+                    "Only when both inputs are 0",
+                    "Always"
+                ],
+                correct: 1,
+                category: "Boolean Logic",
+                type: "single",
+                explanation: "The XOR truth table shows output 1 for 0,1 and 1,0, meaning the inputs differ."
+            },
+            {
+                question: "Which set is identified in the notes as the common Boolean basis?",
+                options: [
+                    "NOT, AND, OR",
+                    "XOR, NAND, NOR",
+                    "ADD, SUB, MUL",
+                    "SHIFT, ROTATE, MASK"
+                ],
+                correct: 0,
+                category: "Boolean Logic",
+                type: "single",
+                explanation: "The handout says the most common full-function set is the Boolean basis containing NOT, AND, and OR."
+            },
+            {
+                question: "What does the program counter store?",
+                options: [
+                    "The current ALU result",
+                    "The address of the next instruction",
+                    "The top of stack address",
+                    "The number of executed instructions"
+                ],
+                correct: 1,
+                category: "Functional Organization",
+                type: "single",
+                explanation: "The functional organization notes describe the program counter as the binary counter that keeps the address of the next instruction."
+            },
+            {
+                question: "What is the main role of the instruction register?",
+                options: [
+                    "To hold the current instruction during execution",
+                    "To store cache lines",
+                    "To count interrupts",
+                    "To convert decimal to binary"
+                ],
+                correct: 0,
+                category: "Functional Organization",
+                type: "single",
+                explanation: "The instruction register receives the instruction fetched from memory and holds it during execution."
+            },
+            {
+                question: "What does the stack pointer keep?",
+                options: [
+                    "The current opcode",
+                    "The address of the top of the stack",
+                    "The address of the first instruction",
+                    "The number of bytes in memory"
+                ],
+                correct: 1,
+                category: "Functional Organization",
+                type: "single",
+                explanation: "Both the functional organization and control-unit notes describe the stack pointer as storing the address of the top of stack."
+            },
+            {
+                question: "What information is kept in the flags register?",
+                options: [
+                    "Attributes describing the result of the last ALU operation",
+                    "Only program source code",
+                    "A list of active peripherals",
+                    "Disk sector addresses"
+                ],
+                correct: 0,
+                category: "Functional Organization",
+                type: "single",
+                explanation: "The flags register stores status bits such as zero, sign, carry, and overflow resulting from arithmetic or logic operations."
+            },
+            {
+                question: "In the control-unit notes, what is a microoperation?",
+                options: [
+                    "An entire user program",
+                    "An elementary action executed during one synchronization cycle",
+                    "A disk formatting command",
+                    "A machine-language comment"
+                ],
+                correct: 1,
+                category: "Control Unit",
+                type: "single",
+                explanation: "A microoperation is defined as an elementary action executed during one clock or synchronization cycle."
+            },
+            {
+                question: "What is a sequence of microinstructions called?",
+                options: [
+                    "Macrocode",
+                    "Microprogram",
+                    "Interrupt vector",
+                    "Opcode table"
+                ],
+                correct: 1,
+                category: "Control Unit",
+                type: "single",
+                explanation: "The control-unit handout defines the sequence of microinstructions implementing an instruction cycle as a microprogram."
+            },
+            {
+                question: "Which of the following is listed as an input to the microprogrammed automaton?",
+                options: [
+                    "Clock signal",
+                    "Printer paper status only",
+                    "Disk platter material only",
+                    "Mouse coordinates only"
+                ],
+                correct: 0,
+                category: "Control Unit",
+                type: "single",
+                explanation: "The MPA input list in the notes includes the clock, instruction register, flags, and control signals from the control bus."
+            },
+            {
+                question: "The difference between hardwired and microprogrammed control is mainly in the implementation of what?",
+                options: [
+                    "The monitor screen",
+                    "The control signal creator",
+                    "The disk substrate",
+                    "The keyboard controller"
+                ],
+                correct: 1,
+                category: "Control Unit",
+                type: "single",
+                explanation: "The notes state that hardwired and microprogrammed approaches differ in how the control signal creator is realized."
+            },
+            {
+                question: "What does random access mean for internal memory?",
+                options: [
+                    "Only sequential reads are allowed",
+                    "Access time is independent of prior access sequence",
+                    "Memory contents are selected by color",
+                    "The CPU chooses addresses incorrectly"
+                ],
+                correct: 1,
+                category: "Internal Memory",
+                type: "single",
+                explanation: "The memory notes define random access as access in which the time to reach a location is constant and independent of prior accesses."
+            },
+            {
+                question: "Associative access retrieves a word based on what?",
+                options: [
+                    "Its physical color",
+                    "A portion of its contents rather than its address",
+                    "The current disk track",
+                    "The keyboard scan code"
+                ],
+                correct: 1,
+                category: "Internal Memory",
+                type: "single",
+                explanation: "Associative memory compares contents and retrieves a word based on matching data rather than a supplied address."
+            },
+            {
+                question: "What is access time for random-access memory?",
+                options: [
+                    "The time from presenting an address until data are stored or available",
+                    "The number of sectors on a disk",
+                    "The number of memory chips installed",
+                    "The time needed to boot the system"
+                ],
+                correct: 0,
+                category: "Internal Memory",
+                type: "single",
+                explanation: "The notes define access time as the time from presenting an address until data are written or made available."
+            },
+            {
+                question: "What is memory cycle time?",
+                options: [
+                    "Only the write time",
+                    "Only the read time",
+                    "Access time plus any additional time before another access can begin",
+                    "The total lifetime of a memory chip"
+                ],
+                correct: 2,
+                category: "Internal Memory",
+                type: "single",
+                explanation: "The handout defines cycle time as access time plus any extra time required before the next access can start."
+            },
+            {
+                question: "What is true of volatile memory?",
+                options: [
+                    "It keeps information forever without power",
+                    "It loses information when power is switched off",
+                    "It cannot be read",
+                    "It is always external memory"
+                ],
+                correct: 1,
+                category: "Internal Memory",
+                type: "single",
+                explanation: "Volatile memory loses stored information when electrical power is removed."
+            },
+            {
+                question: "What is the common name for nonerasable semiconductor memory mentioned in the notes?",
+                options: [
+                    "RAM",
+                    "Cache",
+                    "ROM",
+                    "DMA"
+                ],
+                correct: 2,
+                category: "Internal Memory",
+                type: "single",
+                explanation: "The notes explicitly identify nonerasable semiconductor memory as read-only memory, or ROM."
+            },
+            {
+                question: "What are the concentric rings on a magnetic disk called?",
+                options: [
+                    "Buses",
+                    "Tracks",
+                    "Frames",
+                    "Pipelines"
+                ],
+                correct: 1,
+                category: "External Memory",
+                type: "single",
+                explanation: "The external memory chapter says disk data are organized in a concentric set of rings called tracks."
+            },
+            {
+                question: "In the illustrated disk-track format example, how much user data does each sector hold?",
+                options: [
+                    "64 bytes",
+                    "128 bytes",
+                    "512 bytes",
+                    "4096 words"
+                ],
+                correct: 2,
+                category: "External Memory",
+                type: "single",
+                explanation: "In the example format, each sector stores 512 bytes of user data plus additional control information."
+            },
+            {
+                question: "What is a main advantage of constant angular velocity disk layout?",
+                options: [
+                    "Every track stores a different instruction set",
+                    "Blocks can be directly addressed by track and sector",
+                    "No control data are required",
+                    "Outer tracks automatically rotate faster"
+                ],
+                correct: 1,
+                category: "External Memory",
+                type: "single",
+                explanation: "With CAV, individual blocks can be directly addressed by track and sector, enabling fast positioning and access."
+            },
+            {
+                question: "What is the purpose of multiple zone recording in hard disks?",
+                options: [
+                    "To ensure every track stores the same number of bits",
+                    "To allow outer zones to store more sectors and increase capacity",
+                    "To remove the need for heads",
+                    "To replace tracks with columns"
+                ],
+                correct: 1,
+                category: "External Memory",
+                type: "single",
+                explanation: "Multiple zone recording allows tracks farther from the center to hold more bits, increasing overall storage capacity."
+            },
+            {
+                question: "Which benefit of glass disk substrates is listed in the materials?",
+                options: [
+                    "They eliminate the need for sectors",
+                    "They support lower fly heights and reduce defects",
+                    "They make disks nonvolatile only by software",
+                    "They force sequential access"
+                ],
+                correct: 1,
+                category: "External Memory",
+                type: "single",
+                explanation: "The chapter lists several benefits of glass substrates, including reduced surface defects and the ability to support lower fly heights."
+            },
+            {
+                question: "How does the magnetoresistive read head detect recorded data?",
+                options: [
+                    "By measuring changes in electrical resistance",
+                    "By counting visible scratches",
+                    "By heating the platter",
+                    "By rotating faster than the write head"
+                ],
+                correct: 0,
+                category: "External Memory",
+                type: "single",
+                explanation: "The MR sensor has electrical resistance that depends on the direction of magnetization of the medium moving under it."
+            },
+            {
+                question: "Which statement matches a RISC characteristic from the ISA presentation?",
+                options: [
+                    "Instructions are larger than one word and usually take many cycles",
+                    "Instructions are simple, often one word, and aimed at fast execution",
+                    "RISC focuses on memory-to-memory arithmetic only",
+                    "RISC eliminates registers"
+                ],
+                correct: 1,
+                category: "ISA",
+                type: "single",
+                explanation: "The presentation describes RISC as using simpler instructions, often fitting in one word and targeting fast execution, often one clock cycle."
+            },
+            {
+                question: "Which statement matches a CISC characteristic from the ISA presentation?",
+                options: [
+                    "Instructions are always fixed at one word",
+                    "It uses only register-to-register operations",
+                    "It relies on more complex instructions that may take more than one clock cycle",
+                    "It has no addressing modes"
+                ],
+                correct: 2,
+                category: "ISA",
+                type: "single",
+                explanation: "The CISC slides describe complex instructions, more complex decoding, variable or larger instruction sizes, and execution that may take more than one cycle."
+            },
+            {
+                question: "Which four lines are identified in the SPI presentation?",
+                options: [
+                    "TX, RX, ACK, NACK",
+                    "MOSI, MISO, SCLK, SS/CS",
+                    "A0, A1, D0, D1",
+                    "CLK, DATA, READY, RESET"
+                ],
+                correct: 1,
+                category: "I/O Interfaces",
+                type: "single",
+                explanation: "The SPI slides list MOSI, MISO, SCLK, and SS or CS as the basic signal lines."
+            },
+            {
+                question: "Why is SPI communication always initiated by the master?",
+                options: [
+                    "Only the master can generate the clock signal",
+                    "Only the slave has access to MOSI",
+                    "The slave chooses the voltage levels first",
+                    "SPI is an asynchronous bus"
+                ],
+                correct: 0,
+                category: "I/O Interfaces",
+                type: "single",
+                explanation: "The presentation states that SPI is always initiated by the master because the master configures and generates the clock signal."
+            },
+            {
+                question: "Which SPI feature allows simultaneous sending and receiving of data?",
+                options: [
+                    "Only one wire is required",
+                    "Built-in parity checking is mandatory",
+                    "Separate MISO and MOSI lines allow simultaneous send and receive",
+                    "It supports only half-duplex communication"
+                ],
+                correct: 2,
+                category: "I/O Interfaces",
+                type: "single",
+                explanation: "Separate MOSI and MISO lines allow SPI to support full-duplex communication."
+            },
+            {
+                question: "How many modes or stages of UART communication are listed in the presentation?",
+                options: [
+                    "3",
+                    "4",
+                    "5",
+                    "8"
+                ],
+                correct: 2,
+                category: "I/O Interfaces",
+                type: "single",
+                explanation: "The UART presentation lists five stages: initialization, transmitting characters, transmitting strings, receiving characters, and receiving strings."
+            },
+            {
+                question: "In the UART transmit example, what flag is checked before sending a character?",
+                options: [
+                    "RXEN0",
+                    "UDRE0",
+                    "SCLK",
+                    "MISO"
+                ],
+                correct: 1,
+                category: "I/O Interfaces",
+                type: "single",
+                explanation: "The putc routine waits for the transmit buffer to become empty by checking the UDRE0 bit."
+            },
+            {
+                question: "Why does the presentation load 2 * myStr into the Z pointer before calling puts?",
+                options: [
+                    "Because UART uses two-byte parity",
+                    "Because program memory is word addressed",
+                    "Because the string is stored twice",
+                    "Because SPI requires doubled addresses"
+                ],
+                correct: 1,
+                category: "I/O Interfaces",
+                type: "single",
+                explanation: "The UART presentation explains that program memory is word addressed, so the label address is multiplied by two when loading Z."
+            },
+            {
+                question: "According to the intercommunications presentation, every data transmission includes which three elements?",
+                options: [
+                    "CPU, cache, and bus",
+                    "Transmitter, receiver, and transmission medium",
+                    "Source code, assembler, and linker",
+                    "Clock, reset, and interrupt"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The presentation states that every data transmission includes a transmitter, a receiver, and a transmission medium."
+            },
+            {
+                question: "What do protocols describe in data communication?",
+                options: [
+                    "Only physical voltage levels",
+                    "Transmission rules",
+                    "The shape of the CPU die",
+                    "Only device prices"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The slide explicitly says that protocols describe transmission rules."
+            },
+            {
+                question: "Which transmission mode is unidirectional, with data flowing in only one direction?",
+                options: [
+                    "Simplex",
+                    "Half-duplex",
+                    "Full-duplex",
+                    "Synchronous"
+                ],
+                correct: 0,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "Simplex mode is defined as one-way or unidirectional communication."
+            },
+            {
+                question: "Which transmission mode allows data to flow in both directions, but only one direction at a time?",
+                options: [
+                    "Simplex",
+                    "Half-duplex",
+                    "Full-duplex",
+                    "Parallel"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "Half-duplex supports two-way communication, but not simultaneously."
+            },
+            {
+                question: "Which transmission mode allows simultaneous two-way communication?",
+                options: [
+                    "Simplex",
+                    "Half-duplex",
+                    "Full-duplex",
+                    "Asynchronous"
+                ],
+                correct: 2,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "Full-duplex is bi-directional and allows data to flow in both directions at the same time."
+            },
+            {
+                question: "What distinguishes synchronous transmission in the presentation?",
+                options: [
+                    "Start and stop bits are added to every bit",
+                    "Bits are sent without start/stop bits or gaps, paced by the same clock",
+                    "Only one byte can be sent at a time",
+                    "It does not require timing coordination"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The slides describe synchronous communication as sending bits without start/stop bits or gaps, with sender and receiver paced by the same clock."
+            },
+            {
+                question: "What distinguishes asynchronous transmission in the presentation?",
+                options: [
+                    "It requires no framing bits",
+                    "It introduces start and stop bits into the message",
+                    "It always uses parallel wires",
+                    "It can only send analog signals"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The asynchronous mode slide states that a start bit and a stop bit are introduced during transmission."
+            },
+            {
+                question: "What is one stated advantage of serial transmission?",
+                options: [
+                    "It needs more wires than parallel transmission",
+                    "It is reliable for long-distance transmission",
+                    "It sends n bits over n lines in one clock",
+                    "It eliminates synchronization problems entirely"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The serial transmission slide notes that it is reliable and suitable for long-distance data transmission."
+            },
+            {
+                question: "For n-bit parallel transmission, how many transmission lines are needed according to the slides?",
+                options: [
+                    "1",
+                    "2",
+                    "n",
+                    "n / 2"
+                ],
+                correct: 2,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The presentation states that for n bits, n transmission lines are required in parallel transmission."
+            },
+            {
+                question: "What is line coding?",
+                options: [
+                    "The process of converting digital data to digital signals",
+                    "The process of converting analog data to sound",
+                    "A method for reducing RAM size",
+                    "A type of CPU pipelining"
+                ],
+                correct: 0,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The line-coding slide defines line coding as converting digital data into digital signals."
+            },
+            {
+                question: "In the presentation, bitrate refers to what?",
+                options: [
+                    "The number of signal elements sent per second",
+                    "The number of data elements sent per second",
+                    "The number of transmission lines",
+                    "The number of start bits per byte"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The slide defines data rate as the number of data elements sent in one second, measured in bits per second or bitrate."
+            },
+            {
+                question: "In the presentation, baudrate refers to what?",
+                options: [
+                    "The number of data elements sent per second",
+                    "The number of signal elements sent per second",
+                    "The number of CPU instructions per second",
+                    "The number of registers used by the UART"
+                ],
+                correct: 1,
+                category: "Intercommunications",
+                type: "single",
+                explanation: "The slide defines signal rate as the number of signal elements sent in one second, measured in baud."
+            },
+            {
+                question: "What is the role of an assembler according to the AVR ASM introduction?",
+                options: [
+                    "It converts assembly language source into machine-readable object code",
+                    "It turns machine code into high-level source code",
+                    "It only formats comments",
+                    "It directly executes hardware without code generation"
+                ],
+                correct: 0,
+                category: "AVR ASM",
+                type: "single",
+                explanation: "The AVR ASM presentation explains that the assembler converts assembly-language source code into object code that the processor can execute."
+            },
+            {
+                question: "What does the presentation say assemblers essentially perform?",
+                options: [
+                    "A one-to-many expansion of mnemonics",
+                    "A one-to-one translation of mnemonics and operands into machine code",
+                    "Only optimization passes",
+                    "Only hardware simulation"
+                ],
+                correct: 1,
+                category: "AVR ASM",
+                type: "single",
+                explanation: "The slide says assemblers essentially perform a one-to-one translation of instruction mnemonics and operands into machine code."
+            },
+            {
+                question: "What does the .cseg directive indicate in the AVR example?",
+                options: [
+                    "The following code belongs to the code segment in flash memory",
+                    "The following code belongs to SRAM only",
+                    "The following lines must be ignored",
+                    "The following code is for comments only"
+                ],
+                correct: 0,
+                category: "AVR ASM",
+                type: "single",
+                explanation: "The presentation states that .cseg marks what follows as part of the code segment and places it in flash memory."
+            },
+            {
+                question: "Why is .org 0x00 used in the AVR example?",
+                options: [
+                    "To place the code at the start of flash memory so it executes immediately after startup",
+                    "To clear all RAM cells",
+                    "To enable interrupts automatically",
+                    "To configure the baud rate"
+                ],
+                correct: 0,
+                category: "AVR ASM",
+                type: "single",
+                explanation: "The slide explains that .org 0x00 sets the origin to the beginning of flash so execution starts there when the microcontroller boots."
+            },
+            {
+                question: "Which registers can ldi load directly according to the presentation?",
+                options: [
+                    "Only r0 to r7",
+                    "Only r8 to r15",
+                    "General-purpose registers r16 to r31",
+                    "Only the stack pointer"
+                ],
+                correct: 2,
+                category: "AVR ASM",
+                type: "single",
+                explanation: "The AVR slides state that ldi loads an 8-bit constant into one of the general-purpose working registers between 16 and 31."
+            },
+            {
+                question: "Why can the example not write a constant directly to DDRB using the out instruction?",
+                options: [
+                    "Because out can only take a general-purpose register as operand",
+                    "Because DDRB is read-only",
+                    "Because binary constants are forbidden in AVR ASM",
+                    "Because out only works with SRAM addresses"
+                ],
+                correct: 0,
+                category: "AVR ASM",
+                type: "single",
+                explanation: "The presentation explicitly notes that out cannot take an immediate constant; the value must first be loaded into a working register."
+            },
+            {
+                question: "What does the instruction sequence loop: rjmp loop create?",
+                options: [
+                    "A subroutine return",
+                    "An infinite loop",
+                    "An interrupt handler",
+                    "A compare-and-branch"
+                ],
+                correct: 1,
+                category: "AVR ASM",
+                type: "single",
+                explanation: "The slide explains that defining a label and jumping back to it with rjmp creates an infinite loop."
+            },
+            {
+                question: "How large is the status register in the AVR status-register presentation?",
+                options: [
+                    "4 bits",
+                    "8 bits",
+                    "16 bits",
+                    "32 bits"
+                ],
+                correct: 1,
+                category: "AVR Status",
+                type: "single",
+                explanation: "The slide describes the status register as an 8-bit register in the microcontroller's I/O memory space."
+            },
+            {
+                question: "What relationship defines the Sign Flag (S) in the presentation?",
+                options: [
+                    "It is always equal to the Carry Flag",
+                    "It is the AND of Zero and Carry",
+                    "It is the exclusive OR of the Negative and Overflow flags",
+                    "It is copied directly from bit 0"
+                ],
+                correct: 2,
+                category: "AVR Status",
+                type: "single",
+                explanation: "The slide states that the Sign Flag is the exclusive OR of the Negative and Two's Complement Overflow flags."
+            },
+            {
+                question: "Which instruction pair is used to enable and disable global interrupts?",
+                options: [
+                    "inc and dec",
+                    "sei and cli",
+                    "cp and cpc",
+                    "ldi and out"
+                ],
+                correct: 1,
+                category: "AVR Status",
+                type: "single",
+                explanation: "The presentation shows sei for enabling interrupts and cli for disabling them."
+            },
+            {
+                question: "How is the T Flag described in the presentation?",
+                options: [
+                    "It is set automatically by arithmetic overflow only",
+                    "It is not set by operations and is managed manually for program purposes",
+                    "It always mirrors the Zero Flag",
+                    "It stores the top of stack address"
+                ],
+                correct: 1,
+                category: "AVR Status",
+                type: "single",
+                explanation: "The slide states that the Bit Copy Storage or T Flag is not set by operations and is set or cleared manually."
+            },
+            {
+                question: "What does the cp instruction do according to the controlling-program-flow slides?",
+                options: [
+                    "Copies one register into another",
+                    "Compares two registers by subtracting the second from the first to set flags, without modifying the registers",
+                    "Calls a subroutine if two registers match",
+                    "Clears the program counter"
+                ],
+                correct: 1,
+                category: "AVR Status",
+                type: "single",
+                explanation: "The cp instruction is described as comparing two registers to set status flags while leaving the register values unchanged."
+            },
+            {
+                question: "When should cpc be used according to the slides?",
+                options: [
+                    "When comparing values that span more than one byte",
+                    "When writing directly to I/O memory",
+                    "When enabling interrupts",
+                    "When creating an infinite loop"
+                ],
+                correct: 0,
+                category: "AVR Status",
+                type: "single",
+                explanation: "The presentation says cpc compares with carry and is used when more than one byte must be compared."
+            },
+            {
+                question: "Which two main types of control unit are listed in the control-units presentation?",
+                options: [
+                    "Analog and digital",
+                    "Hardwired and microprogrammed",
+                    "Static and dynamic",
+                    "Sequential and associative"
+                ],
+                correct: 1,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The presentation lists hardwired and micro programmable control units as the two main types."
+            },
+            {
+                question: "What is the main limitation of a hardwired control unit according to the slides?",
+                options: [
+                    "It cannot fetch instructions",
+                    "Its signal-generation method cannot be modified without physically changing the circuit",
+                    "It always requires external memory",
+                    "It works only with register-reference instructions"
+                ],
+                correct: 1,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The hardwired-control slide says the signal-generation method cannot be modified without physical changes to the circuit structure."
+            },
+            {
+                question: "In a microprogrammed control unit, what does the opcode provide according to the presentation?",
+                options: [
+                    "The initial address of a microprogram in the control store",
+                    "The size of main memory",
+                    "The stack pointer value",
+                    "The number of ALU transistors"
+                ],
+                correct: 0,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The slides state that the opcode is not directly decoded into control signals, but gives the initial address of a microprogram in the control store."
+            },
+            {
+                question: "Which extra memory is mentioned in the two-level microprogrammed control unit?",
+                options: [
+                    "Cache-tag memory",
+                    "Nano-instruction memory",
+                    "Video memory",
+                    "Parity-only memory"
+                ],
+                correct: 1,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The two-level control-store slide mentions a nano-instruction memory containing combinations of control signals."
+            },
+            {
+                question: "Which control-unit type is described as faster in operation in the comparison table?",
+                options: [
+                    "Microprogrammed only",
+                    "Hardwired",
+                    "Both are always equal",
+                    "Two-level control store only"
+                ],
+                correct: 1,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The comparison table marks hardwired control units as fast, while microprogrammed units are slower due to microcode decoding."
+            },
+            {
+                question: "How large is the instruction register in the basic-computer example from the control-unit presentation?",
+                options: [
+                    "8 bits",
+                    "12 bits",
+                    "16 bits",
+                    "32 bits"
+                ],
+                correct: 2,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The presentation explicitly says the instruction register of the basic computer is 16 bits."
+            },
+            {
+                question: "In the presented instruction format, what does the mode field indicate?",
+                options: [
+                    "How the operand address is determined",
+                    "How many ALUs are enabled",
+                    "The physical disk location",
+                    "The CPU temperature"
+                ],
+                correct: 0,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The slide states that the mode field indicates how the memory address of the operand is determined."
+            },
+            {
+                question: "For a register-reference instruction in the control-unit slide deck, what is the opcode?",
+                options: [
+                    "000",
+                    "101",
+                    "111",
+                    "Depends on the register"
+                ],
+                correct: 2,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The presentation states that the opcode for a register-reference instruction is always 111."
+            },
+            {
+                question: "For an input-output instruction in the same presentation, what is the value of the last bit?",
+                options: [
+                    "It is always 0",
+                    "It is always 1",
+                    "It alternates by cycle",
+                    "It is unused"
+                ],
+                correct: 1,
+                category: "Control Unit Slides",
+                type: "single",
+                explanation: "The I/O instruction format slide says the last bit specifies the addressing mode and is always 1."
+            },
+            {
+                question: "Moving from top to bottom of the memory hierarchy, what happens to capacity according to the internal-memory presentation?",
+                options: [
+                    "It decreases",
+                    "It stays fixed",
+                    "It increases",
+                    "It becomes zero"
+                ],
+                correct: 2,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The slide says that from top to bottom in the memory hierarchy, capacity increases."
+            },
+            {
+                question: "Moving from top to bottom of the memory hierarchy, what happens to cost per bit?",
+                options: [
+                    "It increases",
+                    "It decreases",
+                    "It becomes random",
+                    "It always doubles"
+                ],
+                correct: 1,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The slide explicitly lists decreasing cost per bit as one of the top-to-bottom trends in the hierarchy."
+            },
+            {
+                question: "What is cache memory according to the presentation?",
+                options: [
+                    "A mechanical storage device",
+                    "A chip-based component that makes retrieving data from memory more efficient",
+                    "A type of optical disk",
+                    "Only a software optimization"
+                ],
+                correct: 1,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The internal-memory presentation defines cache memory as a chip-based component that makes retrieving data from memory more efficient."
+            },
+            {
+                question: "What is main memory in the internal-memory presentation?",
+                options: [
+                    "Storage locations directly accessible by the processor",
+                    "Any removable USB drive",
+                    "Only ROM chips",
+                    "Only disk arrays"
+                ],
+                correct: 0,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The slide defines main memory as storage locations directly accessible by the processor."
+            },
+            {
+                question: "What does RAID stand for in the internal-memory presentation?",
+                options: [
+                    "Rapid Access Integrated Drive",
+                    "Redundant Array of Independent Disks",
+                    "Register Arithmetic Interrupt Decoder",
+                    "Random Array of Internal Data"
+                ],
+                correct: 1,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The slide expands RAID as Redundant Array of Independent Disks."
+            },
+            {
+                question: "Which physical types of memory are listed in the internal-memory presentation?",
+                options: [
+                    "Semiconductor, magnetic, optical",
+                    "Hydraulic, magnetic, optical",
+                    "Mechanical, biological, optical",
+                    "Semiconductor only"
+                ],
+                correct: 0,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The physical-types slide lists semiconductor, magnetic, and optical memory."
+            },
+            {
+                question: "What hardware elements are used to build RAM according to the presentation?",
+                options: [
+                    "Only resistors",
+                    "Transistors and capacitors",
+                    "Only inductors",
+                    "Motors and sensors"
+                ],
+                correct: 1,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The RAM slides say RAM is constructed of transistors and capacitors storing charge corresponding to data bits."
+            },
+            {
+                question: "Which statement matches SRAM in the presentation?",
+                options: [
+                    "It is used as main memory and is cheaper than DRAM",
+                    "It is used as cache memory and is the fastest among the listed memories",
+                    "It stores data with magnetic coating",
+                    "It cannot be built from transistors"
+                ],
+                correct: 1,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The slides state that SRAM is used as cache memory and is the fastest among the listed memories."
+            },
+            {
+                question: "Which statement matches DRAM in the presentation?",
+                options: [
+                    "It is used as cache and is more expensive than SRAM",
+                    "It is used as main memory and uses capacitors that must be recharged periodically",
+                    "It is nonvolatile and slower than magnetic tape",
+                    "It uses two cross-coupled inverters per cell"
+                ],
+                correct: 1,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "The DRAM slide says the memory cells are made using capacitors and data must be refreshed periodically, and DRAM is used as main memory."
+            },
+            {
+                question: "In the RAM block-addressing scheme, what do the higher two address bits contain?",
+                options: [
+                    "The parity code",
+                    "The bank number",
+                    "The opcode",
+                    "The sign bit"
+                ],
+                correct: 1,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "In the block-addressing arrangement, the higher address bits select the memory bank."
+            },
+            {
+                question: "What logic operation is used in Hamming-code comparison logic?",
+                options: [
+                    "AND",
+                    "OR",
+                    "Exclusive OR",
+                    "Shift right"
+                ],
+                correct: 2,
+                category: "Memory Slides",
+                type: "single",
+                explanation: "Hamming-code comparison checks the stored check bits against newly computed check bits bit by bit using exclusive OR to form the syndrome."
+            },
+            {
+                question: "In the operational-units presentation, the ALU in modern computers is divided into which two parts?",
+                options: [
+                    "Input Unit and Output Unit",
+                    "Arithmetic Unit and Logic Unit",
+                    "Cache Unit and Bus Unit",
+                    "Instruction Unit and Decoder Unit"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The slide states that the ALU is divided into the Arithmetic Unit and the Logic Unit."
+            },
+            {
+                question: "Which of the following is listed as an ALU function?",
+                options: [
+                    "Only disk formatting",
+                    "Bit shift operations",
+                    "Only screen refresh",
+                    "Only network routing"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The ALU functions slide includes bit shift operations among the listed ALU responsibilities."
+            },
+            {
+                question: "What special outputs are mentioned as commonly produced by the ALU for program branching?",
+                options: [
+                    "Z, C, N, and V",
+                    "R, G, B, and A",
+                    "X, Y, and Z only",
+                    "PC and SP only"
+                ],
+                correct: 0,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The presentation lists Z, C, N, and V as traditional distinct ALU outputs used to regulate branching."
+            },
+            {
+                question: "How is the ALU described electrically in the presentation?",
+                options: [
+                    "A sequential logic circuit only",
+                    "A combinational logic circuit",
+                    "A magnetic storage unit",
+                    "A mechanical relay board"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The slide says the ALU is a combinational logic circuit whose outputs change asynchronously in response to inputs."
+            },
+            {
+                question: "In the minimal ALU version described in the slides, which hardware operations must be present?",
+                options: [
+                    "Only floating-point multiplication",
+                    "Boolean operations, shifts, addition, and subtraction of fixed-point numbers",
+                    "Only division and square root",
+                    "Only cache management"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The presentation states that a minimal ALU must support basic Boolean operations, shifts, and addition/subtraction of fixed-point numbers."
+            },
+            {
+                question: "In the fixed-point signed representation described, what does the most significant bit represent?",
+                options: [
+                    "The smallest fractional part",
+                    "The sign of the number",
+                    "The carry-out only",
+                    "The opcode"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The slide states that in signed fixed-point form, the most significant digit is occupied by the sign: 0 for plus and 1 for minus."
+            },
+            {
+                question: "When adding signed numbers, when does overflow occur according to the slide rule?",
+                options: [
+                    "Whenever the operands have different signs",
+                    "Only when both operands have the same sign and the result sign is opposite",
+                    "Whenever a carry flag appears",
+                    "Only when both operands are zero"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The presentation says overflow occurs when two numbers with the same sign are added and the result has the opposite sign."
+            },
+            {
+                question: "How is subtraction carried out according to the addition/subtraction slide?",
+                options: [
+                    "By repeated division",
+                    "By adding the subtrahend with opposite sign in two's-complement form to the minuend",
+                    "By copying the sign bit only",
+                    "By shifting both operands right"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The slide explains subtraction as addition of the subtrahend with opposite sign represented in two's complement form."
+            },
+            {
+                question: "What two basic operations does the multiplication algorithm rely on according to the presentation?",
+                options: [
+                    "Addition and shifts",
+                    "Multiplication and division",
+                    "Comparison and branching",
+                    "Address decoding and interrupting"
+                ],
+                correct: 0,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The multiplication slide says the algorithm assumes consecutive implementation of two operations: additions and shifts."
+            },
+            {
+                question: "Which digit of the multiplier is analyzed first in the multiplication algorithm?",
+                options: [
+                    "The most significant digit",
+                    "The sign digit only",
+                    "The younger or least significant digit",
+                    "A random digit"
+                ],
+                correct: 2,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The algorithm description says analysis begins with the younger digit of the multiplier."
+            },
+            {
+                question: "What general technique is integer division reduced to in the presentation?",
+                options: [
+                    "Repeated subtraction",
+                    "Only table lookup",
+                    "Repeated multiplication",
+                    "Exclusive-or accumulation"
+                ],
+                correct: 0,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The division slide states that integer division in computers is generally reduced to repeated subtraction."
+            },
+            {
+                question: "Which division method is said to allow an ALU with a single-length adder?",
+                options: [
+                    "Fixed dividend with divisor shifted right",
+                    "Fixed divisor with dividend shifted left",
+                    "Only floating-point restoring division",
+                    "Wallace-tree division"
+                ],
+                correct: 1,
+                category: "Operational Units",
+                type: "single",
+                explanation: "The slide says division with a fixed divisor and a dividend shifted to the left allows building an ALU with a single-length adder."
+            },
+            {
+                question: "What is the Intel 8085 according to the presentation?",
+                options: [
+                    "A 16-bit microprocessor introduced in 1985",
+                    "An 8-bit microprocessor introduced in March 1976",
+                    "A 32-bit microcontroller introduced in 1991",
+                    "A Harvard-architecture DSP only"
+                ],
+                correct: 1,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The 8085 presentation describes it as an 8-bit microprocessor produced by Intel and introduced in March 1976."
+            },
+            {
+                question: "What is the width of the 8085 address bus?",
+                options: [
+                    "8 bits",
+                    "12 bits",
+                    "16 bits",
+                    "20 bits"
+                ],
+                correct: 2,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The presentation states that the 8085 has a 16-bit address bus."
+            },
+            {
+                question: "How much memory can the 16-bit address bus of the 8085 address?",
+                options: [
+                    "16 KB",
+                    "32 KB",
+                    "64 KB",
+                    "1 MB"
+                ],
+                correct: 2,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The slide explicitly says the 16-bit address bus can address up to 64 KB."
+            },
+            {
+                question: "Which register pairs are formed from the six general-purpose 8-bit registers of the 8085?",
+                options: [
+                    "AB, CD, EF",
+                    "BC, DE, HL",
+                    "AX, BX, CX",
+                    "PC, SP, IR"
+                ],
+                correct: 1,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The six 8-bit registers B, C, D, E, H, and L are arranged in the pairs BC, DE, and HL."
+            },
+            {
+                question: "What is the role of the accumulator in the 8085?",
+                options: [
+                    "It stores only instruction addresses",
+                    "It is an 8-bit register used in arithmetic, logical, I/O, and load/store operations",
+                    "It controls interrupt priorities only",
+                    "It stores external bus timings"
+                ],
+                correct: 1,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The presentation says the accumulator, or register A, is an 8-bit register used in arithmetic, logical, I/O, and load/store operations."
+            },
+            {
+                question: "Which five flags are listed for the 8085 flag register?",
+                options: [
+                    "S, Z, AC, P, C",
+                    "N, V, T, I, H",
+                    "R, G, B, A, C",
+                    "M, X, Y, Z, O"
+                ],
+                correct: 0,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The 8085 flag register is described with five flags: Sign, Zero, Auxiliary Carry, Parity, and Carry."
+            },
+            {
+                question: "Which 8085 interrupt has the highest priority and cannot be disabled?",
+                options: [
+                    "INTR",
+                    "RST 5.5",
+                    "RST 7.5",
+                    "TRAP"
+                ],
+                correct: 3,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The presentation states that TRAP is a non-maskable interrupt with the highest priority and cannot be disabled."
+            },
+            {
+                question: "Which 8085 interrupt is described as having the lowest priority?",
+                options: [
+                    "TRAP",
+                    "RST 6.5",
+                    "RST 7.5",
+                    "INTR"
+                ],
+                correct: 3,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The slide identifies INTR as the lowest-priority maskable interrupt."
+            },
+            {
+                question: "In the 8085 presentation, what is true about the data bus and address bus?",
+                options: [
+                    "Both are unidirectional",
+                    "Data bus is bidirectional, address bus is unidirectional",
+                    "Data bus is unidirectional, address bus is bidirectional",
+                    "Both are bidirectional"
+                ],
+                correct: 1,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The presentation states that the data bus is bidirectional while the address bus is unidirectional."
+            },
+            {
+                question: "How many bytes are used by a three-byte instruction in the 8085 assembler slides?",
+                options: [
+                    "One opcode byte only",
+                    "One opcode byte and one data byte",
+                    "One opcode byte and two bytes for a 16-bit address",
+                    "Two opcode bytes and one flag byte"
+                ],
+                correct: 2,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The assembler-directives slide says a three-byte instruction uses the first byte for opcode and the second and third bytes for a 16-bit address."
+            },
+            {
+                question: "Which addressing mode is used by the instruction MVI B, 08H in the 8085 slides?",
+                options: [
+                    "Direct addressing",
+                    "Register addressing",
+                    "Immediate addressing",
+                    "Implied addressing"
+                ],
+                correct: 2,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The presentation lists MVI B, 08H as an example of immediate addressing, where the operand is specified in the instruction itself."
+            },
+            {
+                question: "Which addressing mode is used by CMA in the 8085 slides?",
+                options: [
+                    "Direct addressing",
+                    "Register addressing",
+                    "Immediate addressing",
+                    "Implied addressing"
+                ],
+                correct: 3,
+                category: "Intel 8085",
+                type: "single",
+                explanation: "The assembler-directives slide places CMA under implied addressing because it operates on the accumulator implicitly."
+            },
+            {
+                question: "What is the core idea of Von Neumann architecture in the functional-organization presentation?",
+                options: [
+                    "Programs and data are stored in separate memories only",
+                    "Program data and instruction data are stored in the same memory",
+                    "The CPU has no need for buses",
+                    "Instructions are executed in parallel by default"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The presentation defines Von Neumann architecture as a stored-program design where program data and instruction data are in the same memory."
+            },
+            {
+                question: "What is the main reason Harvard architecture was developed according to the slides?",
+                options: [
+                    "To lower the CPU clock frequency",
+                    "To overcome the Von Neumann bottleneck",
+                    "To remove all registers",
+                    "To replace main memory with tape"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The Harvard-architecture slide says it was basically developed to overcome the bottleneck of Von Neumann architecture."
+            },
+            {
+                question: "Which statement about Harvard architecture is given in the presentation?",
+                options: [
+                    "It uses a common bus for data and instructions",
+                    "It uses separate storage and separate buses for data and instructions",
+                    "It requires two clock cycles per instruction by definition",
+                    "It cannot be used in microcontrollers"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The presentation says Harvard architecture uses separate storage and separate buses for instruction and data paths."
+            },
+            {
+                question: "What is the Von Neumann bottleneck according to the functional-organization slide deck?",
+                options: [
+                    "The inability to store programs in memory",
+                    "The fact that instructions are done one at a time and sequentially over a single path between CPU and memory",
+                    "The absence of interrupts",
+                    "The lack of an ALU"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The presentation describes the bottleneck as arising from the fact that instructions can only be handled one at a time and sequentially."
+            },
+            {
+                question: "Which three main parts of a Von Neumann machine are listed in the presentation?",
+                options: [
+                    "CPU, main memory, and input/output device",
+                    "ALU, cache, and disk",
+                    "Compiler, linker, and loader",
+                    "Registers, clock, and display"
+                ],
+                correct: 0,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The slide on functional organization names the CPU, the main memory unit, and the input/output device as the three main parts."
+            },
+            {
+                question: "What does the program counter pass to the memory address register in the functional-organization presentation?",
+                options: [
+                    "The current ALU flags",
+                    "The next instruction address",
+                    "The stack top value",
+                    "The current data word"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The presentation says the program counter keeps track of the next instruction location and passes this address to the MAR."
+            },
+            {
+                question: "What is the role of the memory data register in the functional-organization slides?",
+                options: [
+                    "It stores only opcodes permanently",
+                    "It stores instructions fetched from memory or data to be transferred to memory",
+                    "It holds interrupt priorities",
+                    "It decodes branch conditions"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The MDR stores instructions fetched from memory or any data that is to be transferred to and stored in memory."
+            },
+            {
+                question: "Which register stores the most recently fetched instruction while it waits to be decoded and executed?",
+                options: [
+                    "MAR",
+                    "MDR",
+                    "CIR",
+                    "IBR"
+                ],
+                correct: 2,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The Current Instruction Register, or CIR, stores the most recently fetched instruction while it waits to be decoded and executed."
+            },
+            {
+                question: "What does the instruction buffer register hold according to the slide deck?",
+                options: [
+                    "The instruction not to be executed immediately",
+                    "Only arithmetic flags",
+                    "Only memory addresses for data",
+                    "Clock pulses for the control bus"
+                ],
+                correct: 0,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The IBR is described as holding an instruction that is not to be executed immediately."
+            },
+            {
+                question: "Which bus carries control commands from the CPU and status signals from devices?",
+                options: [
+                    "Data bus",
+                    "Address bus",
+                    "Control bus",
+                    "Parity bus"
+                ],
+                correct: 2,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The functional-organization presentation states that the control bus carries control commands from the CPU and status signals from other devices."
+            },
+            {
+                question: "Which stage is listed first in the VNM instruction cycle?",
+                options: [
+                    "Operand fetch",
+                    "Instruction fetch",
+                    "Result store",
+                    "Instruction execution"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The instruction-cycle slides list instruction fetch as the first stage."
+            },
+            {
+                question: "In the fetch cycle, which register receives the address from the program counter first?",
+                options: [
+                    "MDR",
+                    "IR",
+                    "MAR",
+                    "IBR"
+                ],
+                correct: 2,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "Step 1 of the fetch cycle moves the address in the program counter to the memory address register."
+            },
+            {
+                question: "Which register receives the fetched instruction after the MBR in step 3 of the fetch cycle?",
+                options: [
+                    "Stack pointer",
+                    "Instruction register",
+                    "Accumulator",
+                    "Status register"
+                ],
+                correct: 1,
+                category: "Functional Organization Slides",
+                type: "single",
+                explanation: "The step-3 slide states that the contents of the MBR are moved to the instruction register."
+            },
+            {
+                question: "How is external memory described in the external-memory presentation?",
+                options: [
+                    "Volatile memory directly accessible by the CPU",
+                    "Non-volatile secondary memory not directly accessible through the CPU",
+                    "A subset of CPU registers",
+                    "Only optical media"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The slide defines external or secondary memory as non-volatile and not directly accessible through the CPU."
+            },
+            {
+                question: "Which of the following is listed as removable secondary storage in the presentation?",
+                options: [
+                    "Only cache memory",
+                    "Optical discs and memory cards",
+                    "CPU registers",
+                    "Only ROM chips"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The removable-storage slide includes optical discs, memory cards, floppy disks, magnetic tapes, disk packs, and paper storage."
+            },
+            {
+                question: "What is the usual substrate named in the magnetic-disk slide of the external-memory presentation?",
+                options: [
+                    "Copper",
+                    "Glass",
+                    "Rubber",
+                    "Silicon dioxide only"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The slide says the substrate is usually glass, coated with a magnetizable material."
+            },
+            {
+                question: "In the external-memory slides, how are magnetic-disk tracks organized?",
+                options: [
+                    "As a grid of squares",
+                    "As a concentric set of rings",
+                    "As one continuous straight line",
+                    "As a stack of optical layers"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The magnetic-disks presentation states that data are organized as a concentric set of rings called tracks."
+            },
+            {
+                question: "What does the SYNCH byte do in the Winchester track-format example?",
+                options: [
+                    "Stores the parity of the whole disk",
+                    "Delimits the beginning of the field",
+                    "Selects the active interrupt",
+                    "Contains the track number only"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The slide says the SYNCH byte is a special bit pattern that delimits the beginning of the field."
+            },
+            {
+                question: "What is true of SSDs according to the external-memory presentation?",
+                options: [
+                    "They rely on spinning platters",
+                    "They use solid-state memory and typically non-volatile flash memory",
+                    "They are always cheaper per GB than HDDs",
+                    "They require magnetic heads to read data"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The SSD slides define a solid-state drive as a storage device using solid-state memory, with most manufacturers using non-volatile flash memory."
+            },
+            {
+                question: "Which SSD flash type stores only one bit in a cell according to the presentation?",
+                options: [
+                    "MLC",
+                    "TLC",
+                    "QLC",
+                    "SLC"
+                ],
+                correct: 3,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The presentation says Single-Level Cell flash stores only one bit per cell."
+            },
+            {
+                question: "According to the SSD slide, what happens as more bits are stored in a flash cell?",
+                options: [
+                    "Fewer threshold voltages are needed and access gets faster",
+                    "More threshold voltages are needed and read/write takes longer",
+                    "The cell becomes magnetic",
+                    "The cell stops being nonvolatile"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The slide states that more bits per cell require more threshold voltages and more time to identify the signal, so reads and writes take longer."
+            },
+            {
+                question: "What are the indented and unindented parts of an optical disk called in the presentation?",
+                options: [
+                    "Tracks and sectors",
+                    "Pits and lands",
+                    "Pages and blocks",
+                    "Nodes and gaps"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The optical-memory slides say the indented parts are pits and the unindented parts are lands."
+            },
+            {
+                question: "What is the total thickness of the CD given in the optical-memory slides?",
+                options: [
+                    "0.12 mm",
+                    "1.2 mm",
+                    "12 mm",
+                    "2.4 mm"
+                ],
+                correct: 1,
+                category: "External Memory Slides",
+                type: "single",
+                explanation: "The optical-memory presentation states that the total thickness of a CD is 1.2 mm."
+            },
+            {
+                question: "Which Boolean-operator precedence order is correct?",
+                options: [
+                    "OR first, AND second, NOT third",
+                    "NOT first, AND second, OR third",
+                    "AND first, OR second, NOT third",
+                    "NOT first, OR second, AND third"
+                ],
+                correct: 1,
+                category: "Boolean Algebra",
+                type: "single",
+                explanation: "In Boolean algebra, NOT has the highest precedence, followed by AND, then OR."
+            },
+            {
+                question: "Which Boolean identity law is correct?",
+                options: [
+                    "A + 1 = A",
+                    "A . 0 = A",
+                    "A + 0 = A",
+                    "A . A = 0"
+                ],
+                correct: 2,
+                category: "Boolean Algebra",
+                type: "single",
+                explanation: "The identity law gives A + 0 = A and A . 1 = A."
+            },
+            {
+                question: "Which expression is equivalent to A . (B + C)?",
+                options: [
+                    "A + B . C",
+                    "(A . B) + (A . C)",
+                    "(A + B) . (A + C)",
+                    "A . B . C"
+                ],
+                correct: 1,
+                category: "Boolean Algebra",
+                type: "single",
+                explanation: "By the distributive law, A . (B + C) = A . B + A . C."
+            },
+            {
+                question: "Which formula is De Morgan's first theorem?",
+                options: [
+                    "(P . Q)' = P' + Q'",
+                    "(P + Q)' = P + Q",
+                    "(P . Q)' = P' . Q'",
+                    "(P + Q)' = P + Q'"
+                ],
+                correct: 0,
+                category: "Boolean Algebra",
+                type: "single",
+                explanation: "De Morgan's first theorem states that the complement of a product equals the sum of the complements."
+            },
+            {
+                question: "In digital-circuit logic levels, what can logic 1 represent?",
+                options: [
+                    "An open switch only",
+                    "A low voltage only",
+                    "A closed switch or high voltage",
+                    "An undefined state only"
+                ],
+                correct: 2,
+                category: "Logic Gates",
+                type: "single",
+                explanation: "Logic 1 can represent a closed switch, a high voltage, or an on state."
+            },
+            {
+                question: "When does a NAND gate produce 0?",
+                options: [
+                    "When at least one input is 0",
+                    "Only when all inputs are 1",
+                    "Only when all inputs are 0",
+                    "Whenever the inputs are different"
+                ],
+                correct: 1,
+                category: "Logic Gates",
+                type: "single",
+                explanation: "A NAND gate is the complement of AND, so it produces 0 only when all inputs are high."
+            },
+            {
+                question: "Which transistor terminal controls switching between collector and emitter?",
+                options: [
+                    "Base",
+                    "Drain",
+                    "Source",
+                    "Gate oxide"
+                ],
+                correct: 0,
+                category: "Logic Gates",
+                type: "single",
+                explanation: "A small current at the base controls conduction between the collector and emitter."
+            },
+            {
+                question: "What is a defining property of a combinational logic circuit?",
+                options: [
+                    "Its output depends on current inputs and stored previous state",
+                    "Its output depends only on the current combination of inputs",
+                    "It requires a clock pulse for every state change",
+                    "It can store one bit permanently"
+                ],
+                correct: 1,
+                category: "Combinational Circuits",
+                type: "single",
+                explanation: "Combinational circuits are memoryless, so their outputs depend only on current inputs."
+            },
+            {
+                question: "Why are NAND and NOR called universal gates?",
+                options: [
+                    "They are used only in analog systems",
+                    "Any combinational circuit can be implemented using only them",
+                    "They always require fewer transistors than any other gate",
+                    "They can store data like flip-flops"
+                ],
+                correct: 1,
+                category: "Combinational Circuits",
+                type: "single",
+                explanation: "Any combinational logic circuit can be built using only NAND gates or only NOR gates."
+            },
+            {
+                question: "Which set lists the three main ways to specify a combinational circuit?",
+                options: [
+                    "Boolean expression, truth table, logic diagram",
+                    "Assembler code, timing chart, memory map",
+                    "Clock table, waveform, interrupt vector",
+                    "Program counter, MAR, MDR"
+                ],
+                correct: 0,
+                category: "Combinational Circuits",
+                type: "single",
+                explanation: "A combinational circuit is commonly specified by a Boolean expression, a truth table, or a logic diagram."
+            },
+            {
+                question: "What are the two outputs of a half adder?",
+                options: [
+                    "Set and reset",
+                    "Difference and borrow",
+                    "Sum and carry",
+                    "Clock and enable"
+                ],
+                correct: 2,
+                category: "Combinational Circuits",
+                type: "single",
+                explanation: "A half adder adds two one-bit inputs and produces a sum output and a carry output."
+            },
+            {
+                question: "What extra input does a full adder have compared with a half adder?",
+                options: [
+                    "Enable",
+                    "Carry-in",
+                    "Borrow-in",
+                    "Preset"
+                ],
+                correct: 1,
+                category: "Combinational Circuits",
+                type: "single",
+                explanation: "A full adder includes a carry-in input in addition to the two data inputs."
+            },
+            {
+                question: "What is the main advantage of a carry look-ahead adder over a ripple-carry adder?",
+                options: [
+                    "It needs no logic gates",
+                    "Its result time is not tied to carry rippling through every stage",
+                    "It works only with decimal numbers",
+                    "It removes the sum output"
+                ],
+                correct: 1,
+                category: "Combinational Circuits",
+                type: "single",
+                explanation: "Carry look-ahead logic generates carry signals directly, avoiding long ripple delays."
+            },
+            {
+                question: "How many output terminals does a magnitude comparator have?",
+                options: [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                correct: 2,
+                category: "Combinational Circuits",
+                type: "single",
+                explanation: "A magnitude comparator provides outputs for A > B, A = B, and A < B."
+            },
+            {
+                question: "What distinguishes a sequential circuit from a combinational circuit?",
+                options: [
+                    "It uses only analog signals",
+                    "It depends on both current inputs and stored previous state",
+                    "It has no outputs",
+                    "It cannot use flip-flops"
+                ],
+                correct: 1,
+                category: "Sequential Circuits",
+                type: "single",
+                explanation: "Sequential circuits use stored state information, so previous state affects the next output or state."
+            },
+            {
+                question: "What is true of an asynchronous sequential circuit?",
+                options: [
+                    "It always waits for a shared clock signal",
+                    "It changes state only at fixed clock edges",
+                    "It does not use a clock and reacts directly to input changes",
+                    "It cannot be faster than a synchronous circuit"
+                ],
+                correct: 2,
+                category: "Sequential Circuits",
+                type: "single",
+                explanation: "Asynchronous sequential circuits do not use a common clock and can change state immediately when inputs change."
+            },
+            {
+                question: "Why are asynchronous sequential circuits harder to design?",
+                options: [
+                    "They require no gates",
+                    "Their behavior can be uncertain and timing is more difficult",
+                    "They can store only one state",
+                    "They use only optical signals"
+                ],
+                correct: 1,
+                category: "Sequential Circuits",
+                type: "single",
+                explanation: "Asynchronous circuits can be fast, but timing is harder to control and the outputs can be less predictable."
+            },
+            {
+                question: "When is the input condition of an SR latch prohibited?",
+                options: [
+                    "When S = 0 and R = 0",
+                    "When S = 1 and R = 0",
+                    "When S = 0 and R = 1",
+                    "When S = 1 and R = 1"
+                ],
+                correct: 3,
+                category: "Sequential Circuits",
+                type: "single",
+                explanation: "For the basic SR latch, driving both set and reset active at the same time leads to an invalid or prohibited state."
+            },
+            {
+                question: "Why is a D latch also called a transparent latch?",
+                options: [
+                    "Because it always outputs the complement of the input",
+                    "Because the output follows the data input when enabled",
+                    "Because it has no output at all",
+                    "Because it can count clock pulses"
+                ],
+                correct: 1,
+                category: "Sequential Circuits",
+                type: "single",
+                explanation: "A D latch is called transparent because its output reflects the input data while the enable input is active."
+            },
+            {
+                question: "What are preset and clear used for in flip-flops?",
+                options: [
+                    "To select NAND or NOR logic",
+                    "To assign an initial set or reset state",
+                    "To increase bus width",
+                    "To convert serial input to parallel output"
+                ],
+                correct: 1,
+                category: "Sequential Circuits",
+                type: "single",
+                explanation: "Preset and clear are used to force an initial state, such as set or reset, when needed."
+            },
+            {
+                question: "What are the two broad categories of counters?",
+                options: [
+                    "Binary and decimal",
+                    "Static and dynamic",
+                    "Asynchronous and synchronous",
+                    "Serial and optical"
+                ],
+                correct: 2,
+                category: "Registers and Counters",
+                type: "single",
+                explanation: "Counters are broadly divided into asynchronous counters and synchronous counters."
+            },
+            {
+                question: "What is another common name for an asynchronous counter?",
+                options: [
+                    "Parallel counter",
+                    "Ripple counter",
+                    "Johnson counter",
+                    "BCD comparator"
+                ],
+                correct: 1,
+                category: "Registers and Counters",
+                type: "single",
+                explanation: "An asynchronous counter is also called a ripple counter because the state change ripples through the flip-flops."
+            },
+            {
+                question: "Why can a synchronous counter operate at higher frequency than an asynchronous counter?",
+                options: [
+                    "It uses fewer states",
+                    "All flip-flops receive the same clock, avoiding cumulative ripple delay",
+                    "It does not use flip-flops",
+                    "It removes the output lines"
+                ],
+                correct: 1,
+                category: "Registers and Counters",
+                type: "single",
+                explanation: "A synchronous counter clocks all flip-flops simultaneously, so it does not suffer from cumulative ripple delay."
+            },
+            {
+                question: "What does a decade counter do?",
+                options: [
+                    "Counts eight states and then stops",
+                    "Counts ten states and then resets",
+                    "Counts only powers of two",
+                    "Shifts data without counting"
+                ],
+                correct: 1,
+                category: "Registers and Counters",
+                type: "single",
+                explanation: "A decade counter goes through ten states before returning to its initial state."
+            },
+            {
+                question: "In a straight ring counter, how many states are available for n flip-flops?",
+                options: [
+                    "2n",
+                    "n",
+                    "n squared",
+                    "Always 10"
+                ],
+                correct: 1,
+                category: "Registers and Counters",
+                type: "single",
+                explanation: "A ring counter has as many states as the number of flip-flops used in the ring."
+            },
+            {
+                question: "How many clock cycles are needed to load a 4-bit word into a SIPO shift register?",
+                options: [
+                    "1",
+                    "2",
+                    "4",
+                    "8"
+                ],
+                correct: 2,
+                category: "Registers and Counters",
+                type: "single",
+                explanation: "In serial-in parallel-out mode, bits are loaded one at a time, so a 4-bit word needs four clock cycles."
+            },
+            {
+                question: "Which two operating modes are mentioned for a PISO shift register?",
+                options: [
+                    "Add and subtract",
+                    "Shift and load",
+                    "Set and reset",
+                    "Read and erase"
+                ],
+                correct: 1,
+                category: "Registers and Counters",
+                type: "single",
+                explanation: "A parallel-in serial-out register is described as working in either load mode or shift mode."
+            },
+            {
+                question: "What is the binary form of decimal 168?",
+                options: [
+                    "10101000",
+                    "10101100",
+                    "11010010",
+                    "10010101"
+                ],
+                correct: 0,
+                category: "Number Systems",
+                type: "single",
+                explanation: "Decimal 168 equals 128 + 32 + 8, so its 8-bit binary form is 10101000."
+            },
+            {
+                question: "What is the decimal value of binary 10101100?",
+                options: [
+                    "168",
+                    "172",
+                    "210",
+                    "197"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "10101100 equals 128 + 32 + 8 + 4, which is 172."
+            },
+            {
+                question: "What is the hexadecimal form of decimal 168?",
+                options: [
+                    "B4",
+                    "A8",
+                    "D2",
+                    "F0"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "168 in binary is 10101000, which groups as 1010 1000, or A8 in hexadecimal."
+            },
+            {
+                question: "What is the decimal value of hexadecimal D2?",
+                options: [
+                    "168",
+                    "197",
+                    "210",
+                    "242"
+                ],
+                correct: 2,
+                category: "Number Systems",
+                type: "single",
+                explanation: "Hex D2 corresponds to binary 11010010, which equals 210 in decimal."
+            },
+            {
+                question: "Which value matches the binary number 11110000?",
+                options: [
+                    "Decimal 240 and hexadecimal F0",
+                    "Decimal 139 and hexadecimal 8B",
+                    "Decimal 59 and hexadecimal 3B",
+                    "Decimal 197 and hexadecimal C5"
+                ],
+                correct: 0,
+                category: "Number Systems",
+                type: "single",
+                explanation: "11110000 in binary is 240 in decimal and F0 in hexadecimal."
+            },
+            {
+                question: "In a positional number system, what does the sequence x(r-1)...x0 represent?",
+                options: [
+                    "The fractional part only",
+                    "The integer part",
+                    "Only the sign field",
+                    "Only the radix"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "In positional notation, the digits from x(r-1) down to x0 form the integer part of the number."
+            },
+            {
+                question: "In a positional number system, what does the sequence x(-1)...x(-p) represent?",
+                options: [
+                    "The carry chain",
+                    "The opcode field",
+                    "The fractional part",
+                    "The register index"
+                ],
+                correct: 2,
+                category: "Number Systems",
+                type: "single",
+                explanation: "Digits with negative indices form the fractional part in positional notation."
+            },
+            {
+                question: "How is 2013 written as a sum of powers of 10?",
+                options: [
+                    "2 x 10^4 + 1 x 10^3 + 3 x 10^2",
+                    "2 x 10^3 + 0 x 10^2 + 1 x 10^1 + 3 x 10^0",
+                    "2 x 10^3 + 1 x 10^2 + 3 x 10^1",
+                    "2 x 10^2 + 0 x 10^1 + 1 x 10^0 + 3"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "The decimal number 2013 expands as 2 x 10^3 + 0 x 10^2 + 1 x 10^1 + 3 x 10^0."
+            },
+            {
+                question: "What is the radix of the decimal number system?",
+                options: [
+                    "2",
+                    "8",
+                    "10",
+                    "16"
+                ],
+                correct: 2,
+                category: "Number Systems",
+                type: "single",
+                explanation: "The decimal system has radix 10 and uses the digits 0 through 9."
+            },
+            {
+                question: "What is the radix of the binary number system?",
+                options: [
+                    "2",
+                    "4",
+                    "8",
+                    "16"
+                ],
+                correct: 0,
+                category: "Number Systems",
+                type: "single",
+                explanation: "The binary system has radix 2 and uses only the digits 0 and 1."
+            },
+            {
+                question: "When converting an 8-bit binary number to hexadecimal, how should the bits be grouped?",
+                options: [
+                    "Into groups of three from the left",
+                    "Into groups of four from the right",
+                    "Into groups of five from the center",
+                    "No grouping is required"
+                ],
+                correct: 1,
+                category: "Number Systems",
+                type: "single",
+                explanation: "Binary-to-hex conversion groups bits into 4-bit chunks, starting from the rightmost side."
+            }
+        ];
+
+        function sentenceCase(text) {
+            if (!text) {
+                return text;
+            }
+
+            return text.charAt(0).toUpperCase() + text.slice(1);
+        }
+
+        function cleanSourceReferences(text, kind) {
+            let value = String(text || '').replace(/\s+/g, ' ').trim();
+            if (!value) {
+                return value;
+            }
+
+            if (kind === 'question') {
+                value = value
+                    .replace(/^According to the [^,?]+,\s*/i, '')
+                    .replace(/^In the presentation,\s*/i, '')
+                    .replace(/^In the [^,?]+ presentation,\s*/i, '')
+                    .replace(/^In the [^,?]+ slides?,\s*/i, '')
+                    .replace(/^In the [^,?]+ slide deck,\s*/i, '')
+                    .replace(/ in the course materials?/ig, '')
+                    .replace(/ in the course notes/ig, '')
+                    .replace(/ in the materials/ig, '')
+                    .replace(/ in the notes/ig, '')
+                    .replace(/ in the [^?.,]+ notes/ig, '')
+                    .replace(/ in the [a-z0-9-]+ notes/ig, '')
+                    .replace(/ from the [^?]+ presentation/ig, '')
+                    .replace(/ according to the [^?]+ presentation/ig, '')
+                    .replace(/ according to the [^?]+ slides?/ig, '')
+                    .replace(/ according to the [^?]+ slide deck/ig, '')
+                    .replace(/ according to the slide rule/ig, '')
+                    .replace(/ in the [^?]+ presentation/ig, '')
+                    .replace(/ in the [^?]+ slide deck/ig, '')
+                    .replace(/ in the [^?]+ slides/ig, '')
+                    .replace(/ given in the [^?]+ slides/ig, '')
+                    .replace(/ according to the presentation/ig, '')
+                    .replace(/ according to the slides/ig, '')
+                    .replace(/ in the presentation/ig, '')
+                    .replace(/ in the slides/ig, '')
+                    .replace(/ in the slide deck/ig, '')
+                    .replace(/\s{2,}/g, ' ')
+                    .trim();
+
+                return sentenceCase(value);
+            }
+
+            value = value
+                .replace(/^Both the [^,.]*(?:presentation|presentations|slides?|handout|notes?|materials?|conspect|chapter)[^,.]* (?:state|states|say|says|explain|explains|describe|describes|define|defines)\s+(?:that\s+)?/i, '')
+                .replace(/^The [^,.]*(?:presentation|presentations|slides?|slide deck|handout|notes?|materials?|conspect|chapter)[^,.]* (?:state|states|say|says|explain|explains|describe|describes|define|defines|list|lists|note|notes|show|shows|identify|identifies|attribute|attributes|place|places|expand|expands)\s+(?:that\s+)?/i, '')
+                .replace(/ in the [^.,]+ notes/ig, '')
+                .replace(/ according to the [^.,]+ slides?/ig, '')
+                .replace(/ according to the [^.,]+ slide deck/ig, '')
+                .replace(/\s{2,}/g, ' ')
+                .trim();
+
+            return sentenceCase(value);
+        }
+
+        function sanitizeQuizData(items) {
+            const categoryMap = {
+                'Course Intro': 'Introduction',
+                'Control Unit Slides': 'Control Unit',
+                'Memory Slides': 'Memory',
+                'Functional Organization Slides': 'Functional Organization',
+                'External Memory Slides': 'External Memory'
+            };
+
+            const questionOverrides = new Map([
+                ['In the von Neumann proposal summarized in the course material, which three main parts form the computer architecture?', 'In the von Neumann model, which three main parts form the computer architecture?'],
+                ['What does the Princeton architecture mean in the course notes?', 'Which architecture uses the same memory for both instructions and data?'],
+                ['Which four lines are identified in the SPI presentation?', 'Which four signal lines are used in SPI?'],
+                ['Why does the presentation load 2 * myStr into the Z pointer before calling puts?', 'Why is 2 * myStr loaded into the Z pointer before calling puts?'],
+                ['In the presentation, bitrate refers to what?', 'What does bitrate refer to?'],
+                ['In the presentation, baudrate refers to what?', 'What does baudrate refer to?'],
+                ['What does the presentation say assemblers essentially perform?', 'What do assemblers essentially perform?'],
+                ['How large is the status register in the AVR status-register presentation?', 'How large is the AVR status register?'],
+                ['For an input-output instruction in the same presentation, what is the value of the last bit?', 'For an input-output instruction, what is the value of the last bit?'],
+                ['In the control-unit notes, what is a microoperation?', 'What is a microoperation?'],
+                ['What is the Intel 8085 according to the presentation?', 'What is the Intel 8085?'],
+                ['What is the core idea of Von Neumann architecture in the functional-organization presentation?', 'What is the core idea of Von Neumann architecture?'],
+                ['How is external memory described in the external-memory presentation?', 'How is external memory described?'],
+                ['What does the instruction buffer register hold according to the slide deck?', 'What does the instruction buffer register hold?'],
+                ['Which item is presented as an SPI advantage?', 'Which SPI feature allows simultaneous sending and receiving of data?']
+            ]);
+
+            items.forEach((item) => {
+                if (categoryMap[item.category]) {
+                    item.category = categoryMap[item.category];
+                }
+
+                if (item.question === 'What does the Princeton architecture mean in the course notes?') {
+                    item.options = [
+                        'Von Neumann architecture',
+                        'Harvard architecture',
+                        'RISC architecture',
+                        'EPIC architecture'
+                    ];
+                    item.correct = 0;
+                    item.explanation = 'Von Neumann architecture stores instructions and data in the same memory, while Harvard architecture separates them.';
+                }
+
+                if (item.question === 'What sector size is described as nearly universal in contemporary disk systems?') {
+                    item.question = 'In the illustrated disk-format example, how much user data does each sector hold?';
+                    item.options = ['64 bytes', '128 bytes', '512 bytes', '4096 words'];
+                    item.correct = 2;
+                    item.explanation = 'In the example track format, each sector stores 512 bytes of user data plus control information.';
+                }
+
+                if (item.question === 'Which item is presented as an SPI advantage?') {
+                    item.explanation = 'Separate MOSI and MISO lines let SPI support full-duplex data transfer.';
+                }
+
+                if (item.explanation === 'The MPA input list in the notes includes the clock, instruction register, flags, and control signals from the control bus.') {
+                    item.explanation = 'The inputs include the clock, instruction register, flags, and control signals from the control bus.';
+                }
+
+                item.question = questionOverrides.get(item.question) || cleanSourceReferences(item.question, 'question');
+                item.explanation = cleanSourceReferences(item.explanation, 'explanation');
+            });
+        }
+
+        sanitizeQuizData(quizData);
+
+        let currentQuestion = 0;
+        let userAnswers = Array(quizData.length).fill(null);
+        let timeElapsed = 0;
+        let timerInterval;
+        let isTimerRunning = true;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionsContainer = document.getElementById('questions-container');
+            const totalQuestionsCount = document.getElementById('total-questions-count');
+            const currentQuestionIdx = document.getElementById('current-question-idx');
+            const questionNav = document.getElementById('question-nav');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const timerEl = document.getElementById('timer');
+            const toggleTimerBtn = document.getElementById('toggleTimer');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const resultsContainer = document.getElementById('results-container');
+            const quizBox = document.querySelector('.quiz-container');
+
+            totalQuestionsCount.textContent = quizData.length;
+
+            quizData.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                btn.textContent = idx + 1;
+                btn.setAttribute('aria-label', 'Go to question ' + (idx + 1));
+                btn.onclick = () => goToQuestion(idx);
+                questionNav.appendChild(btn);
+            });
+
+            function updateNav() {
+                const btns = questionNav.querySelectorAll('button');
+                btns.forEach((btn, idx) => {
+                    btn.classList.remove('active', 'answered');
+                    if (idx === currentQuestion) {
+                        btn.classList.add('active');
+                    } else if (userAnswers[idx] !== null && userAnswers[idx] !== '') {
+                        btn.classList.add('answered');
+                    }
+                });
+
+                const activeButton = questionNav.children[currentQuestion];
+                if (activeButton) {
+                    activeButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+                }
+            }
+
+            function renderQuestion() {
+                questionsContainer.innerHTML = '';
+                const q = quizData[currentQuestion];
+                currentQuestionIdx.textContent = currentQuestion + 1;
+
+                const qDiv = document.createElement('div');
+                qDiv.className = 'question-container active';
+
+                const qText = document.createElement('div');
+                qText.className = 'question';
+                qText.innerHTML = (currentQuestion + 1) + '. ' + formatQuestionText(q.question) +
+                    '<span class="category-badge">' + escapeHtml(q.category) + '</span>';
+                qDiv.appendChild(qText);
+
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+
+                if (q.type === 'shortanswer' || q.options.length === 0) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'short-answer-input';
+                    input.placeholder = 'Type your answer here...';
+                    input.value = userAnswers[currentQuestion] || '';
+                    input.oninput = (e) => {
+                        userAnswers[currentQuestion] = e.target.value;
+                        updateNav();
+                    };
+                    optionsDiv.appendChild(input);
+                } else {
+                    q.options.forEach((opt, idx) => {
+                        const optDiv = document.createElement('div');
+                        optDiv.className = 'option';
+                        if (userAnswers[currentQuestion] === idx) {
+                            optDiv.classList.add('selected');
+                        }
+
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.name = 'question-' + currentQuestion;
+                        input.checked = userAnswers[currentQuestion] === idx;
+                        input.onclick = (e) => e.stopPropagation();
+                        input.onchange = () => selectOption(idx);
+
+                        optDiv.onclick = () => selectOption(idx);
+                        optDiv.appendChild(input);
+
+                        const label = document.createElement('span');
+                        label.className = 'option-label';
+                        label.innerHTML = formatOptionText(opt);
+                        optDiv.appendChild(label);
+                        optionsDiv.appendChild(optDiv);
+                    });
+                }
+
+                qDiv.appendChild(optionsDiv);
+
+                const checkBtn = document.createElement('button');
+                checkBtn.className = 'check-answer-btn';
+                checkBtn.textContent = 'Check Answer';
+                checkBtn.onclick = () => checkAnswer(currentQuestion);
+                qDiv.appendChild(checkBtn);
+
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'answer-feedback';
+                feedbackDiv.id = 'answer-feedback-' + currentQuestion;
+                qDiv.appendChild(feedbackDiv);
+
+                questionsContainer.appendChild(qDiv);
+
+                prevBtn.disabled = currentQuestion === 0;
+                nextBtn.disabled = currentQuestion === quizData.length - 1;
+                updateNav();
+            }
+
+            function checkAnswer(qIndex) {
+                const q = quizData[qIndex];
+                const feedbackDiv = document.getElementById('answer-feedback-' + qIndex);
+                const checkBtn = document.querySelector('.check-answer-btn');
+
+                if (!feedbackDiv) {
+                    return;
+                }
+
+                const userAns = userAnswers[qIndex];
+                if (userAns === null || userAns === '') {
+                    feedbackDiv.innerHTML = '<strong>Please select an answer first.</strong>';
+                    feedbackDiv.className = 'answer-feedback show incorrect';
+                    return;
+                }
+
+                const isCorrect = userAns === q.correct;
+                let feedbackHTML = '';
+
+                if (isCorrect) {
+                    feedbackHTML = '<strong>Correct.</strong>';
+                    feedbackDiv.className = 'answer-feedback show correct';
+                } else {
+                    feedbackHTML = '<strong>Incorrect.</strong>';
+                    feedbackHTML += '<div style="margin-top: 8px;">Correct answer: <strong>' + escapeHtml(q.options[q.correct]) + '</strong></div>';
+                    feedbackDiv.className = 'answer-feedback show incorrect';
+                }
+
+                if (q.explanation) {
+                    feedbackHTML += '<div class="explanation"><strong>Explanation:</strong><br>' + escapeHtml(q.explanation) + '</div>';
+                }
+
+                feedbackDiv.innerHTML = feedbackHTML;
+                checkBtn.textContent = 'Answer Checked';
+                checkBtn.classList.add('checked');
+            }
+
+            function escapeHtml(value) {
+                return String(value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function looksLikeCodeSnippet(text) {
+                const candidate = String(text || '').trim();
+                if (!candidate) {
+                    return false;
+                }
+
+                let score = 0;
+                if ((candidate.match(/;/g) || []).length >= 1) {
+                    score += 2;
+                }
+                if (candidate.includes('\n')) {
+                    score += 1;
+                }
+
+                [
+                    /\b(?:int|char|float|double|bool|void|const|long|short|unsigned|signed|for|while|if|else|switch|case|return|ldi|lds|sts|rcall|ret|cpi|breq|rjmp)\b/,
+                    /[{}]/,
+                    /<<|>>/,
+                    /\b[A-Za-z_]\w*\s*\([^)]*\)/,
+                    /\[[^\]]*\]/,
+                    /->/,
+                    /\.[a-z]+/i
+                ].forEach((pattern) => {
+                    if (pattern.test(candidate)) {
+                        score += 1;
+                    }
+                });
+
+                return score >= 3;
+            }
+
+            function splitQuestionText(text) {
+                const normalized = String(text || '').replace(/\r\n/g, '\n').trim();
+                if (!normalized) {
+                    return { lead: '', code: '' };
+                }
+
+                const lines = normalized.split('\n');
+                const codeStart = lines.findIndex((line) => looksLikeCodeSnippet(line));
+                if (codeStart > 0) {
+                    const lead = lines.slice(0, codeStart).join('\n').trim();
+                    const code = lines.slice(codeStart).join('\n').trim();
+                    if (code) {
+                        return { lead, code };
+                    }
+                }
+
+                if (looksLikeCodeSnippet(normalized)) {
+                    return { lead: '', code: normalized };
+                }
+
+                return { lead: normalized, code: '' };
+            }
+
+            function formatInlineQuestionText(text) {
+                return escapeHtml(text).replace(/\n/g, '<br>');
+            }
+
+            function formatQuestionText(text) {
+                const segments = splitQuestionText(text);
+                if (segments.code) {
+                    const lead = segments.lead ? '<span class="question-copy">' + formatInlineQuestionText(segments.lead) + '</span>' : '';
+                    return lead + '<pre><code>' + escapeHtml(segments.code) + '</code></pre>';
+                }
+
+                return formatInlineQuestionText(segments.lead);
+            }
+
+            function formatOptionText(text) {
+                const value = String(text || '').trim();
+                if (!value) {
+                    return '';
+                }
+
+                if (looksLikeCodeSnippet(value)) {
+                    return '<pre><code>' + escapeHtml(value) + '</code></pre>';
+                }
+
+                return formatInlineQuestionText(value);
+            }
+
+            function selectOption(idx) {
+                userAnswers[currentQuestion] = idx;
+                renderQuestion();
+            }
+
+            function goToQuestion(idx) {
+                currentQuestion = idx;
+                renderQuestion();
+            }
+
+            function formatUserAnswer(ans, q) {
+                if (ans === null || ans === undefined || ans === '') {
+                    return 'No answer';
+                }
+
+                return escapeHtml(q.options[ans] || ans);
+            }
+
+            function showResults() {
+                clearInterval(timerInterval);
+                let score = 0;
+                let resultsHTML = '';
+                const categoryStats = new Map();
+
+                quizData.forEach((q, idx) => {
+                    const userAns = userAnswers[idx];
+                    const isCorrect = userAns === q.correct;
+
+                    if (isCorrect) {
+                        score++;
+                    }
+
+                    if (!categoryStats.has(q.category)) {
+                        categoryStats.set(q.category, { total: 0, correct: 0 });
+                    }
+                    const categoryStat = categoryStats.get(q.category);
+                    categoryStat.total += 1;
+                    if (isCorrect) {
+                        categoryStat.correct += 1;
+                    }
+
+                    resultsHTML +=
+                        '<div class="result-item ' + (isCorrect ? 'correct' : 'incorrect') + '">' +
+                        '<div class="result-question">Question ' + (idx + 1) + ': ' + formatQuestionText(q.question) + '</div>' +
+                        '<div class="result-answer">Your answer: <span class="' + (isCorrect ? 'result-correct' : 'result-incorrect') + '">' + formatUserAnswer(userAns, q) + (isCorrect ? ' OK' : ' X') + '</span></div>' +
+                        (isCorrect ? '' : '<div class="result-answer">Correct answer: <span class="result-correct">' + escapeHtml(q.options[q.correct]) + '</span></div>') +
+                        '</div>';
+                });
+
+                const percentage = Math.round((score / quizData.length) * 100);
+                document.getElementById('score').textContent = 'Your Score: ' + score + ' / ' + quizData.length + ' (' + percentage + '%)';
+                document.getElementById('score-details').textContent = 'You answered ' + score + ' questions correctly across ' + categoryStats.size + ' topic areas.';
+
+                let summaryHtml = '<strong>Category breakdown:</strong><br>';
+                categoryStats.forEach((stat, category) => {
+                    summaryHtml += escapeHtml(category) + ': ' + stat.correct + ' / ' + stat.total + '<br>';
+                });
+                document.getElementById('result-summary').innerHTML = summaryHtml;
+
+                document.getElementById('results-list').innerHTML = resultsHTML;
+                resultsContainer.classList.add('active');
+                quizBox.style.display = 'none';
+                window.scrollTo(0, 0);
+            }
+
+            function startTimer() {
+                timerInterval = setInterval(() => {
+                    if (isTimerRunning) {
+                        timeElapsed++;
+                        const mins = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+                        const secs = (timeElapsed % 60).toString().padStart(2, '0');
+                        timerEl.textContent = mins + ':' + secs;
+                    }
+                }, 1000);
+            }
+
+            prevBtn.onclick = () => {
+                if (currentQuestion > 0) {
+                    goToQuestion(currentQuestion - 1);
+                }
+            };
+
+            nextBtn.onclick = () => {
+                if (currentQuestion < quizData.length - 1) {
+                    goToQuestion(currentQuestion + 1);
+                }
+            };
+
+            submitBtn.onclick = showResults;
+
+            toggleTimerBtn.onclick = () => {
+                isTimerRunning = !isTimerRunning;
+                toggleTimerBtn.textContent = isTimerRunning ? 'Pause' : 'Resume';
+            };
+
+            darkModeToggle.onclick = () => {
+                document.body.classList.toggle('dark-mode');
+            };
+
+            document.getElementById('retake-btn').onclick = () => {
+                location.reload();
+            };
+
+            startTimer();
+            renderQuestion();
+        });
+    </script>
+</body>
+</html>
